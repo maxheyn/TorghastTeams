@@ -6,6 +6,7 @@ function MawBuffsContainerMixin:OnLoad()
 	self:Update();
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("GLOBAL_MOUSE_DOWN");
+	print('MawBuffsContainerMixin:OnLoad()')
 end
 
 function MawBuffsContainerMixin:OnEvent(event, ...)
@@ -23,11 +24,11 @@ function MawBuffsContainerMixin:OnEvent(event, ...)
 	end
 end
 
-function MawBuffsContainerMixin:Update()
+function MawBuffsContainerMixin:Update() --add params for targets so we can select party in unitaura
 	local mawBuffs = {};
 	local totalCount = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
-		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", i, "MAW");
+		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", i, "MAW"); --this is the key to getting it to work
 		if icon then
 			if count == 0 then
 				count = 1;
@@ -101,27 +102,29 @@ local BUFF_LIST_PADDING_HEIGHT = 36;
 local BUFF_LIST_NUM_COLUMNS = 4;
 
 function MawBuffsListMixin:OnLoad()
-	self.button = self:GetParent();
-	--self:SetFrameLevel(self.button:GetFrameLevel() - 1);
+	self.container = self:GetParent();
+	self:SetFrameLevel(self.container:GetFrameLevel() + 1);
 	self.buffPool = CreateFramePool("BUTTON", self, "MawBuffTemplate");
 end
 
+-- anima powers button
 function MawBuffsListMixin:OnShow()
-	--self.button:SetPushedAtlas("jailerstower-animapowerbutton-pressed");
-	--self.button:SetHighlightAtlas("jailerstower-animapowerbutton-pressed-highlight");
-	--self.button:SetWidth(268);
-	--self.button:SetButtonState("NORMAL");
-	--self.button:SetPushedTextOffset(8.75, -1);
-	--self.button:SetButtonState("PUSHED", true);
+	-- self.button:SetPushedAtlas("jailerstower-animapowerbutton-pressed");
+	-- self.button:SetHighlightAtlas("jailerstower-animapowerbutton-pressed-highlight");
+	-- self.button:SetWidth(268);
+	-- self.button:SetButtonState("NORMAL");
+	-- self.button:SetPushedTextOffset(8.75, -1);
+	-- self.button:SetButtonState("PUSHED", true);
 	print("shown")
 end
 
+-- anima powers button
 function MawBuffsListMixin:OnHide()
-	--self.button:SetPushedAtlas("jailerstower-animapowerbutton-normalpressed");
-	--self.button:SetHighlightAtlas("jailerstower-animapowerbutton-highlight");
-	--self.button:SetWidth(253);
-	--self.button:SetButtonState("NORMAL", false);
-	--self.button:SetPushedTextOffset(1.25, -1);
+	-- self.button:SetPushedAtlas("jailerstower-animapowerbutton-normalpressed");
+	-- self.button:SetHighlightAtlas("jailerstower-animapowerbutton-highlight");
+	-- self.button:SetWidth(253);
+	-- self.button:SetButtonState("NORMAL", false);
+	-- self.button:SetPushedTextOffset(1.25, -1);
 	print('hidden')
 end
 
