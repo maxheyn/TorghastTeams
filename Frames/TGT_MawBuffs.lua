@@ -4,12 +4,11 @@ MawBuffsContainerMixin = {};
 
 function MawBuffsContainerMixin:OnLoad()
 	local partySize = GetNumGroupMembers()
-	if partySize > 0 then
+	self:Update()
+	if partySize > 1 then
 		for currentMember = 1, partySize - 1, 1 do
 			self:UpdatePartyMember(currentMember);
 		end
-	else
-		self:Update()
 	end
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("GLOBAL_MOUSE_DOWN");
@@ -20,9 +19,8 @@ function MawBuffsContainerMixin:OnEvent(event, ...)
 	local partySize = GetNumGroupMembers()
 	local unit = ...;
 	if event == "UNIT_AURA" then
-		if partySize == 0 then
-			self:Update()
-		else
+		self:Update()
+		if partySize > 1 then
 			for currentMember = 1, partySize - 1, 1 do
 				self:UpdatePartyMember(currentMember);
 			end
