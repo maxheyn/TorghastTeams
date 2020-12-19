@@ -22,7 +22,7 @@
 					</MaskedTextures>
 				</MaskTexture>
 			</Layer>
-			<Layer level="ARTWORK" textureSubLevel="2">
+			<Layer level="ARTWORK" textureSubLevel="2"> <!-- maybe change this -->
 				<Texture parentKey="Border">
 					<Size x="36" y="36"/>
 					<Anchors>
@@ -89,7 +89,7 @@
 		<Frames>
 			<Frame parentKey="List" inherits="TGTMawBuffsList" hidden="true">
 				<Anchors>
-					<Anchor point="TOPRIGHT" relativePoint="TOPLEFT" x="15" y="1"/>
+					<Anchor point="CENTER" relativePoint="CENTER"/>
 				</Anchors>
 			</Frame>
 		</Frames>

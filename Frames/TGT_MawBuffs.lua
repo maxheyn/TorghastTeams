@@ -3,44 +3,66 @@ local MAW_BUFF_MAX_DISPLAY = 44;
 MawBuffsContainerMixin = {};
 
 function MawBuffsContainerMixin:OnLoad()
-	self:Update();
+	local partySize = GetNumGroupMembers()
+	if partySize > 0 then
+		for currentMember = 1, partySize - 1, 1 do
+			self:UpdatePartyMember(currentMember);
+		end
+	else
+		self:Update()
+	end
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("GLOBAL_MOUSE_DOWN");
-	print('MawBuffsContainerMixin:OnLoad()')
+	print('MawBuffsContainerMixin:OnLoad() ' .. tostring(self))
 end
 
 function MawBuffsContainerMixin:OnEvent(event, ...)
+	local partySize = GetNumGroupMembers()
 	local unit = ...;
 	if event == "UNIT_AURA" then
-		self:Update();
-	elseif event == "GLOBAL_MOUSE_DOWN" then
-		if self.List:IsShown() then
-			if (self:IsMouseOver() or self.List:IsMouseOver() or (PlayerChoiceFrame and PlayerChoiceFrame:IsShown()))  then 
-				return; 
-			end 
-
-			self:UpdateListState(false);
+		if partySize == 0 then
+			self:Update()
+		else
+			for currentMember = 1, partySize - 1, 1 do
+				self:UpdatePartyMember(currentMember);
+			end
 		end
+		
+	-- elseif event == "GLOBAL_MOUSE_DOWN" then
+	-- 	if self.List:IsShown() then
+	-- 		if (self:IsMouseOver() or self.List:IsMouseOver() or (PlayerChoiceFrame and PlayerChoiceFrame:IsShown()))  then 
+	-- 			return; 
+	-- 		end 
+
+	-- 		self:UpdateListState(false);
+	-- 	end
 	end
 end
 
 function MawBuffsContainerMixin:Update() --add params for targets so we can select party in unitaura
+	--print("updating container")
+	-- makes a mawbuffs container and a loop, gets the unitauras from the player only if they are MAW buffs (anima powers)
 	local mawBuffs = {};
 	local totalCount = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
+		-- gets the displayicon, number of stacks of that anima power, and the spellID using UnitAura()
+		-- i is the buff in the list
 		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", i, "MAW"); --this is the key to getting it to work
 		if icon then
 			if count == 0 then
 				count = 1;
 			end
-
 			totalCount = totalCount + count;
+			-- put that into the mawbuffs table with all of the info + number of stacks as count
 			table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
 		end
 	end
 
+	-- idk what this does
 	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
-	self.List:Update(mawBuffs); --TGTMawBuffsListMixin:Update()
+
+	-- this is probably MawBuffsListMixin:Update()
+	self.List:Update(mawBuffs); 
 	
 	if(IsInJailersTower()) then
 		self:Show();
@@ -48,8 +70,10 @@ function MawBuffsContainerMixin:Update() --add params for targets so we can sele
 		self:Hide();
 	end
 
+	-- buffcount = length of mawbuffs
 	self.buffCount = #mawBuffs;
 	if self.buffCount == 0 then
+		print('hiding no buffs')
 		self.List:Hide();
 		self:Disable();
 	else
@@ -58,6 +82,51 @@ function MawBuffsContainerMixin:Update() --add params for targets so we can sele
 	self:UpdateHelptip();
 end
 
+function MawBuffsContainerMixin:UpdatePartyMember(partyMember) --add params for targets so we can select party in unitaura
+	--print("updating container")
+	-- makes a mawbuffs container and a loop, gets the unitauras from the player only if they are MAW buffs (anima powers)
+	local mawBuffs = {};
+	local totalCount = 0;
+	for i=1, MAW_BUFF_MAX_DISPLAY do
+		-- gets the displayicon, number of stacks of that anima power, and the spellID using UnitAura()
+		-- i is the buff in the list
+		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("party" .. partyMember, i, "MAW"); --this is the key to getting it to work
+		if icon then
+			if count == 0 then
+				count = 1;
+			end
+			totalCount = totalCount + count;
+			-- put that into the mawbuffs table with all of the info + number of stacks as count
+			table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
+		end
+	end
+
+	-- idk what this does
+	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
+
+	-- this is probably MawBuffsListMixin:Update()
+	self.List:Update(mawBuffs); 
+	
+	if(IsInJailersTower()) then
+		self:Show();
+	else
+		self:Hide();
+	end
+
+	-- buffcount = length of mawbuffs
+	self.buffCount = #mawBuffs;
+	if self.buffCount == 0 then
+		print('hiding no buffs')
+		self.List:Hide();
+		self:Disable();
+	else
+		self:Enable();
+	end
+	self:UpdateHelptip();
+end
+
+
+-- i dont think i care about this function
 function MawBuffsContainerMixin:UpdateHelptip()
 	if(self.buffCount > 0 and not GetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_9_0_JAILERS_TOWER_BUFFS)) then
 		local selectLocationHelpTipInfo = {
@@ -104,7 +173,7 @@ local BUFF_LIST_NUM_COLUMNS = 4;
 function MawBuffsListMixin:OnLoad()
 	self.container = self:GetParent();
 	self:SetFrameLevel(self.container:GetFrameLevel() + 1);
-	self.buffPool = CreateFramePool("BUTTON", self, "MawBuffTemplate");
+	self.buffPool = CreateFramePool("BUTTON", self, "TGTMawBuffTemplate");
 end
 
 -- anima powers button
@@ -129,6 +198,7 @@ function MawBuffsListMixin:OnHide()
 end
 
 function MawBuffsListMixin:HighlightBuffAndShow(spellID, maxStackCount)
+	print("howdy")
 	if(not spellID or not maxStackCount or not self.buffPool) then 
 		return;
 	end 
@@ -155,14 +225,15 @@ function MawBuffsListMixin:HideBuffHighlight(spellID)
 	end
 end
 
-function MawBuffsListMixin:Update(mawBuffs) --TODO: find out what is in mawBuffs
-	print('MawBuffsListMixin:Update(mawBuffs)')
+function MawBuffsListMixin:Update(mawBuffs) --TODO: find out what is in mawBuffs 
+	-- table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
+	-- print('MawBuffsListMixin:Update(mawBuffs) | ' .. tostring(self:GetParent()))
 	--debug print
 	for index, data in ipairs(mawBuffs) do
-		print(index)
+		-- print(index)
 	
 		for key, value in pairs(data) do
-			print('\t', key, value)
+			-- print('\t', key, value)
 		end
 	end
 	--end debug print
