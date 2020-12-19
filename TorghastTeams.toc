@@ -4,4 +4,12 @@
 ## Notes: Shows information about your groupmates' Torghast Anima Powers.
 ## Author: Max Herold, James Lin
 ## DefaultState: enabled
+## SavedVariables: TorghastTeamsDB
+
+MinimapButton.xml
+Frames\TGT_MawBuffs.xml
+Frames\TGT_TorghastLevelPicker.xml
 TorghastTeams.lua
+
+Frames\TGT_MawBuffs.lua
+Frames\TGT_TorghastLevelPicker.lua
