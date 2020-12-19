@@ -32,6 +32,7 @@ end
 
 local function CreateAnimaPowerFrames(partyMemberCount)
 	partyMemberCount = 1 --for debugging
+
 	for count = 1, partyMemberCount + 1, 1 do
 		-- AnimaPowersList["PM" .. count] = CreateFrame("Button", "TGT_AnimaPowersPartyMember" .. count, TGT_Container, "TGTMawBuffTemplate")
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPMC" .. count, TGT_Container, "TGTMawBuffsContainer")

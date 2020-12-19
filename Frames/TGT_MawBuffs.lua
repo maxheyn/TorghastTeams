@@ -40,7 +40,7 @@ function MawBuffsContainerMixin:Update() --add params for targets so we can sele
 	end
 
 	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
-	self.List:Update(mawBuffs);
+	self.List:Update(mawBuffs); --TGTMawBuffsListMixin:Update()
 	
 	if(IsInJailersTower()) then
 		self:Show();
@@ -55,7 +55,7 @@ function MawBuffsContainerMixin:Update() --add params for targets so we can sele
 	else
 		self:Enable();
 	end
-	self:UpdateHelptip(); 
+	self:UpdateHelptip();
 end
 
 function MawBuffsContainerMixin:UpdateHelptip()
@@ -155,7 +155,17 @@ function MawBuffsListMixin:HideBuffHighlight(spellID)
 	end
 end
 
-function MawBuffsListMixin:Update(mawBuffs)
+function MawBuffsListMixin:Update(mawBuffs) --TODO: find out what is in mawBuffs
+	print('MawBuffsListMixin:Update(mawBuffs)')
+	--debug print
+	for index, data in ipairs(mawBuffs) do
+		print(index)
+	
+		for key, value in pairs(data) do
+			print('\t', key, value)
+		end
+	end
+	--end debug print
 	self.buffPool:ReleaseAll();
 
 	local lastRowFirstFrame;
