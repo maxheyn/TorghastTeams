@@ -33,11 +33,12 @@ end
 local function CreateAnimaPowerFrames(partyMemberCount)
 	--local partyMemberCount = 5 --for debugging
 
-	for count = 1, partyMemberCount, 1 do
+	for count = 0, partyMemberCount - 1, 1 do
 		print('creating frame')
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
 		print('capf: ' .. tostring(AnimaPowersList['PMC' .. count]))
 		AnimaPowersList["PMC" .. count]:SetSize(50, 50)
+		AnimaPowersList["PMC" .. count]:Update()
 		--AnimaPowersList["PML" .. count] = CreateFrame("Frame", "TGT_AnimaPowersListPM" .. count, AnimaPowersList["PMC" .. count], "TGTMawBuffsList")
 		--AnimaPowersList["PMB" .. count] = CreateFrame("Button", "TGT_AnimaPowersBuffPM" .. count, AnimaPowersList["PML" .. count], "TGTMawBuffTemplate")
 	end
@@ -46,37 +47,37 @@ local function CreateAnimaPowerFrames(partyMemberCount)
 	if (partyMemberCount == 1) then
 		-- Looks like:
 		-- [ 1 ]
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER")
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER")
 		print('hey ' .. tostring(AnimaPowersList["PML1"]))
 	elseif (partyMemberCount == 2) then
 		-- Looks like:
 		-- [ 1 2 ]
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 0)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 0)
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 0)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 0)
 	elseif (partyMemberCount == 3) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [  3  ]
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, -95)
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, -95)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
 	elseif (partyMemberCount == 4) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [ 3 4 ]
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, -95)
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, -95)
-		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, -95)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, -95)
+		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
 	elseif (partyMemberCount == 5) then
 		-- Looks like:
 		-- [1 2 3]
 		-- [ 4 5 ]
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 95)
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 95)
-		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -95)
-		AnimaPowersList["PMC5"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -95)
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 95)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 95)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 95)
+		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -95)
+		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -95)
 	end
 end
 
@@ -84,7 +85,7 @@ local function UpdateAnimaPowers(partyMemberCount)
 	--local partyMemberCount = 1 --for debugging
 	for currentMember = 0, partyMemberCount - 1, 1 do
 		if currentMember == 0 then
-			AnimaPowersList["PMC" .. currentMember]:Update()
+			AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
 		else
 			AnimaPowersList["PMC" .. currentMember]:UpdatePartyMember(currentMember)
 		end
@@ -96,7 +97,7 @@ end
 local EventFrame = CreateFrame("Frame", "EventFrame")
 EventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
 EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-EventFrame:RegisterEvent("BAG_UPDATE")
+EventFrame:RegisterUnitEvent("UNIT_AURA", "player")
 
 EventFrame:SetScript("OnEvent", function(self, event, ...)
 	if(event == "PLAYER_ENTERING_WORLD") then
@@ -104,18 +105,15 @@ EventFrame:SetScript("OnEvent", function(self, event, ...)
 			print("Welcome to Torghast Teams! Type '/tgt show' to see the UI.")
 			local partyMembers = GetNumGroupMembers()
 			CreateAnimaPowerFrames(partyMembers)
-			UpdateAnimaPowers(partyMembers)
 		end
 	end
 	if(event == "GROUP_ROSTER_UPDATE") then
 		local partyMembers = GetNumGroupMembers()
 	end
-	if(event == "BAG_UPDATE") then
-		
+	if(event == "UNIT_AURA") then
 		if (IsInJailersTower()) then
-			-- print("ur in torgast")
-			-- print('hey ' .. tostring(AnimaPowersList["PML1"]))
-			
+			local partyMembers = GetNumGroupMembers()
+			UpdateAnimaPowers(partyMembers)
 		end
 	end
 end)
