@@ -15,11 +15,17 @@ function MawBuffsContainerMixin:OnLoad()
 	self:RegisterUnitEvent("UNIT_AURA", "party2");
 	self:RegisterUnitEvent("UNIT_AURA", "party3");
 	self:RegisterUnitEvent("UNIT_AURA", "party4");
-	self:RegisterEvent("GLOBAL_MOUSE_DOWN");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	print('MawBuffsContainerMixin:OnLoad() ' .. tostring(self))
 end
 
 function MawBuffsContainerMixin:OnEvent(event, ...)
+	if(event == "PLAYER_ENTERING_WORLD") then
+		if (!IsInJailersTower()) then
+			print("outside");
+			self.Update();
+		end
+	end
 	-- local partySize = GetNumGroupMembers()
 	-- local unit = ...;
 	-- if event == "UNIT_AURA" then
