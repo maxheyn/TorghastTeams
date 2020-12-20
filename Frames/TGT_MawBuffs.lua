@@ -41,7 +41,7 @@ function MawBuffsContainerMixin:OnEvent(event, ...)
 	
 end
 
-function MawBuffsContainerMixin:Update(currentMember) --add params for targets so we can select party in unitaura
+function MawBuffsContainerMixin:Update() --add params for targets so we can select party in unitaura
 	--print("updating container")
 	-- makes a mawbuffs container and a loop, gets the unitauras from the player only if they are MAW buffs (anima powers)
 	local mawBuffs = {};
@@ -64,7 +64,7 @@ function MawBuffsContainerMixin:Update(currentMember) --add params for targets s
 	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
 
 	-- this is probably MawBuffsListMixin:Update()
-	self.List:Update(mawBuffs, currentMember); 
+	self.List:Update(mawBuffs); 
 	
 	if(IsInJailersTower()) then
 		self:Show();
@@ -226,7 +226,7 @@ function MawBuffsListMixin:HideBuffHighlight(spellID)
 	end
 end
 
-function MawBuffsListMixin:Update(mawBuffs, currentMember) --TODO: find out what is in mawBuffs 
+function MawBuffsListMixin:Update(mawBuffs) --TODO: find out what is in mawBuffs 
 	-- table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
 	-- print('MawBuffsListMixin:Update(mawBuffs) | ' .. tostring(self:GetParent()))
 	--debug print
@@ -261,7 +261,7 @@ function MawBuffsListMixin:Update(mawBuffs, currentMember) --TODO: find out what
 		end
 
 		lastBuffFrame = buffFrame;
-		buffFrame:SetBuffInfo(mawBuffs[index], currentMember);
+		buffFrame:SetBuffInfo(mawBuffs[index]);
 	end
 
 	local totalListHeight = math.max(buffsTotalHeight + BUFF_LIST_PADDING_HEIGHT, BUFF_LIST_MIN_HEIGHT);
@@ -270,7 +270,7 @@ end
 
 MawBuffMixin = {};
 
-function MawBuffMixin:SetBuffInfo(buffInfo, currentMember)
+function MawBuffMixin:SetBuffInfo(buffInfo)
 	self.Icon:SetTexture(buffInfo.icon);
 	self.slot = buffInfo.slot;
 	self.count = buffInfo.count;
@@ -291,22 +291,23 @@ function MawBuffMixin:SetBuffInfo(buffInfo, currentMember)
 	self.CountRing:SetShown(showCount);
 
 	if GameTooltip:GetOwner() == self then
-		self:OnEnter(currentMember);
+		self:OnEnter();
 	end
 
 	self:Show();
 end
 
-function MawBuffMixin:OnEnter(currentMember)
-	self:RefreshTooltip(currentMember); 
+function MawBuffMixin:OnEnter()
+	self:RefreshTooltip(); 
 end
 
-function MawBuffMixin:RefreshTooltip(currentMember)
+function MawBuffMixin:RefreshTooltip()
+	local containerID = self:GetParent():GetParent():GetID() --jesus christ
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT");
-	if currentMember == 0 then
+	if containerID == 5554654 then
 		GameTooltip:SetUnitAura("player", self.slot, "MAW");
 	else
-		GameTooltip:SetUnitAura("party" .. currentMember, self.slot, "MAW");	
+		GameTooltip:SetUnitAura("party" .. math.fmod(containerID, 5554654), self.slot, "MAW");	
 	end
 	GameTooltip:Show();
 	self.HighlightBorder:Show(); 

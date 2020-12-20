@@ -38,7 +38,9 @@ local function CreateAnimaPowerFrames(partyMemberCount)
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
 		print('capf: ' .. tostring(AnimaPowersList['PMC' .. count]))
 		AnimaPowersList["PMC" .. count]:SetSize(50, 50)
+		AnimaPowersList["PMC" .. count]:SetID(5554654 + count)
 		AnimaPowersList["PMC" .. count]:Update()
+
 		--AnimaPowersList["PML" .. count] = CreateFrame("Frame", "TGT_AnimaPowersListPM" .. count, AnimaPowersList["PMC" .. count], "TGTMawBuffsList")
 		--AnimaPowersList["PMB" .. count] = CreateFrame("Button", "TGT_AnimaPowersBuffPM" .. count, AnimaPowersList["PML" .. count], "TGTMawBuffTemplate")
 	end
@@ -84,6 +86,7 @@ end
 local function UpdateAnimaPowers(partyMemberCount)
 	--local partyMemberCount = 1 --for debugging
 	for currentMember = 0, partyMemberCount - 1, 1 do
+		print('in update: ' .. currentMember)
 		if currentMember == 0 then
 			AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
 		else
