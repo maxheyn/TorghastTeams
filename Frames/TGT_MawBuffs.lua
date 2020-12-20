@@ -20,12 +20,12 @@ function MawBuffsContainerMixin:OnLoad()
 end
 
 function MawBuffsContainerMixin:OnEvent(event, ...)
-	if(event == "PLAYER_ENTERING_WORLD") then
-		if (!IsInJailersTower()) then
-			print("outside");
-			self.Update();
-		end
-	end
+	-- if(event == "PLAYER_ENTERING_WORLD") then
+	-- 	if (!IsInJailersTower()) then
+	-- 		print("outside");
+	-- 		self.Update();
+	-- 	end
+	-- end
 	-- local partySize = GetNumGroupMembers()
 	-- local unit = ...;
 	-- if event == "UNIT_AURA" then

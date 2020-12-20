@@ -108,6 +108,10 @@ EventFrame:SetScript("OnEvent", function(self, event, ...)
 			print("Welcome to Torghast Teams! Type '/tgt show' to see the UI.")
 			local partyMembers = GetNumGroupMembers()
 			CreateAnimaPowerFrames(partyMembers)
+		else
+			print("OUTORUOUSUSIDE.")
+			local partyMembers = GetNumGroupMembers()
+			UpdateAnimaPowers(partyMembers)
 		end
 	end
 	if(event == "GROUP_ROSTER_UPDATE") then
