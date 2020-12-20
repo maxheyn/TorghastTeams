@@ -217,10 +217,10 @@ end
 -- Mostly some setup whenever the player enters the world.
 function TorghastTeams:PLAYER_ENTERING_WORLD()
 	local partyMembers = 0
-	TorghastTeams:CreateAnimaPowerFrames()
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
 		partyMembers = GetNumGroupMembers()
+		TorghastTeams:CreateAnimaPowerFrames()
 		TorghastTeams:PositionFramesByPartySize(partyMembers)
 	else
 		partyMembers = GetNumGroupMembers()
@@ -229,7 +229,7 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 end
 
 -- Resize the frames dependin on current group size, incase
--- someone leaves your Torghast run. Sadge :/
+-- someone leaves you Torghast run. Sadge :/
 function TorghastTeams:GROUP_ROSTER_UPDATE()
 	local partyMembers = 0
 	if (IsInJailersTower()) then
