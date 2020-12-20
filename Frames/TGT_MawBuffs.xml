@@ -2,7 +2,7 @@
 ..\..\FrameXML\UI.xsd">
 	<Script file="TGT_MawBuffs.lua"/>
 
-	<Button name="TGTMawBuffTemplate" mixin="MawBuffMixin" virtual="true" motionScriptsWhileDisabled="true">
+	<Button name="TGTMawBuffTemplate" mixin="TGTMawBuffMixin" virtual="true" motionScriptsWhileDisabled="true">
 		<Size x="22" y="22"/> <!-- was 45 -->
 		<Layers>
 			<Layer level="ARTWORK">
@@ -55,7 +55,7 @@
 			<OnClick method="OnClick"/>
 		</Scripts>
 	</Button>
-	<Frame name="TGTMawBuffsList" mixin="MawBuffsListMixin" virtual="true" enableMouse="true" movable="true">
+	<Frame name="TGTMawBuffsList" mixin="TGTMawBuffsListMixin" virtual="true" enableMouse="true" movable="true">
 		<Size x="210" y="159"/>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -84,7 +84,7 @@
 		</Scripts>
 	</Frame>
 
-	<Button name="TGTMawBuffsContainer" mixin="MawBuffsContainerMixin" virtual="true">
+	<Button name="TGTMawBuffsContainer" mixin="TGTMawBuffsContainerMixin" virtual="true">
 		<Size x="253" y="50"/>
 		<Frames>
 			<Frame parentKey="List" inherits="TGTMawBuffsList" hidden="false">

@@ -1,17 +1,17 @@
 local MAW_BUFF_MAX_DISPLAY = 24; --default 44
 
-MawBuffsContainerMixin = {};
+TGTMawBuffsContainerMixin = {};
 
-function MawBuffsContainerMixin:OnLoad()
+function TGTMawBuffsContainerMixin:OnLoad()
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
 
-function MawBuffsContainerMixin:OnEvent(event, ...)
+function TGTMawBuffsContainerMixin:OnEvent(event, ...)
 	-- All of our events are handled in TorghastTeams.lua
 end
 
-function MawBuffsContainerMixin:Update()
+function TGTMawBuffsContainerMixin:Update()
 	local mawBuffs = {};
 	local totalCount = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
@@ -46,11 +46,11 @@ function MawBuffsContainerMixin:Update()
 	self:UpdateHelptip();
 end
 
--- Just like MawBuffsContainerMixin:Update(), but it specifically changes the UnitAura
+-- Just like TGTMawBuffsContainerMixin:Update(), but it specifically changes the UnitAura
 -- to a party member rather than the player. Not sure if we needed a whole new function
 -- but it was easier than trying to figure out some other loopholes around the issue
 -- of working with 'self.whatever'.
-function MawBuffsContainerMixin:UpdatePartyMember(partyMember)
+function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 	local mawBuffs = {};
 	local totalCount = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
@@ -90,7 +90,7 @@ function MawBuffsContainerMixin:UpdatePartyMember(partyMember)
 end
 
 
-function MawBuffsContainerMixin:UpdateHelptip()
+function TGTMawBuffsContainerMixin:UpdateHelptip()
 	if(self.buffCount > 0 and not GetCVarBitfield("closedInfoFrames", LE_FRAME_TUTORIAL_9_0_JAILERS_TOWER_BUFFS)) then
 		local selectLocationHelpTipInfo = {
 			text = JAILERS_TOWER_BUFFS_TUTORIAL,
@@ -107,26 +107,26 @@ function MawBuffsContainerMixin:UpdateHelptip()
 	end
 end
 
-function MawBuffsContainerMixin:UpdateListState(shouldShow)
+function TGTMawBuffsContainerMixin:UpdateListState(shouldShow)
 	self:SetEnabled(not shouldShow); 
 	self.List:SetShown(shouldShow and self.buffCount > 0);
 end
 
-function MawBuffsContainerMixin:OnClick()
+function TGTMawBuffsContainerMixin:OnClick()
 	self.List:SetShown(not self.List:IsShown());
 	HelpTip:Acknowledge(self, JAILERS_TOWER_BUFFS_TUTORIAL);
 	PlaySound(SOUNDKIT.UI_MAW_BUFFS_ANIMA_POWERS_BUTTON, nil, SOUNDKIT_ALLOW_DUPLICATES);
 end
 
-function MawBuffsContainerMixin:HighlightBuffAndShow(spellID, maxStacks)
+function TGTMawBuffsContainerMixin:HighlightBuffAndShow(spellID, maxStacks)
 	self.List:HighlightBuffAndShow(spellID, maxStacks)
 end
 
-function MawBuffsContainerMixin:HideBuffHighlight(spellID)
+function TGTMawBuffsContainerMixin:HideBuffHighlight(spellID)
 	self.List:HideBuffHighlight(spellID)
 end
 
-MawBuffsListMixin = {};
+TGTMawBuffsListMixin = {};
 
 local BUFF_HEIGHT = 22;
 local BUFF_LIST_MIN_HEIGHT = 159;
@@ -134,21 +134,21 @@ local BUFF_LIST_PADDING_HEIGHT = 36;
 local BUFF_LIST_NUM_COLUMNS = 6;
 local BUFF_LIST_PADDING_WIDTH = 11;
 
-function MawBuffsListMixin:OnLoad()
+function TGTMawBuffsListMixin:OnLoad()
 	self.container = self:GetParent();
 	self:SetFrameLevel(self.container:GetFrameLevel() + 1);
 	self.buffPool = CreateFramePool("BUTTON", self, "TGTMawBuffTemplate");
 end
 
-function MawBuffsListMixin:OnShow()
+function TGTMawBuffsListMixin:OnShow()
 	-- Nothing here yet.
 end
 
-function MawBuffsListMixin:OnHide()
+function TGTMawBuffsListMixin:OnHide()
 	-- Nothing here yet.
 end
 
-function MawBuffsListMixin:HighlightBuffAndShow(spellID, maxStackCount)
+function TGTMawBuffsListMixin:HighlightBuffAndShow(spellID, maxStackCount)
 	if(not spellID or not maxStackCount or not self.buffPool) then
 		return;
 	end
@@ -163,7 +163,7 @@ function MawBuffsListMixin:HighlightBuffAndShow(spellID, maxStackCount)
 	end
 end
 
-function MawBuffsListMixin:HideBuffHighlight(spellID)
+function TGTMawBuffsListMixin:HideBuffHighlight(spellID)
 	if(not spellID or not self.buffPool) then
 		return;
 	end
@@ -175,7 +175,7 @@ function MawBuffsListMixin:HideBuffHighlight(spellID)
 	end
 end
 
-function MawBuffsListMixin:Update(mawBuffs)
+function TGTMawBuffsListMixin:Update(mawBuffs)
 	self.buffPool:ReleaseAll();
 
 	local lastRowFirstFrame;
@@ -206,9 +206,9 @@ function MawBuffsListMixin:Update(mawBuffs)
 	self:SetHeight(totalListHeight);
 end
 
-MawBuffMixin = {};
+TGTMawBuffMixin = {};
 
-function MawBuffMixin:SetBuffInfo(buffInfo)
+function TGTMawBuffMixin:SetBuffInfo(buffInfo)
 	self.Icon:SetTexture(buffInfo.icon);
 	self.slot = buffInfo.slot;
 	self.count = buffInfo.count;
@@ -235,11 +235,11 @@ function MawBuffMixin:SetBuffInfo(buffInfo)
 	self:Show();
 end
 
-function MawBuffMixin:OnEnter()
+function TGTMawBuffMixin:OnEnter()
 	self:RefreshTooltip();
 end
 
-function MawBuffMixin:RefreshTooltip()
+function TGTMawBuffMixin:RefreshTooltip()
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT");
 
 	-- A Buff is a child of the BuffList which is a child of the BuffListContainer
@@ -259,14 +259,14 @@ function MawBuffMixin:RefreshTooltip()
 	self.HighlightBorder:Show();
 end
 
-function MawBuffMixin:OnClick()
+function TGTMawBuffMixin:OnClick()
 	if (IsModifiedClick("CHATLINK")) then
 		ChatEdit_InsertLink(GetMawPowerLinkBySpellID(self.spellID));
 		return;
 	end
 end
 
-function MawBuffMixin:OnLeave()
+function TGTMawBuffMixin:OnLeave()
 	GameTooltip_Hide();
 	self.HighlightBorder:Hide();
 end
