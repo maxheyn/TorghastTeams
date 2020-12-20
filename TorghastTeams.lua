@@ -88,9 +88,7 @@ function TorghastTeams:ToggleMinimapButtonShown(info)
 end
 
 
-local function CreateAnimaPowerFrames(partyMemberCount)
-	--local partyMemberCount = 5 --for debugging
-
+function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 	for count = 0, partyMemberCount - 1, 1 do
 		print('creating frame')
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
@@ -141,7 +139,7 @@ local function CreateAnimaPowerFrames(partyMemberCount)
 	end
 end
 
-local function UpdateAnimaPowers(partyMemberCount)
+function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
 	--local partyMemberCount = 1 --for debugging
 	for currentMember = 0, partyMemberCount - 1, 1 do
 		print('in update: ' .. currentMember)
@@ -165,20 +163,21 @@ EventFrame:SetScript("OnEvent", function(self, event, ...)
 		if (IsInJailersTower()) then
 			print("Welcome to Torghast Teams! Type '/tgt show' to see the UI.")
 			local partyMembers = GetNumGroupMembers()
-			CreateAnimaPowerFrames(partyMembers)
+			TorghastTeams:CreateAnimaPowerFrames(partyMembers)
 		else
 			print("OUTORUOUSUSIDE.")
 			local partyMembers = GetNumGroupMembers()
-			UpdateAnimaPowers(partyMembers)
+			TorghastTeams:UpdateAnimaPowers(partyMembers)
 		end
 	end
 	if(event == "GROUP_ROSTER_UPDATE") then
 		local partyMembers = GetNumGroupMembers()
+		--TODO: update the lists if group members change during a torghast run
 	end
 	if(event == "UNIT_AURA") then
 		if (IsInJailersTower()) then
 			local partyMembers = GetNumGroupMembers()
-			UpdateAnimaPowers(partyMembers)
+			TorghastTeams:UpdateAnimaPowers(partyMembers)
 		end
 	end
 end)
