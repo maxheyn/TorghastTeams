@@ -13,3 +13,5 @@ TorghastTeams.lua
 
 Frames\TGT_MawBuffs.lua
 Frames\TGT_TorghastLevelPicker.lua
+Libraries\LibDBIcon-1.0\lib.xml
+Libraries\LibDataBroker-1.1\LibDataBroker-1.1.lua
