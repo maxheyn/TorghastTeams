@@ -1,34 +1,92 @@
--- Initial Variables
-local TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTTorghastLevelPickerFrame")
-TGT_Container:SetSize(807, 569)
-TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
-
-local AnimaPowersList = {}
-local AnimaPowersListPartyMember1 = "PM1"
-local AnimaPowersListPartyMember2 = "PM2"
-local AnimaPowersListPartyMember3 = "PM3"
-local AnimaPowersListPartyMember4 = "PM4"
-local AnimaPowersListPartyMember5 = "PM5"
-
------------------------------------------------------------------------------
--- Slash Command
-SLASH_TORGHASTTEAMS1 = "/tgt"
-SLASH_TORGHASTTEAMS2 = "/torghastteams"
-SlashCmdList["TORGHASTTEAMS"] = function(msg)
-	if (msg == "show") then
-		TGT_Container:Show()
-	elseif (msg == "hide") then
-		TGT_Container:Hide()
-	else -- TODO: fix me
-		if (TGT_Container:IsVisible()) then -- isVisible seems to be the problem
-			print("It's visible right now dude")
+local TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
+local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTeams", {
+	type = "String",
+	text = "TorghastTeams",
+	icon = "Interface\\ICONS\\INV_Torghast",
+	OnClick = function()
+		if (TGT_Container:IsVisible()) then
 			TGT_Container:Hide()
 		elseif (not TGT_Container:IsVisible()) then
 			TGT_Container:Show()
-			print("It's totally not visible right now dude")
 		end
+	end,
+})
+
+-- Commands that users can type
+local options = {
+    name = "TorghastTeams",
+    handler = TorghastTeams,
+    type = "group",
+    args = {
+        minimap = {
+            type = "execute",
+            name = "Minimap Button Toggle",
+            desc = "Toggles the display of the minimap button.",
+            func  = "ToggleMinimapButtonShown",
+		},
+    },
+}
+
+-- Minimap Icon Constructor
+local icon = LibStub("LibDBIcon-1.0")
+
+-- Frame Setup for Anima Powers
+local TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTTorghastLevelPickerFrame")
+TGT_Container:SetSize(807, 569)
+TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
+local AnimaPowersList = {}
+
+-----------------------------------------------------------------------------
+-- Ace3 Intialization
+function TorghastTeams:OnInitialize()
+	-- Initial Variables
+
+	-- Registering Commands with prefixes
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {"torghastteams", "tgt"})
+
+	-----------------------------------------------------------------------------
+	-- Slash Command
+	-- SLASH_TORGHASTTEAMS1 = "/tgt"
+	-- SLASH_TORGHASTTEAMS2 = "/torghastteams"
+	-- SlashCmdList["TORGHASTTEAMS"] = function(msg)
+	-- 	if (msg == "show") then
+	-- 		TGT_Container:Show()
+	-- 	elseif (msg == "hide") then
+	-- 		TGT_Container:Hide()
+	-- 	else
+	-- 		if (TGT_Container:IsVisible()) then
+	-- 			print("It's visible right now dude")
+	-- 			TGT_Container:Hide()
+	-- 		elseif (not TGT_Container:IsVisible()) then
+	-- 			TGT_Container:Show()
+	-- 			print("It's totally not visible right now dude")
+	-- 		end
+	-- 	end
+	-- end
+
+	self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
+		profile = {
+			minimap = {
+				hide = false,
+			}
+		}
+	})
+	icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
+	self:RegisterChatCommand("bunnies", "ToggleInterface")
+end
+
+function TorghastTeams:ToggleMinimapButtonShown(info)
+	if self.db.profile.minimap.hide then
+		print("TorghastTeams minimap button is now shown.")
+		self.db.profile.minimap.hide = false
+		icon:Show("TorghastTeamsIcon")
+	else
+		print("TorghastTeams minimap button is now hidden.")
+		self.db.profile.minimap.hide = true
+		icon:Hide("TorghastTeamsIcon")
 	end
 end
+
 
 local function CreateAnimaPowerFrames(partyMemberCount)
 	--local partyMemberCount = 5 --for debugging
