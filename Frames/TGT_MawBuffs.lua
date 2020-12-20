@@ -3,7 +3,6 @@ local MAW_BUFF_MAX_DISPLAY = 44;
 MawBuffsContainerMixin = {};
 
 function MawBuffsContainerMixin:OnLoad()
-	self.List:Show()
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
@@ -33,13 +32,13 @@ function MawBuffsContainerMixin:Update()
 
 	if(IsInJailersTower()) then
 		self:Show();
+		self.List:Show()
 	else
 		self:Hide();
 	end
 
 	self.buffCount = #mawBuffs;
 	if self.buffCount == 0 then
-		self.List:Hide();
 		self:Disable();
 	else
 		self:Enable();
@@ -83,7 +82,6 @@ function MawBuffsContainerMixin:UpdatePartyMember(partyMember)
 
 	self.buffCount = #mawBuffs;
 	if self.buffCount == 0 then
-		self.List:Show();
 		self:Disable();
 	else
 		self:Enable();

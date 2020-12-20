@@ -119,45 +119,11 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 		-- in the TCG_MawBuffs.lua file in the MaxBuffMixin:RefreshTooltip() function
 		-- It was 'necessary' because otherwise the tooltips would overlap because there was no
 		-- other easy way to differentiate between frames
-		AnimaPowersList["PMC" .. count]:SetID(5554654 + count)
+		local magicNumber = 5554654
+		AnimaPowersList["PMC" .. count]:SetID(magicNumber + count)
 		AnimaPowersList["PMC" .. count]:Update()
 	end
-	
-	-- Manually setting the layouts of the containers, depending on party size.
-	if (partyMemberCount == 1) then
-		-- Looks like:
-		-- [ 1 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER")
-	elseif (partyMemberCount == 2) then
-		-- Looks like:
-		-- [ 1 2 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 0)
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 0)
-	elseif (partyMemberCount == 3) then
-		-- Looks like:
-		-- [ 1 2 ]
-		-- [  3  ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, -95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
-	elseif (partyMemberCount == 4) then
-		-- Looks like:
-		-- [ 1 2 ]
-		-- [ 3 4 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, 95)
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, -95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", -130, -95)
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 130, 95)
-	elseif (partyMemberCount == 5) then
-		-- Looks like:
-		-- [1 2 3]
-		-- [ 4 5 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 95)
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 95)
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 95)
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -95)
-		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -95)
-	end
+	TorghastTeams:PositionFramesByPartySize(partyMemberCount)
 end
 
 -- Make sure that our Anima Power displays are up to date, going through
@@ -169,6 +135,44 @@ function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
 		else
 			AnimaPowersList["PMC" .. currentMember]:UpdatePartyMember(currentMember)
 		end
+	end
+end
+
+-- Manually setting the layouts of the containers, depending on party size.
+function TorghastTeams:PositionFramesByPartySize(partyMemberCount)
+	if (partyMemberCount == 1) then
+		-- Looks like:
+		-- [ 1 ]
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
+	elseif (partyMemberCount == 2) then
+		-- Looks like:
+		-- [ 1 2 ]
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 75)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 75)
+	elseif (partyMemberCount == 3) then
+		-- Looks like:
+		-- [ 1 2 ]
+		-- [  3  ]
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -240, 75)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 240, 75)
+	elseif (partyMemberCount == 4) then
+		-- Looks like:
+		-- [ 1 2 ]
+		-- [ 3 4 ]
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 165)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, -65)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, -65)
+		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 165)
+	elseif (partyMemberCount == 5) then
+		-- Looks like:
+		-- [1 2 3]
+		-- [ 4 5 ]
+		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 165)
+		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 165)
+		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 165)
+		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -65)
+		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -65)
 	end
 end
 
