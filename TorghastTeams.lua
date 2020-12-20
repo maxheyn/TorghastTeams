@@ -20,10 +20,10 @@ SlashCmdList["TORGHASTTEAMS"] = function(msg)
 	elseif (msg == "hide") then
 		TGT_Container:Hide()
 	else -- TODO: fix me
-		if (TGT_Container.isVisible()) then -- isVisible seems to be the problem
+		if (TGT_Container:IsVisible()) then -- isVisible seems to be the problem
 			print("It's visible right now dude")
 			TGT_Container:Hide()
-		elseif (not TGT_Container.isVisible()) then
+		elseif (not TGT_Container:IsVisible()) then
 			TGT_Container:Show()
 			print("It's totally not visible right now dude")
 		end
