@@ -3,7 +3,9 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 	type = "String",
 	text = "TorghastTeams",
 	icon = "Interface\\ICONS\\INV_Torghast",
-	OnClick = TorghastTeams:ToggleInterface()
+	OnClick = function()
+		TorghastTeams:ToggleInterface()
+	end
 })
 
 -- Commands that users can type for interaction
@@ -36,7 +38,7 @@ local icon = LibStub("LibDBIcon-1.0")
 
 -- Frame Setup for Anima Powers
 local TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTTorghastLevelPickerFrame")
-TGT_Container:SetSize(807, 569)
+TGT_Container:SetSize(928, 654)
 TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
 local AnimaPowersList = {}
 
@@ -58,6 +60,14 @@ function TorghastTeams:OnInitialize()
 	})
 	icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
 	self:RegisterChatCommand("bunnies", "ToggleInterface")
+end
+
+function TorghastTeams:OnEnable()
+	-- Registering for events
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("GROUP_ROSTER_UPDATE")
+	-- self:RegisterUnitEvent("UNIT_AURA", "player")
+	self:RegisterEvent("UNIT_AURA")
 end
 
 -----------------------------------------------------------------------------
@@ -95,13 +105,15 @@ function TorghastTeams:ToggleInterface()
 	end
 end
 
+-----------------------------------------------------------------------------
+-- Main Addon Functions
 
+-- Creates the frames inside our main TGT_Container holder and
+-- sets their positions based on number of party members in the group.
 function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 	for count = 0, partyMemberCount - 1, 1 do
-		print('creating frame')
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
-		print('capf: ' .. tostring(AnimaPowersList['PMC' .. count]))
-		AnimaPowersList["PMC" .. count]:SetSize(50, 50)
+		AnimaPowersList["PMC" .. count]:SetSize(220, 50)
 
 		-- This is probably really stupid but it's used to differentiate between containers later
 		-- in the TCG_MawBuffs.lua file in the MaxBuffMixin:RefreshTooltip() function
@@ -116,7 +128,6 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 		-- Looks like:
 		-- [ 1 ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER")
-		print('hey ' .. tostring(AnimaPowersList["PML1"]))
 	elseif (partyMemberCount == 2) then
 		-- Looks like:
 		-- [ 1 2 ]
@@ -149,9 +160,10 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 	end
 end
 
+-- Make sure that our Anima Power displays are up to date, going through
+-- all available party members' powers.
 function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
 	for currentMember = 0, partyMemberCount - 1, 1 do
-		print('in update: ' .. currentMember)
 		if currentMember == 0 then
 			AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
 		else
@@ -161,32 +173,32 @@ function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
 end
 
 -----------------------------------------------------------------------------
--- Event Listener Frame and Script
-local EventFrame = CreateFrame("Frame", "EventFrame")
-EventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
-EventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-EventFrame:RegisterUnitEvent("UNIT_AURA", "player")
+-- Event Listeners and Scripts
 
-EventFrame:SetScript("OnEvent", function(self, event, ...)
-	if(event == "PLAYER_ENTERING_WORLD") then
-		if (IsInJailersTower()) then
-			print("Welcome to Torghast Teams! Type '/tgt show' to see the UI.")
-			local partyMembers = GetNumGroupMembers()
-			TorghastTeams:CreateAnimaPowerFrames(partyMembers)
-		else
-			print("OUTORUOUSUSIDE.")
-			local partyMembers = GetNumGroupMembers()
-			TorghastTeams:UpdateAnimaPowers(partyMembers)
-		end
+-- Mostly some setup whenever the player enters the world.
+function TorghastTeams:PLAYER_ENTERING_WORLD()
+	local partyMembers = 0
+	if (IsInJailersTower()) then
+		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
+		partyMembers = GetNumGroupMembers()
+		TorghastTeams:CreateAnimaPowerFrames(partyMembers)
+	else
+		partyMembers = GetNumGroupMembers()
+		TorghastTeams:UpdateAnimaPowers(partyMembers)
 	end
-	if(event == "GROUP_ROSTER_UPDATE") then
-		local partyMembers = GetNumGroupMembers()
-		--TODO: update the lists if group members change during a torghast run
+end
+
+-- TODO: update the lists if group members change during a torghast run
+function TorghastTeams:GROUP_ROSTER_UPDATE()
+	-- To be implemented
+end
+
+-- This is the most important event, it triggers every time a player
+-- selects a new anima power.
+function TorghastTeams:UNIT_AURA()
+	local partyMembers = 0
+	if (IsInJailersTower()) then
+		partyMembers = GetNumGroupMembers()
+		TorghastTeams:UpdateAnimaPowers(partyMembers)
 	end
-	if(event == "UNIT_AURA") then
-		if (IsInJailersTower()) then
-			local partyMembers = GetNumGroupMembers()
-			TorghastTeams:UpdateAnimaPowers(partyMembers)
-		end
-	end
-end)
+end

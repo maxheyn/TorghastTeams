@@ -3,9 +3,9 @@ local MAW_BUFF_MAX_DISPLAY = 44;
 MawBuffsContainerMixin = {};
 
 function MawBuffsContainerMixin:OnLoad()
+	self.List:Show()
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	print('MawBuffsContainerMixin:OnLoad() ' .. tostring(self))
 end
 
 function MawBuffsContainerMixin:OnEvent(event, ...)
@@ -25,8 +25,9 @@ function MawBuffsContainerMixin:Update()
 			table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
 		end
 	end
-
-	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
+	
+	name, _ = UnitName("player")
+	self:SetText(name .. " (" .. totalCount .. ")")
 
 	self.List:Update(mawBuffs);
 
@@ -38,7 +39,6 @@ function MawBuffsContainerMixin:Update()
 
 	self.buffCount = #mawBuffs;
 	if self.buffCount == 0 then
-		print('hiding no buffs')
 		self.List:Hide();
 		self:Disable();
 	else
@@ -66,7 +66,12 @@ function MawBuffsContainerMixin:UpdatePartyMember(partyMember)
 		end
 	end
 
-	self:SetText(JAILERS_TOWER_BUFFS_BUTTON_TEXT:format(totalCount));
+	name, realm = UnitName("party" .. partyMember)
+	if (realm == nil) then
+		self:SetText(name .. " (" .. totalCount .. ")")
+	else
+		self:SetText(name .. "-" .. realm .. " (" .. totalCount .. ")")
+	end
 
 	self.List:Update(mawBuffs, partyMember);
 

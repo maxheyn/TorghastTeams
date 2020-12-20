@@ -87,9 +87,9 @@
 	<Button name="TGTMawBuffsContainer" mixin="MawBuffsContainerMixin" virtual="true">
 		<Size x="253" y="50"/>
 		<Frames>
-			<Frame parentKey="List" inherits="TGTMawBuffsList" hidden="true">
+			<Frame parentKey="List" inherits="TGTMawBuffsList" hidden="false">
 				<Anchors>
-					<Anchor point="CENTER" relativePoint="CENTER"/>
+					<Anchor point="TOP" relativePoint="TOP" x="4" y="-50"/>
 				</Anchors>
 			</Frame>
 		</Frames>
