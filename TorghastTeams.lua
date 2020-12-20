@@ -94,14 +94,16 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
 		print('capf: ' .. tostring(AnimaPowersList['PMC' .. count]))
 		AnimaPowersList["PMC" .. count]:SetSize(50, 50)
+
+		-- This is probably really stupid but it's used to differentiate between containers later
+		-- in the TCG_MawBuffs.lua file in the MaxBuffMixin:RefreshTooltip() function
+		-- It was 'necessary' because otherwise the tooltips would overlap because there was no
+		-- other easy way to differentiate between frames
 		AnimaPowersList["PMC" .. count]:SetID(5554654 + count)
 		AnimaPowersList["PMC" .. count]:Update()
-
-		--AnimaPowersList["PML" .. count] = CreateFrame("Frame", "TGT_AnimaPowersListPM" .. count, AnimaPowersList["PMC" .. count], "TGTMawBuffsList")
-		--AnimaPowersList["PMB" .. count] = CreateFrame("Button", "TGT_AnimaPowersBuffPM" .. count, AnimaPowersList["PML" .. count], "TGTMawBuffTemplate")
 	end
 	
-	-- This is probably a stupid way to do it but it's the easiest way to do it
+	-- Manually setting the layouts of the containers, depending on party size.
 	if (partyMemberCount == 1) then
 		-- Looks like:
 		-- [ 1 ]
@@ -140,7 +142,6 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 end
 
 function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
-	--local partyMemberCount = 1 --for debugging
 	for currentMember = 0, partyMemberCount - 1, 1 do
 		print('in update: ' .. currentMember)
 		if currentMember == 0 then
