@@ -1,4 +1,4 @@
-local MAW_BUFF_MAX_DISPLAY = 44;
+local MAW_BUFF_MAX_DISPLAY = 24; --default 44
 
 MawBuffsContainerMixin = {};
 
@@ -128,10 +128,11 @@ end
 
 MawBuffsListMixin = {};
 
-local BUFF_HEIGHT = 45;
+local BUFF_HEIGHT = 22;
 local BUFF_LIST_MIN_HEIGHT = 159;
 local BUFF_LIST_PADDING_HEIGHT = 36;
-local BUFF_LIST_NUM_COLUMNS = 4;
+local BUFF_LIST_NUM_COLUMNS = 6;
+local BUFF_LIST_PADDING_WIDTH = 11;
 
 function MawBuffsListMixin:OnLoad()
 	self.container = self:GetParent();
@@ -194,7 +195,7 @@ function MawBuffsListMixin:Update(mawBuffs)
 			end
 			lastRowFirstFrame = buffFrame;
 		else
-			buffFrame:SetPoint("TOPLEFT", lastBuffFrame, "TOPRIGHT", 3, 0);
+			buffFrame:SetPoint("TOPLEFT", lastBuffFrame, "TOPRIGHT", BUFF_LIST_PADDING_WIDTH, 0);
 		end
 
 		lastBuffFrame = buffFrame;
@@ -221,7 +222,7 @@ function MawBuffMixin:SetBuffInfo(buffInfo)
 	end 
 
 	if(rarityAtlas) then
-		self.Border:SetAtlas(rarityAtlas, TextureKitConstants.UseAtlasSize);
+		self.Border:SetAtlas(rarityAtlas, false);
 	end 
 
 	self.Count:SetShown(showCount);

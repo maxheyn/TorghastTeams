@@ -3,17 +3,17 @@
 	<Script file="TGT_MawBuffs.lua"/>
 
 	<Button name="TGTMawBuffTemplate" mixin="MawBuffMixin" virtual="true" motionScriptsWhileDisabled="true">
-		<Size x="45" y="45"/>
+		<Size x="22" y="22"/> <!-- was 45 -->
 		<Layers>
 			<Layer level="ARTWORK">
 				<Texture parentKey="Icon">
-					<Size x="35" y="35"/>
+					<Size x="20" y="20"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
 				</Texture>
 				<MaskTexture parentKey="CircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
-					<Size x="32" y="32"/>
+					<Size x="19" y="19"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
@@ -24,13 +24,13 @@
 			</Layer>
 			<Layer level="ARTWORK" textureSubLevel="2"> <!-- maybe change this -->
 				<Texture parentKey="Border">
-					<Size x="36" y="36"/>
+					<Size x="24" y="24"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
 				</Texture>
 				<Texture parentKey="HighlightBorder" hidden="true" atlas="jailerstower-animapowerlist-highlight">
-					<Size x="36" y="36"/>
+					<Size x="21" y="21"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>

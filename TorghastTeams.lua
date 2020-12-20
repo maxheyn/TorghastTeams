@@ -110,8 +110,8 @@ end
 
 -- Creates the frames inside our main TGT_Container holder and
 -- sets their positions based on number of party members in the group.
-function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
-	for count = 0, partyMemberCount - 1, 1 do
+function TorghastTeams:CreateAnimaPowerFrames()
+	for count = 0, 4, 1 do
 		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
 		AnimaPowersList["PMC" .. count]:SetSize(220, 50)
 
@@ -123,7 +123,6 @@ function TorghastTeams:CreateAnimaPowerFrames(partyMemberCount)
 		AnimaPowersList["PMC" .. count]:SetID(magicNumber + count)
 		AnimaPowersList["PMC" .. count]:Update()
 	end
-	TorghastTeams:PositionFramesByPartySize(partyMemberCount)
 end
 
 -- Make sure that our Anima Power displays are up to date, going through
@@ -140,39 +139,75 @@ end
 
 -- Manually setting the layouts of the containers, depending on party size.
 function TorghastTeams:PositionFramesByPartySize(partyMemberCount)
-	if (partyMemberCount == 1) then
+
+	if (partyMemberCount == 0) then
+		AnimaPowersList["PMC0"]:Hide()
+		AnimaPowersList["PMC1"]:Hide()
+		AnimaPowersList["PMC2"]:Hide()
+		AnimaPowersList["PMC3"]:Hide()
+		AnimaPowersList["PMC4"]:Hide()
+	elseif (partyMemberCount == 1) then
 		-- Looks like:
 		-- [ 1 ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
+		AnimaPowersList["PMC0"]:Show()
+
+		AnimaPowersList["PMC1"]:Hide()
+		AnimaPowersList["PMC2"]:Hide()
+		AnimaPowersList["PMC3"]:Hide()
+		AnimaPowersList["PMC4"]:Hide()
 	elseif (partyMemberCount == 2) then
 		-- Looks like:
 		-- [ 1 2 ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 75)
+		AnimaPowersList["PMC0"]:Show()
 		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 75)
+		AnimaPowersList["PMC1"]:Show()
+
+		AnimaPowersList["PMC2"]:Hide()
+		AnimaPowersList["PMC3"]:Hide()
+		AnimaPowersList["PMC4"]:Hide()
 	elseif (partyMemberCount == 3) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [  3  ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -240, 75)
+		AnimaPowersList["PMC0"]:Show()
 		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
+		AnimaPowersList["PMC1"]:Show()
 		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 240, 75)
+		AnimaPowersList["PMC2"]:Show()
+
+		AnimaPowersList["PMC3"]:Hide()
+		AnimaPowersList["PMC4"]:Hide()
 	elseif (partyMemberCount == 4) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [ 3 4 ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 165)
+		AnimaPowersList["PMC0"]:Show()
 		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, -65)
+		AnimaPowersList["PMC1"]:Show()
 		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, -65)
+		AnimaPowersList["PMC2"]:Show()
 		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 165)
+		AnimaPowersList["PMC3"]:Show()
+
+		AnimaPowersList["PMC4"]:Hide()
 	elseif (partyMemberCount == 5) then
 		-- Looks like:
 		-- [1 2 3]
 		-- [ 4 5 ]
 		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 165)
+		AnimaPowersList["PMC0"]:Show()
 		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 165)
+		AnimaPowersList["PMC1"]:Show()
 		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 165)
+		AnimaPowersList["PMC2"]:Show()
 		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -65)
+		AnimaPowersList["PMC3"]:Show()
 		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -65)
+		AnimaPowersList["PMC4"]:Show()
 	end
 end
 
@@ -182,19 +217,25 @@ end
 -- Mostly some setup whenever the player enters the world.
 function TorghastTeams:PLAYER_ENTERING_WORLD()
 	local partyMembers = 0
+	TorghastTeams:CreateAnimaPowerFrames()
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:CreateAnimaPowerFrames(partyMembers)
+		TorghastTeams:PositionFramesByPartySize(partyMembers)
 	else
 		partyMembers = GetNumGroupMembers()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
 	end
 end
 
--- TODO: update the lists if group members change during a torghast run
+-- Resize the frames dependin on current group size, incase
+-- someone leaves your Torghast run. Sadge :/
 function TorghastTeams:GROUP_ROSTER_UPDATE()
-	-- To be implemented
+	local partyMembers = 0
+	if (IsInJailersTower()) then
+		partyMembers = GetNumGroupMembers()
+		TorghastTeams:PositionFramesByPartySize(partyMembers)
+	end
 end
 
 -- This is the most important event, it triggers every time a player
