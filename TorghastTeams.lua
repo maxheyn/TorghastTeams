@@ -3,16 +3,10 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 	type = "String",
 	text = "TorghastTeams",
 	icon = "Interface\\ICONS\\INV_Torghast",
-	OnClick = function()
-		if (TGT_Container:IsVisible()) then
-			TGT_Container:Hide()
-		elseif (not TGT_Container:IsVisible()) then
-			TGT_Container:Show()
-		end
-	end,
+	OnClick = TorghastTeams:ToggleInterface()
 })
 
--- Commands that users can type
+-- Commands that users can type for interaction
 local options = {
     name = "TorghastTeams",
     handler = TorghastTeams,
@@ -22,9 +16,19 @@ local options = {
             type = "execute",
             name = "Minimap Button Toggle",
             desc = "Toggles the display of the minimap button.",
-            func  = "ToggleMinimapButtonShown",
-		},
-    },
+            func = "MinimapButtonToggle",
+		}, show = {
+			type = "execute",
+			name = "Show Interface",
+			desc = "Shows the TorghastTeams Interface.",
+			func = "ShowInterface"
+		}, hide = {
+			type = "execute",
+			name = "Hide Interface",
+			desc = "Hides the TorghastTeams Interface.",
+			func = "HideInterface"
+		}
+	}
 }
 
 -- Minimap Icon Constructor
@@ -44,26 +48,7 @@ function TorghastTeams:OnInitialize()
 	-- Registering Commands with prefixes
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {"torghastteams", "tgt"})
 
-	-----------------------------------------------------------------------------
-	-- Slash Command
-	-- SLASH_TORGHASTTEAMS1 = "/tgt"
-	-- SLASH_TORGHASTTEAMS2 = "/torghastteams"
-	-- SlashCmdList["TORGHASTTEAMS"] = function(msg)
-	-- 	if (msg == "show") then
-	-- 		TGT_Container:Show()
-	-- 	elseif (msg == "hide") then
-	-- 		TGT_Container:Hide()
-	-- 	else
-	-- 		if (TGT_Container:IsVisible()) then
-	-- 			print("It's visible right now dude")
-	-- 			TGT_Container:Hide()
-	-- 		elseif (not TGT_Container:IsVisible()) then
-	-- 			TGT_Container:Show()
-	-- 			print("It's totally not visible right now dude")
-	-- 		end
-	-- 	end
-	-- end
-
+	-- Databroker things, still trying to really figure this out
 	self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
 		profile = {
 			minimap = {
@@ -75,7 +60,11 @@ function TorghastTeams:OnInitialize()
 	self:RegisterChatCommand("bunnies", "ToggleInterface")
 end
 
-function TorghastTeams:ToggleMinimapButtonShown(info)
+-----------------------------------------------------------------------------
+-- Slash Commands Functions
+
+-- Toggles the minimap button on or off with /tgt minimap
+function TorghastTeams:MinimapButtonToggle(info)
 	if self.db.profile.minimap.hide then
 		print("TorghastTeams minimap button is now shown.")
 		self.db.profile.minimap.hide = false
@@ -84,6 +73,25 @@ function TorghastTeams:ToggleMinimapButtonShown(info)
 		print("TorghastTeams minimap button is now hidden.")
 		self.db.profile.minimap.hide = true
 		icon:Hide("TorghastTeamsIcon")
+	end
+end
+
+-- Shows the UI with /tgt show
+function TorghastTeams:ShowInterface(info)
+	TGT_Container:Show()
+end
+
+-- Hides the UI with /tgt hide
+function TorghastTeams:HideInterface(info)
+	TGT_Container:Hide()
+end
+
+-- Toggles between the UI, not a command, used for minimap button
+function TorghastTeams:ToggleInterface()
+	if (TGT_Container:IsVisible()) then
+		TGT_Container:Hide()
+	elseif (not TGT_Container:IsVisible()) then
+		TGT_Container:Show()
 	end
 end
 
