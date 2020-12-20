@@ -74,7 +74,7 @@ function MawBuffsContainerMixin:UpdateHelptip()
 	end
 end 
 
-function MawBuffsContainerMixin:UpdateListState(shouldShow) 
+function MawBuffsContainerMixin:(shouldShow) 
 	self:SetEnabled(not shouldShow); 
 	self.List:SetShown(shouldShow and self.buffCount > 0); 
 end 
