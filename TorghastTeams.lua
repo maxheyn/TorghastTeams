@@ -156,11 +156,13 @@ end
 -- Make sure that our Anima Power displays are up to date, going through
 -- all available party members' powers.
 function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
-	for currentMember = 0, partyMemberCount - 1, 1 do
-		if currentMember == 0 then
-			AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
-		else
-			AnimaPowersList["PMC" .. currentMember]:UpdatePartyMember(currentMember)
+	if (table.getn(AnimaPowersList) > 0) then
+		for currentMember = 0, partyMemberCount - 1, 1 do
+			if currentMember == 0 then
+				AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
+			else
+				AnimaPowersList["PMC" .. currentMember]:UpdatePartyMember(currentMember)
+			end
 		end
 	end
 end
