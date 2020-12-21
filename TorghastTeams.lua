@@ -1,4 +1,5 @@
 local TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
+local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTeams", {
 	type = "String",
 	text = "TorghastTeams",
@@ -103,6 +104,10 @@ function TorghastTeams:ToggleInterface()
 	elseif (not TGT_Container:IsVisible()) then
 		TGT_Container:Show()
 	end
+end
+
+function TorghastTeams:SetInterfaceToDefaultState(text)
+	TGT_Container.Body:SetText(text)
 end
 
 -----------------------------------------------------------------------------
@@ -214,6 +219,7 @@ end
 -----------------------------------------------------------------------------
 -- Event Listeners and Scripts
 
+
 -- Mostly some setup whenever the player enters the world.
 function TorghastTeams:PLAYER_ENTERING_WORLD()
 	local partyMembers = 0
@@ -225,6 +231,7 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 	else
 		partyMembers = GetNumGroupMembers()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
+		TorghastTeams:SetInterfaceToDefaultState(L["DEFAULT"])
 	end
 end
 

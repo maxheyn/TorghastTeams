@@ -142,11 +142,14 @@
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
-				<FontString parentKey="SubTitle" inherits="GameFontHighlightMedium" text="TorghastTeams">
+				<FontString parentKey="SubTitle" inherits="Fancy32Font" text="TorghastTeams">
 					<Color r="0.513" g="0.73" b="0.8"/>
 					<Anchors>
 						<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="-140" y="-6"/>
 					</Anchors>
+				</FontString>
+				<FontString parentKey="Body" inherits="GameFontHighlightMedium">
+					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
 			</Layer>
 		</Layers>
