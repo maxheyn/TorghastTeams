@@ -11,24 +11,24 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 
 -- Commands that users can type for interaction
 local options = {
-    name = "TorghastTeams",
+    name = L["ADDON_NAME"],
     handler = TorghastTeams,
     type = "group",
     args = {
         minimap = {
             type = "execute",
-            name = "Minimap Button Toggle",
-            desc = "Toggles the display of the minimap button.",
+            name = L["COMMAND_MINIMAP_NAME"],
+            desc = L["COMMAND_MINIMAP_DESC"],
             func = "MinimapButtonToggle",
 		}, show = {
 			type = "execute",
-			name = "Show Interface",
-			desc = "Shows the TorghastTeams Interface.",
+			name = L["COMMAND_SHOW_NAME"],
+			desc = L["COMMAND_SHOW_DESC"],
 			func = "ShowInterface"
 		}, hide = {
 			type = "execute",
-			name = "Hide Interface",
-			desc = "Hides the TorghastTeams Interface.",
+			name = L["COMMAND_HIDE_NAME"],
+			desc = L["COMMAND_HIDE_DESC"],
 			func = "HideInterface"
 		}
 	}
@@ -47,9 +47,11 @@ local AnimaPowersList = {}
 -- Ace3 Intialization
 function TorghastTeams:OnInitialize()
 	-- Initial Variables
+	local COMMAND_PREFIX_COMPLETE = "torghastteams"
+	local COMMAND_PREFIX_SHORT = "tgt"
 
 	-- Registering Commands with prefixes
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {"torghastteams", "tgt"})
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {COMMAND_PREFIX_COMPLETE, COMMAND_PREFIX_SHORT})
 
 	-- Databroker things, still trying to really figure this out
 	self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
@@ -60,7 +62,6 @@ function TorghastTeams:OnInitialize()
 		}
 	})
 	icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
-	self:RegisterChatCommand("bunnies", "ToggleInterface")
 end
 
 function TorghastTeams:OnEnable()
@@ -108,19 +109,23 @@ end
 
 -- Sets UI to "default", i.e. what you see when you're NOT in Torghast
 function TorghastTeams:SetInterfaceToDefaultState()
-	local I = TGT_Container.TGTBodyTextContainer
-	TGT_Container.Title:SetText(L["ADDON_NAME"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
-	I.BodyTagline:SetText(L["DEFAULT_BODY_TAGLINE"])
-	I.BodyWelcome:SetText(L["DEFAULT_BODY_WELCOME"])
-	I.BodyInformation:SetText(L["DEFAULT_BODY_INFORMATION"])
-	I:Show()
+	TGT_Container.Title:SetPoint("TOP", TGT_Container, "TOP", 140, -70)
+	TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
+	TGT_Container.BodyTagline:SetText(L["DEFAULT_BODY_TAGLINE"])
+	TGT_Container.BodyWelcome:SetText(L["DEFAULT_BODY_WELCOME"])
+	TGT_Container.BodyInformation:SetText(L["DEFAULT_BODY_INFORMATION"])
+	TGT_Container.BodyTagline:Show()
+	TGT_Container.BodyWelcome:Show()
+	TGT_Container.BodyInformation:Show()
 end
 
 -- Sets UI to "playing", i.e. what you see when you're in Torghast
 function TorghastTeams:SetInterfaceToPlayingState()
-	local I = TGT_Container.TGTBodyTextContainer
+	TGT_Container.Title:SetPoint("CENTER", TGT_Container, "CENTER", 0, -70)
 	TGT_Container.Title:SetText(L["ADDON_NAME"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
-	I:Hide()
+	TGT_Container.BodyTagline:Hide()
+	TGT_Container.BodyWelcome:Hide()
+	TGT_Container.BodyInformation:Hide()
 end
 
 -----------------------------------------------------------------------------
