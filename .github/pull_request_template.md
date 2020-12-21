@@ -5,8 +5,10 @@
 - [ ] 🔁 **Changed feature** (_fix or feature that would cause existing functionality to change_)
 - [ ] 📑 **Updated documentation** (_changes to README, localizations, or metadata files_)
 
+## Short Summary / Changelog
+<!-- Just a quick high-level description of changes that could, for example, be placed in a changelog-->
 ## Proposed Changes
-<!--- What are the changes that your code introduces? -->
+<!--- What are the specific changes that your code introduces? -->
   -
   -
   -
