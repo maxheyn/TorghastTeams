@@ -20,6 +20,7 @@ TorghastLevelPickerFrameMixin = {};
 function TorghastLevelPickerFrameMixin:OnLoad()
 	CustomGossipFrameBaseMixin.OnLoad(self);
 	self.gossipOptionsPool = CreateFramePool("CHECKBUTTON", self.GridLayoutContainer, "TorghastLevelPickerOptionButtonTemplate");
+	self.TGTBodyTextContainer:Show()
 end
 
 function TorghastLevelPickerFrameMixin:OnEvent(event, ...)
@@ -94,7 +95,7 @@ end
 function TorghastLevelPickerFrameMixin:SetupGrid()
 	self.GridLayoutContainer:SetSize(420, 260); 
 	self.GridLayoutContainer:ClearAllPoints();
-	self.GridLayoutContainer:SetPoint("TOP", self.SubTitle, "BOTTOM", 20, -40)
+	-- self.GridLayoutContainer:SetPoint("TOP", self.SubTitle, "BOTTOM", 20, -40)
 end 
 
 function TorghastLevelPickerFrameMixin:SetupLevelButtons()

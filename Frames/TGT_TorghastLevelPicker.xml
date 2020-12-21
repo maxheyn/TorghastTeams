@@ -135,25 +135,42 @@
 				<Texture parentKey="Background" atlas="jailerstower-wayfinder-background" useAtlasSize="true"/>
 			</Layer>
 			<Layer level="ARTWORK">
-				<FontString parentKey="Title" justifyV="BOTTOM" justifyH="CENTER" inherits="Game32Font">
+				<!-- <FontString parentKey="Title" justifyV="BOTTOM" justifyH="CENTER" inherits="Game32Font">
 					<Size x="350" y="0"/>
 					<Anchors>
 						<Anchor point="TOP" x="140" y="-70"/>
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString parentKey="SubTitle" inherits="Fancy32Font" text="TorghastTeams">
+				</FontString> -->
+				<FontString parentKey="Title" inherits="Fancy32Font" text="TorghastTeams">
 					<Color r="0.513" g="0.73" b="0.8"/>
 					<Anchors>
-						<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="-140" y="-6"/>
+						<Anchor point="TOP" x="140" y="-70"/>
 					</Anchors>
-				</FontString>
-				<FontString parentKey="Body" inherits="GameFontHighlightMedium">
-					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
+			<Frame parentKey="TGTBodyTextContainer">
+				<FontString relativeKey="$parent.BodyTagline" inherits="GameFontHighlightMedium">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER" x="0" y="215"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString relativeKey="$parent.BodyWelcome" inherits="GameFontHighlightMedium">
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER" x="0" y="165"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString relativeKey="$parent.BodyInformation" inherits="GameFontHighlightMedium">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="CENTER" x="-80" y="140"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+			</Frame>
 			<Frame parentKey="Pager" inherits="TGTTorghastPagingContainerTemplate">
 				<Anchors>
 					<Anchor point="TOP" relativeKey="$parent.GridLayoutContainer" relativePoint="BOTTOM" x="-70" y="0"/>

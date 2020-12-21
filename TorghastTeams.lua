@@ -106,8 +106,21 @@ function TorghastTeams:ToggleInterface()
 	end
 end
 
-function TorghastTeams:SetInterfaceToDefaultState(text)
-	TGT_Container.Body:SetText(text)
+-- Sets UI to "default", i.e. what you see when you're NOT in Torghast
+function TorghastTeams:SetInterfaceToDefaultState()
+	local I = TGT_Container.TGTBodyTextContainer
+	TGT_Container.Title:SetText(L["ADDON_NAME"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
+	I.BodyTagline:SetText(L["DEFAULT_BODY_TAGLINE"])
+	I.BodyWelcome:SetText(L["DEFAULT_BODY_WELCOME"])
+	I.BodyInformation:SetText(L["DEFAULT_BODY_INFORMATION"])
+	I:Show()
+end
+
+-- Sets UI to "playing", i.e. what you see when you're in Torghast
+function TorghastTeams:SetInterfaceToPlayingState()
+	local I = TGT_Container.TGTBodyTextContainer
+	TGT_Container.Title:SetText(L["ADDON_NAME"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
+	I:Hide()
 end
 
 -----------------------------------------------------------------------------
@@ -228,10 +241,11 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 		partyMembers = GetNumGroupMembers()
 		TorghastTeams:CreateAnimaPowerFrames()
 		TorghastTeams:PositionFramesByPartySize(partyMembers)
+		TorghastTeams:SetInterfaceToPlayingState()
 	else
 		partyMembers = GetNumGroupMembers()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
-		TorghastTeams:SetInterfaceToDefaultState(L["DEFAULT"])
+		TorghastTeams:SetInterfaceToDefaultState()
 	end
 end
 
