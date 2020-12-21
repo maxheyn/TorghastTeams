@@ -114,18 +114,21 @@ function TorghastTeams:SetInterfaceToDefaultState()
 	TGT_Container.BodyTagline:SetText(L["DEFAULT_BODY_TAGLINE"])
 	TGT_Container.BodyWelcome:SetText(L["DEFAULT_BODY_WELCOME"])
 	TGT_Container.BodyInformation:SetText(L["DEFAULT_BODY_INFORMATION"])
+	TGT_Container.BodyCommands:SetText(L["DEFAULT_BODY_COMMANDS"] .. "\n\n- " .. L["COMMAND_MINIMAP_EXAMPLE"] .. "\n\n- " .. L["COMMAND_SHOW_EXAMPLE"] .. "\n\n- " .. L["COMMAND_HIDE_EXAMPLE"])
 	TGT_Container.BodyTagline:Show()
 	TGT_Container.BodyWelcome:Show()
 	TGT_Container.BodyInformation:Show()
+	TGT_Container.BodyCommands:Show()
 end
 
 -- Sets UI to "playing", i.e. what you see when you're in Torghast
 function TorghastTeams:SetInterfaceToPlayingState()
-	TGT_Container.Title:SetPoint("CENTER", TGT_Container, "CENTER", 0, -70)
-	TGT_Container.Title:SetText(L["ADDON_NAME"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
+	TGT_Container.Title:SetPoint("TOP", TGT_Container, "TOP", 0, -70)
+	TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
 	TGT_Container.BodyTagline:Hide()
 	TGT_Container.BodyWelcome:Hide()
 	TGT_Container.BodyInformation:Hide()
+	TGT_Container.BodyCommands:Hide()
 end
 
 -----------------------------------------------------------------------------

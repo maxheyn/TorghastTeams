@@ -135,19 +135,19 @@
 				<Texture parentKey="Background" atlas="jailerstower-wayfinder-background" useAtlasSize="true"/>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString parentKey="Title" outline="THICK" inherits="Fancy32Font" text="TorghastTeams">
+				<FontString parentKey="Title" inherits="Fancy32Font" text="TorghastTeams">
 					<Color r="0.513" g="0.73" b="0.8"/>
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP" x="140" y="-70"/>
 					</Anchors>
 				</FontString>
-				<FontString parentKey="BodyTagline" inherits="GameFontHighlightMedium">
+				<FontString parentKey="BodyTagline" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
 					<Anchors>
 						<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-6"/>
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
-				<FontString parentKey="BodyWelcome" inherits="GameFontHighlightMedium">
+				<FontString parentKey="BodyWelcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
 					<Anchors>
 						<Anchor point="LEFT" relativeKey="$parent.Title" relativePoint="LEFT" x="0" y="-96"/>
 					</Anchors>
@@ -156,33 +156,20 @@
 				<FontString parentKey="BodyInformation" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
 					<Size x="384" y="128"/>
 					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.BodyWelcome" relativePoint="LEFT" x="0" y="-6"/>
+						<Anchor point="TOP" relativeKey="$parent.BodyWelcome" relativePoint="RIGHT" x="31" y="-6"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="BodyCommands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOP" relativeKey="$parent.BodyInformation" relativePoint="MIDDLE" x="0" y="-148"/>
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
-			<!-- <Frame parentKey="TGTBodyTextContainer">
-				<FontString relativeKey="BodyTagline" inherits="GameFontHighlightMedium">
-					<Anchors>
-						<Anchor point="CENTER" relativePoint="CENTER" x="0" y="215"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString relativeKey="BodyWelcome" inherits="GameFontHighlightMedium">
-					<Anchors>
-						<Anchor point="CENTER" relativePoint="CENTER" x="0" y="165"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString relativeKey="BodyInformation" inherits="GameFontHighlightMedium">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="CENTER" x="-80" y="140"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-			</Frame> -->
 			<Frame parentKey="Pager" inherits="TGTTorghastPagingContainerTemplate">
 				<Anchors>
 					<Anchor point="TOP" relativeKey="$parent.GridLayoutContainer" relativePoint="BOTTOM" x="-70" y="0"/>
