@@ -42,6 +42,7 @@ local TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTTorgha
 TGT_Container:SetSize(928, 654)
 TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
 local AnimaPowersList = {}
+local FRAMES_HAVE_NOT_BEEN_CREATED = true
 
 -----------------------------------------------------------------------------
 -- Ace3 Intialization
@@ -149,6 +150,7 @@ function TorghastTeams:CreateAnimaPowerFrames()
 		AnimaPowersList["PMC" .. count]:SetID(magicNumber + count)
 		AnimaPowersList["PMC" .. count]:Update()
 	end
+	FRAMES_HAVE_NOT_BEEN_CREATED = false
 end
 
 -- Make sure that our Anima Power displays are up to date, going through
@@ -247,7 +249,9 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:CreateAnimaPowerFrames()
+		if (FRAMES_HAVE_NOT_BEEN_CREATED) then
+			TorghastTeams:CreateAnimaPowerFrames()
+		end
 		TorghastTeams:PositionFramesByPartySize(partyMembers)
 		TorghastTeams:SetInterfaceToPlayingState()
 	else
