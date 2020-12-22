@@ -119,13 +119,20 @@ function TorghastTeams:SetInterfaceToDefaultState()
 	TGT_Container.BodyWelcome:Show()
 	TGT_Container.BodyInformation:Show()
 	TGT_Container.BodyCommands:Show()
+
+	-- Hide all anima power frames
+	AnimaPowersList["PMC0"]:Hide()
+	AnimaPowersList["PMC1"]:Hide()
+	AnimaPowersList["PMC2"]:Hide()
+	AnimaPowersList["PMC3"]:Hide()
+	AnimaPowersList["PMC4"]:Hide()
 end
 
 -- Sets UI to "playing", i.e. what you see when you're in Torghast
 function TorghastTeams:SetInterfaceToPlayingState()
 	TGT_Container.Title:SetPoint("TOP", TGT_Container, "TOP", 0, -70)
 	TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
-	TGT_Container.BodyTagline:Hide()
+	TGT_Container.BodyTagline:SetPoint("TOP", TGT_Container.Title, "BOTTOM", 0, -6)
 	TGT_Container.BodyWelcome:Hide()
 	TGT_Container.BodyInformation:Hide()
 	TGT_Container.BodyCommands:Hide()
@@ -246,17 +253,15 @@ end
 
 -- Mostly some setup whenever the player enters the world.
 function TorghastTeams:PLAYER_ENTERING_WORLD()
-	local partyMembers = 0
+	local partyMembers = GetNumGroupMembers()
+	if (FRAMES_HAVE_NOT_BEEN_CREATED) then
+		TorghastTeams:CreateAnimaPowerFrames()
+	end
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
-		partyMembers = GetNumGroupMembers()
-		if (FRAMES_HAVE_NOT_BEEN_CREATED) then
-			TorghastTeams:CreateAnimaPowerFrames()
-		end
 		TorghastTeams:PositionFramesByPartySize(partyMembers)
 		TorghastTeams:SetInterfaceToPlayingState()
 	else
-		partyMembers = GetNumGroupMembers()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
 		TorghastTeams:SetInterfaceToDefaultState()
 	end
