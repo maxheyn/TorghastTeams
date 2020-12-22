@@ -43,4 +43,5 @@ luac.out
 
 Templates
 
-.github
+.*
+!/.gitignore
