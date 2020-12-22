@@ -17,8 +17,11 @@ Currently displays up to 24 unique anima powers at once, more planned.
 <h2 id="commands">Commands</h2>
 
 `/tgt, /torghastteams` - *displays help message relating to commands*
+
 `/tgt show` - *displays the TorghastTeams UI*
+
 `/tgt hide` - *hides the TorghastTeams UI*
+
 `/tgt minimap` - *toggles display of the TorghastTeams minimap button*
 
 <h2 id="features">Features</h2>
