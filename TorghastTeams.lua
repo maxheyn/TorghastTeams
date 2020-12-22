@@ -69,7 +69,6 @@ function TorghastTeams:OnEnable()
 	-- Registering for events
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("GROUP_ROSTER_UPDATE")
-	-- self:RegisterUnitEvent("UNIT_AURA", "player")
 	self:RegisterEvent("UNIT_AURA")
 end
 
