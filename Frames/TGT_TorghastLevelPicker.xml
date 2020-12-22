@@ -202,7 +202,7 @@
 				<Scripts>
 					<OnClick>
 						PlaySound(SOUNDKIT.UI_TORGHAST_WAYFINDER_CLOSE_UI);
-						HideUIPanel(self:GetParent());
+						self:GetParent():Hide();
 					</OnClick>
 				</Scripts>
 			</Button>
