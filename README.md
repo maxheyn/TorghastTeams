@@ -41,11 +41,11 @@ Currently displays up to 24 unique anima powers at once, more planned.
 
 <p align="center">
   <img src="Images/Screenshots/TGT_5_Players.png" alt="5 Players Display" />
-  UI Display when partied with 5 players
+  Anima Powers Display when partied with 5 players
 </p>
 <p align="center">
   <img src="Images/Screenshots/TGT_2_Players.png" alt="2 Players Display">
-  UI Display when partied with 2 players
+  Anima Powers Display when partied with 2 players
 </p>
 
 
