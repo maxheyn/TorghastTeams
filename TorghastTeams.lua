@@ -162,7 +162,7 @@ end
 -- Make sure that our Anima Power displays are up to date, going through
 -- all available party members' powers.
 function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
-	if (table.getn(AnimaPowersList) > 0) then
+	if (next(AnimaPowersList) ~= nil) then
 		for currentMember = 0, partyMemberCount - 1, 1 do
 			if currentMember == 0 then
 				AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
@@ -253,15 +253,18 @@ end
 
 -- Mostly some setup whenever the player enters the world.
 function TorghastTeams:PLAYER_ENTERING_WORLD()
-	local partyMembers = GetNumGroupMembers()
+	local partyMembers = 0
 	if (FRAMES_HAVE_NOT_BEEN_CREATED) then
 		TorghastTeams:CreateAnimaPowerFrames()
 	end
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
+		partyMembers = GetNumGroupMembers()
 		TorghastTeams:PositionFramesByPartySize(partyMembers)
 		TorghastTeams:SetInterfaceToPlayingState()
+		TorghastTeams:UpdateAnimaPowers(partyMembers)
 	else
+		partyMembers = GetNumGroupMembers()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
 		TorghastTeams:SetInterfaceToDefaultState()
 	end
