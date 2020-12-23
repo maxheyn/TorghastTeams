@@ -97,6 +97,12 @@
 			<OnLoad method="OnLoad"/>
 			<OnEvent method="OnEvent"/>
 			<OnClick method="OnClick"/>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
 		</Scripts>
 		<NormalFont style="GameFontHighlight"/>
 		<NormalTexture atlas="jailerstower-animapowerbutton-normal"/>

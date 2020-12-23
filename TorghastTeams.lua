@@ -30,6 +30,11 @@ local options = {
 			name = L["COMMAND_HIDE_NAME"],
 			desc = L["COMMAND_HIDE_DESC"],
 			func = "HideInterface"
+		}, bg = {
+			type = "execute",
+			name = L["COMMAND_BG_NAME"],
+			desc = L["COMMAND_BG_DESC"],
+			func = "ToggleBackground"
 		}
 	}
 }
@@ -136,6 +141,21 @@ function TorghastTeams:SetInterfaceToPlayingState()
 	TGT_Container.BodyWelcome:Hide()
 	TGT_Container.BodyInformation:Hide()
 	TGT_Container.BodyCommands:Hide()
+end
+
+function TorghastTeams:ToggleBackground()
+	if (IsInJailersTower()) then
+		if (TGT_Container.Background:IsVisible()) then
+			TGT_Container.Background:Hide()
+			TGT_Container.Title:Hide()
+			TGT_Container.CloseButton:Hide()
+			AnimaPowersList["PMC0"]:SetMovable(true)
+			AnimaPowersList["PMC0"]:EnableMouse(true)
+		elseif (not TGT_Container.Background:IsVisible()) then
+			-- placeholder
+			TGT_Container.Background:Show()
+		end
+	end
 end
 
 -----------------------------------------------------------------------------
