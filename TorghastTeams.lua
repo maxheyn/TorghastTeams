@@ -265,8 +265,11 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 		TorghastTeams:UpdateAnimaPowers(partyMembers)
 	else
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:UpdateAnimaPowers(partyMembers)
-		TorghastTeams:SetInterfaceToDefaultState()
+		-- check if player is in group and not in a raid
+		if (partyMembers <= 5) then 
+			TorghastTeams:UpdateAnimaPowers(partyMembers)
+			TorghastTeams:SetInterfaceToDefaultState()
+		end
 	end
 end
 
