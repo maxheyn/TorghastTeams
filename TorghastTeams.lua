@@ -4,8 +4,20 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 	type = "String",
 	text = "TorghastTeams",
 	icon = "Interface\\ICONS\\INV_Torghast",
-	OnClick = function()
-		TorghastTeams:ToggleInterface()
+	OnClick = function(self, btn)
+		if btn == "LeftButton" then
+			TorghastTeams:ToggleInterface()
+		else
+			print("Testing right click!")
+		end
+	end,
+	OnTooltipShow = function(self)
+		if not self or not self.AddLine then
+			return
+		end
+		self:AddLine(L["ADDON_NAME_COLORED"])
+		self:AddLine("Left click to toggle TorghastTeams", 1, 1, 1)
+		self:AddLine("Right click to do something else", 1, 1, 1)
 	end
 })
 
