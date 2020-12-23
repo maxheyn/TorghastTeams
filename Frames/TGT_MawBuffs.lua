@@ -3,6 +3,7 @@ local MAW_BUFF_MAX_DISPLAY = 24; --default 44
 TGTMawBuffsContainerMixin = {};
 
 function TGTMawBuffsContainerMixin:OnLoad()
+	self:RegisterForDrag("LeftButton")
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 end
