@@ -4,21 +4,28 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 	type = "String",
 	text = "TorghastTeams",
 	icon = "Interface\\ICONS\\INV_Torghast",
-	OnClick = function(self, btn)
-		if btn == "LeftButton" then
-			TorghastTeams:ToggleInterface()
-		else
-			print("Testing right click!")
-		end
-	end,
-	OnTooltipShow = function(self)
-		if not self or not self.AddLine then
-			return
-		end
-		self:AddLine(L["ADDON_NAME_COLORED"])
-		self:AddLine("Left click to toggle TorghastTeams", 1, 1, 1)
-		self:AddLine("Right click to do something else", 1, 1, 1)
-	end
+    OnClick = function(self, btn)
+        if (btn == "LeftButton") then
+            if (IsControlKeyDown()) then
+				TorghastTeams:ToggleSimpleState(GetNumGroupMembers())
+			else
+				if (TorghastTeams:IsAltFrameVisible()) then
+					TorghastTeams:ToggleSimpleState(GetNumGroupMembers())
+				else
+					TorghastTeams:ToggleInterface()
+				end
+            end
+        elseif (btn == "RightButton") then
+        end
+    end,
+    OnTooltipShow = function(self)
+        if not self or not self.AddLine then
+            return
+        end
+        self:AddLine(L["ADDON_NAME_COLORED"])
+        self:AddLine("- Left click to toggle TorghastTeams Display", 1, 1, 1)
+		self:AddLine("- Ctrl+Left click toggle Simple Mode (Only while in Torghast)", 1, 1, 1)
+    end
 })
 
 -- Commands that users can type for interaction
@@ -58,8 +65,10 @@ local icon = LibStub("LibDBIcon-1.0")
 local TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTTorghastLevelPickerFrame")
 TGT_Container:SetSize(928, 654)
 TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
+
 local AnimaPowersList = {}
 local FRAMES_HAVE_NOT_BEEN_CREATED = true
+local SIMPLE_STATE = true
 
 -----------------------------------------------------------------------------
 -- Ace3 Intialization
@@ -138,11 +147,16 @@ function TorghastTeams:SetInterfaceToDefaultState()
 	TGT_Container.BodyCommands:Show()
 
 	-- Hide all anima power frames
-	AnimaPowersList["PMC0"]:Hide()
-	AnimaPowersList["PMC1"]:Hide()
-	AnimaPowersList["PMC2"]:Hide()
-	AnimaPowersList["PMC3"]:Hide()
-	AnimaPowersList["PMC4"]:Hide()
+	AnimaPowersList["DEF0"]:Hide()
+	AnimaPowersList["DEF1"]:Hide()
+	AnimaPowersList["DEF2"]:Hide()
+	AnimaPowersList["DEF3"]:Hide()
+	AnimaPowersList["DEF4"]:Hide()
+	AnimaPowersList["ALT0"]:Hide()
+	AnimaPowersList["ALT1"]:Hide()
+	AnimaPowersList["ALT2"]:Hide()
+	AnimaPowersList["ALT3"]:Hide()
+	AnimaPowersList["ALT4"]:Hide()
 end
 
 -- Sets UI to "playing", i.e. what you see when you're in Torghast
@@ -153,21 +167,44 @@ function TorghastTeams:SetInterfaceToPlayingState()
 	TGT_Container.BodyWelcome:Hide()
 	TGT_Container.BodyInformation:Hide()
 	TGT_Container.BodyCommands:Hide()
+
+	AnimaPowersList["ALT0"]:Hide()
+	AnimaPowersList["ALT1"]:Hide()
+	AnimaPowersList["ALT2"]:Hide()
+	AnimaPowersList["ALT3"]:Hide()
+	AnimaPowersList["ALT4"]:Hide()
 end
 
-function TorghastTeams:ToggleBackground()
-	if (IsInJailersTower()) then
-		if (TGT_Container.Background:IsVisible()) then
-			TGT_Container.Background:Hide()
-			TGT_Container.Title:Hide()
-			TGT_Container.CloseButton:Hide()
-			AnimaPowersList["PMC0"]:SetMovable(true)
-			AnimaPowersList["PMC0"]:EnableMouse(true)
-		elseif (not TGT_Container.Background:IsVisible()) then
-			-- placeholder
-			TGT_Container.Background:Show()
+function TorghastTeams:ToggleSimpleState(partyMemberCount)
+	if (IsInJailersTower()) then 
+		if (not SIMPLE_STATE) then
+			TGT_Container:Show()
+			for partyMemberIndex = 0, partyMemberCount - 1, 1 do
+				AnimaPowersList["ALT" .. partyMemberIndex]:SetMovable(true)
+				AnimaPowersList["ALT" .. partyMemberIndex].isMovable = "true"
+				AnimaPowersList["ALT" .. partyMemberIndex]:EnableMouse(true)
+				AnimaPowersList["ALT" .. partyMemberIndex]:Hide()
+				SIMPLE_STATE = true
+			end
+		else
+			TGT_Container:Hide()
+			for partyMemberIndex = 0, partyMemberCount - 1, 1 do
+				AnimaPowersList["ALT" .. partyMemberIndex]:SetMovable(true)
+				AnimaPowersList["ALT" .. partyMemberIndex].isMovable = "true"
+				AnimaPowersList["ALT" .. partyMemberIndex]:EnableMouse(true)
+				AnimaPowersList["ALT" .. partyMemberIndex]:Show()
+				SIMPLE_STATE = false
+			end
 		end
+	else
+		print("You must be in Torghast to toggle the Simple State.")
 	end
+end
+
+function TorghastTeams:IsAltFrameVisible()
+	for partyMemberIndex = 0, 4, 1 do
+		if AnimaPowersList["ALT" .. partyMemberIndex]:IsVisible() then return true end
+	end 
 end
 
 -----------------------------------------------------------------------------
@@ -175,107 +212,122 @@ end
 
 -- Creates the frames inside our main TGT_Container holder and
 -- sets their positions based on number of party members in the group.
-function TorghastTeams:CreateAnimaPowerFrames()
-	for count = 0, 4, 1 do
-		AnimaPowersList["PMC" .. count] = CreateFrame("Button", "TGT_AnimaPowersContainerPM" .. count, TGT_Container, "TGTMawBuffsContainer")
-		AnimaPowersList["PMC" .. count]:SetSize(220, 50)
+-- args:
+-- frameType: string should be either "DEF" or "ALT"
+function TorghastTeams:CreateAnimaPowerFrames(frameType)
+	if (not (frameType == "DEF" or frameType == "ALT")) then print("CreateAnimaPowerFrames: Invalid frame type, must be 'DEF' or 'ALT'") return end
+
+	for partyMemberIndex = 0, 4, 1 do
+		if (frameType == "DEF") then 
+			AnimaPowersList[frameType .. partyMemberIndex] = CreateFrame("Button", "TGT_" .. frameType .. partyMemberIndex, TGT_Container, "TGTMawBuffsContainer")
+		elseif (frameType == "ALT") then
+			AnimaPowersList[frameType .. partyMemberIndex] = CreateFrame("Button", "TGT_" .. frameType .. partyMemberIndex, UIParent, "TGTMawBuffsContainer")
+		end
+		AnimaPowersList[frameType .. partyMemberIndex]:SetSize(220, 50)
 
 		-- This is probably really stupid but it's used to differentiate between containers later
 		-- in the TCG_MawBuffs.lua file in the MaxBuffMixin:RefreshTooltip() function
 		-- It was 'necessary' because otherwise the tooltips would overlap because there was no
 		-- other easy way to differentiate between frames
 		local magicNumber = 5554654
-		AnimaPowersList["PMC" .. count]:SetID(magicNumber + count)
-		AnimaPowersList["PMC" .. count]:Update()
+		AnimaPowersList[frameType .. partyMemberIndex]:SetID(magicNumber + partyMemberIndex)
+		AnimaPowersList[frameType .. partyMemberIndex]:Update()
 	end
 	FRAMES_HAVE_NOT_BEEN_CREATED = false
 end
 
 -- Make sure that our Anima Power displays are up to date, going through
 -- all available party members' powers.
-function TorghastTeams:UpdateAnimaPowers(partyMemberCount)
+-- args:
+-- frameType: string should be either "DEF" or "ALT"
+-- partyMemberCount: the size of the player's party
+function TorghastTeams:UpdateAnimaPowers(frameType, partyMemberCount)
+	if (not (frameType == "DEF" or frameType == "ALT")) then print("UpdateAnimaPowers: Invalid frame type, must be 'DEF' or 'ALT'") return end
 	if (next(AnimaPowersList) ~= nil) then
-		for currentMember = 0, partyMemberCount - 1, 1 do
-			if currentMember == 0 then
-				AnimaPowersList["PMC" .. currentMember]:Update(currentMember)
+		for partyMemberIndex = 0, partyMemberCount - 1, 1 do
+			if partyMemberIndex == 0 then
+				AnimaPowersList[frameType .. partyMemberIndex]:Update(partyMemberIndex)
 			else
-				AnimaPowersList["PMC" .. currentMember]:UpdatePartyMember(currentMember)
+				AnimaPowersList[frameType .. partyMemberIndex]:UpdatePartyMember(partyMemberIndex)
 			end
 		end
 	end
 end
 
 -- Manually setting the layouts of the containers, depending on party size.
-function TorghastTeams:PositionFramesByPartySize(partyMemberCount)
+function TorghastTeams:PositionFramesByPartySize(frameType, partyMemberCount)
+	if (not (frameType == "DEF" or frameType == "ALT")) then print("PositionFramesByPartySize: Invalid frame type, must be 'DEF' or 'ALT'") return end
 
+	for partyMemberIndex = 0, 4 , 1 do
+		AnimaPowersList[frameType .. partyMemberIndex]:ClearAllPoints()
+	end
+	
 	if (partyMemberCount == 0) then
-		AnimaPowersList["PMC0"]:Hide()
-		AnimaPowersList["PMC1"]:Hide()
-		AnimaPowersList["PMC2"]:Hide()
-		AnimaPowersList["PMC3"]:Hide()
-		AnimaPowersList["PMC4"]:Hide()
+		for partyMemberIndex = 0, 4 , 1 do
+			AnimaPowersList[frameType .. partyMemberIndex]:Hide()
+		end 
 	elseif (partyMemberCount == 1) then
 		-- Looks like:
 		-- [ 1 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
-		AnimaPowersList["PMC0"]:Show()
+		AnimaPowersList[frameType .. "0"]:SetPoint("CENTER", AnimaPowersList[frameType .. "0"]:GetParent(), "CENTER", 0, 75)
+		AnimaPowersList[frameType .. "0"]:Show()
 
-		AnimaPowersList["PMC1"]:Hide()
-		AnimaPowersList["PMC2"]:Hide()
-		AnimaPowersList["PMC3"]:Hide()
-		AnimaPowersList["PMC4"]:Hide()
+		AnimaPowersList[frameType .. "1"]:Hide()
+		AnimaPowersList[frameType .. "2"]:Hide()
+		AnimaPowersList[frameType .. "3"]:Hide()
+		AnimaPowersList[frameType .. "4"]:Hide()
 	elseif (partyMemberCount == 2) then
 		-- Looks like:
 		-- [ 1 2 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 75)
-		AnimaPowersList["PMC0"]:Show()
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 75)
-		AnimaPowersList["PMC1"]:Show()
+		AnimaPowersList[frameType .. "0"]:SetPoint("CENTER", AnimaPowersList[frameType .. "0"]:GetParent(), "CENTER", -160, 75)
+		AnimaPowersList[frameType .. "0"]:Show()
+		AnimaPowersList[frameType .. "1"]:SetPoint("CENTER", AnimaPowersList[frameType .. "1"]:GetParent(), "CENTER", 160, 75)
+		AnimaPowersList[frameType .. "1"]:Show()
 
-		AnimaPowersList["PMC2"]:Hide()
-		AnimaPowersList["PMC3"]:Hide()
-		AnimaPowersList["PMC4"]:Hide()
+		AnimaPowersList[frameType .. "2"]:Hide()
+		AnimaPowersList[frameType .. "3"]:Hide()
+		AnimaPowersList[frameType .. "4"]:Hide()
 	elseif (partyMemberCount == 3) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [  3  ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -240, 75)
-		AnimaPowersList["PMC0"]:Show()
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 75)
-		AnimaPowersList["PMC1"]:Show()
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 240, 75)
-		AnimaPowersList["PMC2"]:Show()
+		AnimaPowersList[frameType .. "0"]:SetPoint("CENTER", AnimaPowersList[frameType .. "0"]:GetParent(), "CENTER", -240, 75)
+		AnimaPowersList[frameType .. "0"]:Show()
+		AnimaPowersList[frameType .. "1"]:SetPoint("CENTER", AnimaPowersList[frameType .. "1"]:GetParent(), "CENTER", 0, 75)
+		AnimaPowersList[frameType .. "1"]:Show()
+		AnimaPowersList[frameType .. "2"]:SetPoint("CENTER", AnimaPowersList[frameType .. "2"]:GetParent(), "CENTER", 240, 75)
+		AnimaPowersList[frameType .. "2"]:Show()
 
-		AnimaPowersList["PMC3"]:Hide()
-		AnimaPowersList["PMC4"]:Hide()
+		AnimaPowersList[frameType .. "3"]:Hide()
+		AnimaPowersList[frameType .. "4"]:Hide()
 	elseif (partyMemberCount == 4) then
 		-- Looks like:
 		-- [ 1 2 ]
 		-- [ 3 4 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, 165)
-		AnimaPowersList["PMC0"]:Show()
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, -65)
-		AnimaPowersList["PMC1"]:Show()
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", -160, -65)
-		AnimaPowersList["PMC2"]:Show()
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", 160, 165)
-		AnimaPowersList["PMC3"]:Show()
+		AnimaPowersList[frameType .. "0"]:SetPoint("CENTER", AnimaPowersList[frameType .. "0"]:GetParent(), "CENTER", -160, 165)
+		AnimaPowersList[frameType .. "0"]:Show()
+		AnimaPowersList[frameType .. "1"]:SetPoint("CENTER", AnimaPowersList[frameType .. "1"]:GetParent(), "CENTER", 160, -65)
+		AnimaPowersList[frameType .. "1"]:Show()
+		AnimaPowersList[frameType .. "2"]:SetPoint("CENTER", AnimaPowersList[frameType .. "2"]:GetParent(), "CENTER", -160, -65)
+		AnimaPowersList[frameType .. "2"]:Show()
+		AnimaPowersList[frameType .. "3"]:SetPoint("CENTER", AnimaPowersList[frameType .. "3"]:GetParent(), "CENTER", 160, 165)
+		AnimaPowersList[frameType .. "3"]:Show()
 
-		AnimaPowersList["PMC4"]:Hide()
+		AnimaPowersList[frameType .. "PMC4"]:Hide()
 	elseif (partyMemberCount == 5) then
 		-- Looks like:
 		-- [1 2 3]
 		-- [ 4 5 ]
-		AnimaPowersList["PMC0"]:SetPoint("CENTER", TGT_Container, "CENTER", -230, 165)
-		AnimaPowersList["PMC0"]:Show()
-		AnimaPowersList["PMC1"]:SetPoint("CENTER", TGT_Container, "CENTER", 0, 165)
-		AnimaPowersList["PMC1"]:Show()
-		AnimaPowersList["PMC2"]:SetPoint("CENTER", TGT_Container, "CENTER", 230, 165)
-		AnimaPowersList["PMC2"]:Show()
-		AnimaPowersList["PMC3"]:SetPoint("CENTER", TGT_Container, "CENTER", -115, -65)
-		AnimaPowersList["PMC3"]:Show()
-		AnimaPowersList["PMC4"]:SetPoint("CENTER", TGT_Container, "CENTER", 115, -65)
-		AnimaPowersList["PMC4"]:Show()
+		AnimaPowersList[frameType .. "0"]:SetPoint("CENTER", AnimaPowersList[frameType .. "0"]:GetParent(), "CENTER", -230, 165)
+		AnimaPowersList[frameType .. "0"]:Show()
+		AnimaPowersList[frameType .. "1"]:SetPoint("CENTER", AnimaPowersList[frameType .. "1"]:GetParent(), "CENTER", 0, 165)
+		AnimaPowersList[frameType .. "1"]:Show()
+		AnimaPowersList[frameType .. "2"]:SetPoint("CENTER", AnimaPowersList[frameType .. "2"]:GetParent(), "CENTER", 230, 165)
+		AnimaPowersList[frameType .. "2"]:Show()
+		AnimaPowersList[frameType .. "3"]:SetPoint("CENTER", AnimaPowersList[frameType .. "3"]:GetParent(), "CENTER", -115, -65)
+		AnimaPowersList[frameType .. "3"]:Show()
+		AnimaPowersList[frameType .. "4"]:SetPoint("CENTER", AnimaPowersList[frameType .. "4"]:GetParent(), "CENTER", 115, -65)
+		AnimaPowersList[frameType .. "4"]:Show()
 	end
 end
 
@@ -287,20 +339,24 @@ end
 function TorghastTeams:PLAYER_ENTERING_WORLD()
 	local partyMembers = 0
 	if (FRAMES_HAVE_NOT_BEEN_CREATED) then
-		TorghastTeams:CreateAnimaPowerFrames()
+		self:CreateAnimaPowerFrames("DEF")
+		self:CreateAnimaPowerFrames("ALT")
 	end
 	if (IsInJailersTower()) then
 		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:PositionFramesByPartySize(partyMembers)
-		TorghastTeams:SetInterfaceToPlayingState()
-		TorghastTeams:UpdateAnimaPowers(partyMembers)
+		self:PositionFramesByPartySize("DEF", partyMembers)
+		self:PositionFramesByPartySize("ALT", partyMembers)
+		self:SetInterfaceToPlayingState()
+		self:UpdateAnimaPowers("DEF", partyMembers)
+		self:UpdateAnimaPowers("ALT", partyMembers)
 	else
 		partyMembers = GetNumGroupMembers()
 		-- check if player is in group and not in a raid
 		if (partyMembers <= 5) then 
-			TorghastTeams:UpdateAnimaPowers(partyMembers)
-			TorghastTeams:SetInterfaceToDefaultState()
+			self:UpdateAnimaPowers("DEF", partyMembers)
+			self:UpdateAnimaPowers("ALT", partyMembers)
+			self:SetInterfaceToDefaultState()
 		end
 	end
 end
@@ -311,7 +367,7 @@ function TorghastTeams:GROUP_ROSTER_UPDATE()
 	local partyMembers = 0
 	if (IsInJailersTower()) then
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:PositionFramesByPartySize(partyMembers)
+		self:PositionFramesByPartySize("DEF", partyMembers)
 	end
 end
 
@@ -321,6 +377,7 @@ function TorghastTeams:UNIT_AURA()
 	local partyMembers = 0
 	if (IsInJailersTower()) then
 		partyMembers = GetNumGroupMembers()
-		TorghastTeams:UpdateAnimaPowers(partyMembers)
+		self:UpdateAnimaPowers("DEF", partyMembers)
+		self:UpdateAnimaPowers("ALT", partyMembers)
 	end
 end
