@@ -1,8 +1,12 @@
+local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
+
 local MAW_BUFF_MAX_DISPLAY = 24; --default 44
 
 TGTMawBuffsContainerMixin = {};
 
 function TGTMawBuffsContainerMixin:OnLoad()
+	self:Show()
+	self.List:Show()
 	self:RegisterForDrag("LeftButton")
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -31,19 +35,7 @@ function TGTMawBuffsContainerMixin:Update()
 
 	self.List:Update(mawBuffs);
 
-	if(IsInJailersTower()) then
-		self:Show();
-		self.List:Show()
-	else
-		self:Hide();
-	end
-
 	self.buffCount = #mawBuffs;
-	if self.buffCount == 0 then
-		self:Disable();
-	else
-		self:Enable();
-	end
 	self:UpdateHelptip();
 end
 
@@ -75,18 +67,7 @@ function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 
 	self.List:Update(mawBuffs, partyMember);
 
-	if(IsInJailersTower()) then
-		self:Show();
-	else
-		self:Hide();
-	end
-
 	self.buffCount = #mawBuffs;
-	if self.buffCount == 0 then
-		self:Disable();
-	else
-		self:Enable();
-	end
 	self:UpdateHelptip();
 end
 
@@ -117,6 +98,11 @@ function TGTMawBuffsContainerMixin:OnClick()
 	self.List:SetShown(not self.List:IsShown());
 	HelpTip:Acknowledge(self, JAILERS_TOWER_BUFFS_TUTORIAL);
 	PlaySound(SOUNDKIT.UI_MAW_BUFFS_ANIMA_POWERS_BUTTON, nil, SOUNDKIT_ALLOW_DUPLICATES);
+end
+
+function TGTMawBuffsContainerMixin:MoveMawBuffsContainer()
+	if (self.isMovable == "false") then print ("[" .. L["ADDON_NAME_COLORED"] .. "] You can't move this container right now. Switch to Simple Mode to move it.")
+	else self:StartMoving() end
 end
 
 function TGTMawBuffsContainerMixin:HighlightBuffAndShow(spellID, maxStacks)
