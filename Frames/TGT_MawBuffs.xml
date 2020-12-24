@@ -93,12 +93,15 @@
 				</Anchors>
 			</Frame>
 		</Frames>
+		<KeyValues>
+			<KeyValue key="isMovable" value="false" />
+		</KeyValues>
 		<Scripts>
 			<OnLoad method="OnLoad"/>
 			<OnEvent method="OnEvent"/>
 			<OnClick method="OnClick"/>
 			<OnDragStart>
-				self:StartMoving()
+				self:MoveMawBuffsContainer()
 			</OnDragStart>
 			<OnDragStop>
 				self:StopMovingOrSizing()
