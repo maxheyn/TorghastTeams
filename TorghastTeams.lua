@@ -49,11 +49,6 @@ local options = {
 			name = L["COMMAND_HIDE_NAME"],
 			desc = L["COMMAND_HIDE_DESC"],
 			func = "HideInterface"
-		}, bg = {
-			type = "execute",
-			name = L["COMMAND_BG_NAME"],
-			desc = L["COMMAND_BG_DESC"],
-			func = "ToggleBackground"
 		}
 	}
 }

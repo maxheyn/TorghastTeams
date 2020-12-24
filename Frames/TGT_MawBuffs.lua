@@ -7,6 +7,7 @@ TGTMawBuffsContainerMixin = {};
 function TGTMawBuffsContainerMixin:OnLoad()
 	self:Show()
 	self.List:Show()
+	self:Enable()
 	self:RegisterForDrag("LeftButton")
 	self:RegisterUnitEvent("UNIT_AURA", "player");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
