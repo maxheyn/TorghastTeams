@@ -126,7 +126,7 @@
 		</Scripts>
 	</CheckButton>
 	<Frame name="TGTTorghastLevelPickerFrame" hidden="true" inherits="CustomGossipFrameBaseGridTemplate" mixin="TorghastLevelPickerFrameMixin" virtual="true" enableMouse="true" movable="true">
-		<Size x="807" y="569"/>
+		<Size x="928" y="654"/>
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
@@ -138,32 +138,12 @@
 				<FontString parentKey="Title" inherits="Fancy32Font" text="TorghastTeams">
 					<Color r="0.513" g="0.73" b="0.8"/>
 					<Anchors>
-						<Anchor point="TOP" relativePoint="TOP" x="140" y="-70"/>
+						<Anchor point="TOP" relativePoint="TOP" x="170" y="-70"/>
 					</Anchors>
 				</FontString>
-				<FontString parentKey="BodyTagline" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+				<FontString parentKey="Tagline" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
 					<Anchors>
 						<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-6"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString parentKey="BodyWelcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.Title" relativePoint="LEFT" x="0" y="-96"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString parentKey="BodyInformation" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
-					<Size x="384" y="128"/>
-					<Anchors>
-						<Anchor point="TOP" relativeKey="$parent.BodyWelcome" relativePoint="RIGHT" x="31" y="-6"/>
-					</Anchors>
-					<Color r="0.513" g="0.73" b="0.8"/>
-				</FontString>
-				<FontString parentKey="BodyCommands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
-					<Size x="384" y="0"/>
-					<Anchors>
-						<Anchor point="TOP" relativeKey="$parent.BodyInformation" relativePoint="MIDDLE" x="0" y="-148"/>
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
@@ -173,6 +153,11 @@
 			<Frame parentKey="Pager" inherits="TGTTorghastPagingContainerTemplate">
 				<Anchors>
 					<Anchor point="TOP" relativeKey="$parent.GridLayoutContainer" relativePoint="BOTTOM" x="-70" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="BodyContainer" inherits="TGTBodyContainerFrame">
+				<Anchors>
+					<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-32"/>
 				</Anchors>
 			</Frame>
 			<Button parentKey="OpenPortalButton" inherits="UIPanelButtonTemplate" mixin="TorghastLevelPickerOpenPortalButtonMixin" motionScriptsWhileDisabled="true" frameLevel="510" text="TORGHAST_WAYFINDER_OPEN_PORTAL">
@@ -216,5 +201,88 @@
 			<OnDragStart>self:StartMoving();</OnDragStart>
 			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
 		</Scripts>
+	</Frame>
+	<Frame name="TGTBodyContainerFrame" virtual="true">
+		<Size x="400" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="-8">
+				<Texture name="$parentBg" parentKey="Bg">
+					<Anchors>
+						<Anchor point="TOPLEFT"  x="10" y="-10"/>
+						<Anchor point="BOTTOMRIGHT"  x="-10" y="10"/>
+					</Anchors>
+					<Color r="0" g="0" b="0" a="0.5"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Welcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT" x="16" y="-16"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Information" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Welcome" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Commands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Information" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+			</Layer>
+			<Layer level="BORDER" textureSubLevel="-5">
+				<Texture name="$parentTopLeftCorner" parentKey="TopLeftCorner" inherits="Dialog-BorderTopLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopRightCorner" parentKey="TopRightCorner" inherits="Dialog-BorderTopRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomLeftCorner" parentKey="BottomLeftCorner" inherits="Dialog-BorderBottomLeft">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomRightCorner" parentKey="BottomRightCorner" inherits="Dialog-BorderBottomRight">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentTopBorder" parentKey="TopBorder" inherits="Dialog-BorderTop">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="TOPRIGHT"  x="0" y="-1"/>
+						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT"  x="0" y="-1"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentBottomBorder" parentKey="BottomBorder" inherits="Dialog-BorderBottom">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentLeftBorder" parentKey="LeftBorder" inherits="Dialog-BorderLeft">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="BOTTOMLEFT" x="1" y="0"/>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="TOPLEFT" x="1" y="0"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRightBorder" parentKey="RightBorder" inherits="Dialog-BorderRight">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
 	</Frame>
 </Ui>

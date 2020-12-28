@@ -1,6 +1,6 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 
-local MAW_BUFF_MAX_DISPLAY = 24; --default 44
+local MAW_BUFF_MAX_DISPLAY = 44;
 
 TGTMawBuffsContainerMixin = {};
 
@@ -19,6 +19,7 @@ end
 
 function TGTMawBuffsContainerMixin:Update()
 	local mawBuffs = {};
+	local uniqueMawBuffs = 0;
 	local totalCount = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
 		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", i, "MAW");
@@ -26,15 +27,20 @@ function TGTMawBuffsContainerMixin:Update()
 			if count == 0 then
 				count = 1;
 			end
+
 			totalCount = totalCount + count;
 			table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
+
+			if (count >= 1) then
+				uniqueMawBuffs = uniqueMawBuffs + 1;
+			end
 		end
 	end
 	
 	name, _ = UnitName("player")
 	self:SetText(name .. " (" .. totalCount .. ")")
 
-	self.List:Update(mawBuffs);
+	self.List:Update(mawBuffs, uniqueMawBuffs);
 
 	self.buffCount = #mawBuffs;
 	self:UpdateHelptip();
@@ -47,6 +53,7 @@ end
 function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 	local mawBuffs = {};
 	local totalCount = 0;
+	local uniqueMawBuffs = 0;
 	for i=1, MAW_BUFF_MAX_DISPLAY do
 
 		local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("party" .. partyMember, i, "MAW");
@@ -54,8 +61,13 @@ function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 			if count == 0 then
 				count = 1;
 			end
+			
 			totalCount = totalCount + count;
 			table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID});
+
+			if (count >= 1) then
+				uniqueMawBuffs = uniqueMawBuffs + 1;
+			end
 		end
 	end
 
@@ -66,7 +78,7 @@ function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 		self:SetText(name .. "-" .. realm .. " (" .. totalCount .. ")")
 	end
 
-	self.List:Update(mawBuffs, partyMember);
+	self.List:Update(mawBuffs, uniqueMawBuffs);
 
 	self.buffCount = #mawBuffs;
 	self:UpdateHelptip();
@@ -116,11 +128,21 @@ end
 
 TGTMawBuffsListMixin = {};
 
-local BUFF_HEIGHT = 22;
+local BUFF_HEIGHT = 45;
 local BUFF_LIST_MIN_HEIGHT = 159;
 local BUFF_LIST_PADDING_HEIGHT = 36;
-local BUFF_LIST_NUM_COLUMNS = 6;
+local BUFF_LIST_NUM_COLUMNS = 4;
 local BUFF_LIST_PADDING_WIDTH = 11;
+local BUFF_LIST_VERTICAL_SPACING = 0;
+local BUFF_LIST_TOP_ANCHOR = -12;
+
+-- Our breakpoints for resizing
+local SIZE_BREAKPOINT_1 = 12
+local SIZE_BREAKPOINT_2 = 15
+local SIZE_BREAKPOINT_3 = 20
+local SIZE_BREAKPOINT_4 = 30
+local SIZE_BREAKPOINT_5 = 36
+local SIZE_BREAKPOINT_6 = 42
 
 function TGTMawBuffsListMixin:OnLoad()
 	self.container = self:GetParent();
@@ -163,7 +185,7 @@ function TGTMawBuffsListMixin:HideBuffHighlight(spellID)
 	end
 end
 
-function TGTMawBuffsListMixin:Update(mawBuffs)
+function TGTMawBuffsListMixin:Update(mawBuffs, uniqueBuffCount)
 	self.buffPool:ReleaseAll();
 
 	local lastRowFirstFrame;
@@ -171,14 +193,14 @@ function TGTMawBuffsListMixin:Update(mawBuffs)
 	local buffsTotalHeight = 0;
 	for index, buffInfo in ipairs(mawBuffs) do
 		local buffFrame = self.buffPool:Acquire();
-
+		buffFrame:ResizeMawBuffs(uniqueBuffCount)
 		local column = mod(index, BUFF_LIST_NUM_COLUMNS);
 		if column == 1 then
 			if lastRowFirstFrame then
-				buffFrame:SetPoint("TOPLEFT", lastRowFirstFrame, "BOTTOMLEFT", 0, -3);
+				buffFrame:SetPoint("TOPLEFT", lastRowFirstFrame, "BOTTOMLEFT", 0, BUFF_LIST_VERTICAL_SPACING);
 				buffsTotalHeight = buffsTotalHeight + BUFF_HEIGHT + 3;
 			else
-				buffFrame:SetPoint("TOPLEFT", self, "TOPLEFT", 12, -18);
+				buffFrame:SetPoint("TOPLEFT", self, "TOPLEFT", 12, BUFF_LIST_TOP_ANCHOR);
 				buffsTotalHeight = BUFF_HEIGHT;
 			end
 			lastRowFirstFrame = buffFrame;
@@ -191,10 +213,112 @@ function TGTMawBuffsListMixin:Update(mawBuffs)
 	end
 
 	local totalListHeight = math.max(buffsTotalHeight + BUFF_LIST_PADDING_HEIGHT, BUFF_LIST_MIN_HEIGHT);
-	self:SetHeight(totalListHeight);
 end
 
 TGTMawBuffMixin = {};
+
+function TGTMawBuffMixin:ResizeMawBuffs(uniqueBuffCount)
+	if (uniqueBuffCount <= SIZE_BREAKPOINT_1) then
+		self:SetSize(45, 45)
+		self.Icon:SetSize(35, 35)
+		self.CircleMask:SetSize(32, 32)
+		self.Border:SetSize(40, 40)
+		self.HighlightBorder:SetSize(36, 36)
+		self.CountRing:SetPoint("BOTTOMLEFT")
+		self.CountRing:SetAlpha(1)
+		BUFF_HEIGHT = 45
+		BUFF_LIST_NUM_COLUMNS = 4
+		BUFF_LIST_PADDING_WIDTH = 3
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = 0
+		BUFF_LIST_TOP_ANCHOR = -12
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_1 and uniqueBuffCount <= SIZE_BREAKPOINT_2) then
+		self:SetSize(40, 40)
+		self.Icon:SetSize(32, 32)
+		self.CircleMask:SetSize(25, 25)
+		self.Border:SetSize(36, 36)
+		self.HighlightBorder:SetSize(32, 32)
+		self.CountRing:SetPoint("BOTTOMLEFT")
+		self.CountRing:SetAlpha(1)
+		BUFF_HEIGHT = 28
+		BUFF_LIST_NUM_COLUMNS = 5
+		BUFF_LIST_PADDING_WIDTH = -3
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = -3
+		BUFF_LIST_TOP_ANCHOR = -18
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_2 and uniqueBuffCount <= SIZE_BREAKPOINT_3) then
+		self:SetSize(28, 28)
+		self.Icon:SetSize(26, 26)
+		self.CircleMask:SetSize(25, 25)
+		self.Border:SetSize(32, 32)
+		self.HighlightBorder:SetSize(33, 33)
+		self.CountRing:SetPoint("CENTER")
+		self.CountRing:SetAlpha(0.5)
+		BUFF_HEIGHT = 28
+		BUFF_LIST_NUM_COLUMNS = 5
+		BUFF_LIST_PADDING_WIDTH = 10
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = -3
+		BUFF_LIST_TOP_ANCHOR = -18
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_3 and uniqueBuffCount <= SIZE_BREAKPOINT_4) then
+		self:SetSize(26, 26)
+		self.Icon:SetSize(24, 24)
+		self.CircleMask:SetSize(20, 20)
+		self.Border:SetSize(26, 26)
+		self.HighlightBorder:SetSize(21, 21)
+		self.CountRing:SetPoint("CENTER")
+		self.CountRing:SetAlpha(0.5)
+		BUFF_HEIGHT = 26
+		BUFF_LIST_NUM_COLUMNS = 6
+		BUFF_LIST_PADDING_WIDTH = 6
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = 0
+		BUFF_LIST_TOP_ANCHOR = -14
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_4 and uniqueBuffCount <= SIZE_BREAKPOINT_5) then
+		self:SetSize(26, 26)
+		self.Icon:SetSize(24, 24)
+		self.CircleMask:SetSize(18, 18)
+		self.Border:SetSize(24, 24)
+		self.HighlightBorder:SetSize(21, 21)
+		self.CountRing:SetPoint("CENTER")
+		self.CountRing:SetAlpha(0.5)
+		BUFF_HEIGHT = 26
+		BUFF_LIST_NUM_COLUMNS = 6
+		BUFF_LIST_PADDING_WIDTH = 6
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = 5
+		BUFF_LIST_TOP_ANCHOR = -14
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_5 and uniqueBuffCount <= SIZE_BREAKPOINT_6) then
+		self:SetSize(26, 26)
+		self.Icon:SetSize(24, 24)
+		self.CircleMask:SetSize(18, 18)
+		self.Border:SetSize(24, 24)
+		self.HighlightBorder:SetSize(21, 21)
+		self.CountRing:SetPoint("CENTER")
+		self.CountRing:SetAlpha(0.5)
+		BUFF_HEIGHT = 26
+		BUFF_LIST_NUM_COLUMNS = 7
+		BUFF_LIST_PADDING_WIDTH = 1
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = 5
+		BUFF_LIST_TOP_ANCHOR = -14
+	else
+		self:SetSize(26, 26)
+		self.Icon:SetSize(24, 24)
+		self.CircleMask:SetSize(20, 20)
+		self.Border:SetSize(24, 24)
+		self.HighlightBorder:SetSize(21, 21)
+		self.CountRing:SetPoint("CENTER")
+		self.CountRing:SetAlpha(0.5)
+		BUFF_HEIGHT = 26
+		BUFF_LIST_NUM_COLUMNS = 7
+		BUFF_LIST_PADDING_WIDTH = 1
+		BUFF_LIST_PADDING_HEIGHT = 36
+		BUFF_LIST_VERTICAL_SPACING = 5
+		BUFF_LIST_TOP_ANCHOR = -14
+	end
+end
+
 
 function TGTMawBuffMixin:SetBuffInfo(buffInfo)
 	self.Icon:SetTexture(buffInfo.icon);
