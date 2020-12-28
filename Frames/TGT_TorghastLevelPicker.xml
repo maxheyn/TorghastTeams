@@ -206,13 +206,13 @@
 		<Size x="400" y="424"/>
 		<Layers>
 			<Layer level="BACKGROUND" textureSubLevel="-8">
-				<Texture name="$parentBg" parentKey="Bg">
+				<!-- <Texture name="$parentBg" parentKey="Bg">
 					<Anchors>
 						<Anchor point="TOPLEFT"  x="10" y="-10"/>
 						<Anchor point="BOTTOMRIGHT"  x="-10" y="10"/>
 					</Anchors>
 					<Color r="0" g="0" b="0" a="0.5"/>
-				</Texture>
+				</Texture> -->
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString parentKey="Welcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
@@ -237,7 +237,7 @@
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
 			</Layer>
-			<Layer level="BORDER" textureSubLevel="-5">
+			<!-- <Layer level="BORDER" textureSubLevel="-5">
 				<Texture name="$parentTopLeftCorner" parentKey="TopLeftCorner" inherits="Dialog-BorderTopLeft">
 					<Anchors>
 						<Anchor point="TOPLEFT"/>
@@ -282,7 +282,7 @@
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="TOPRIGHT"/>
 					</Anchors>
 				</Texture>
-			</Layer>
+			</Layer> -->
 		</Layers>
 	</Frame>
 </Ui>

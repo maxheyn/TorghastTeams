@@ -24,7 +24,7 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
         end
         self:AddLine(L["ADDON_NAME_COLORED"])
         self:AddLine("- Left click to toggle TorghastTeams Display", 1, 1, 1)
-		self:AddLine("- Ctrl+Left click toggle Simple Mode (Only while in Torghast)", 1, 1, 1)
+		self:AddLine("- Ctrl+Left click toggle low-profile mode (Only while in Torghast)", 1, 1, 1)
     end
 })
 
@@ -132,7 +132,7 @@ function TorghastTeams:SetInterfaceToDefaultState()
 	TGT_Container.Title:SetPoint("TOP", TGT_Container, "TOP", 170, -70)
 	TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
 	TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"])
-	TGT_Container.BodyContainer.Welcome:SetText(L["DEFAULT_BODY_WELCOME"])
+	TGT_Container.BodyContainer.Welcome:SetText(L["CHANGELOG"] .. "\n\n" .. L["DEFAULT_BODY_WELCOME"])
 	TGT_Container.BodyContainer.Information:SetText(L["DEFAULT_BODY_INFORMATION"])
 	TGT_Container.BodyContainer.Commands:SetText(L["DEFAULT_BODY_COMMANDS"] .. "\n\n- " .. L["COMMAND_MINIMAP_EXAMPLE"] .. "\n\n- " .. L["COMMAND_SHOW_EXAMPLE"] .. "\n\n- " .. L["COMMAND_HIDE_EXAMPLE"])
 	TGT_Container.BodyContainer:Show()
@@ -186,7 +186,7 @@ function TorghastTeams:ToggleSimpleState(partyMemberCount)
 			end
 		end
 	else
-		print("<" .. L["ADDON_NAME_COLORED"] .. "> You must be in Torghast to toggle the Simple State.")
+		print("<" .. L["ADDON_NAME_COLORED"] .. "> You must be in Torghast to toggle low-profile mode.")
 	end
 end
 
@@ -332,7 +332,6 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 		self:CreateAnimaPowerFrames("ALT")
 	end
 	if (IsInJailersTower()) then
-		print("Welcome to TorghastTeams! Type '/tgt' to see available commands.")
 		partyMembers = GetNumGroupMembers()
 		self:PositionFramesByPartySize("DEF", partyMembers)
 		self:PositionFramesByPartySize("ALT", partyMembers)
