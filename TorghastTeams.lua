@@ -23,8 +23,8 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
             return
         end
         self:AddLine(L["ADDON_NAME_COLORED"])
-        self:AddLine("- Left click to toggle TorghastTeams Display", 1, 1, 1)
-		self:AddLine("- Ctrl+Left click toggle low-profile mode (Only while in Torghast)", 1, 1, 1)
+        self:AddLine(L["MINIMAP_LEFTCLICK"], 1, 1, 1)
+		self:AddLine(L["MINIMAP_CTRLLEFTCLICK"], 1, 1, 1)
     end
 })
 
@@ -98,11 +98,11 @@ end
 -- Toggles the minimap button on or off with /tgt minimap
 function TorghastTeams:MinimapButtonToggle(info)
 	if self.db.profile.minimap.hide then
-		print("TorghastTeams minimap button is now shown.")
+		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_SHOWN"])
 		self.db.profile.minimap.hide = false
 		icon:Show("TorghastTeamsIcon")
 	else
-		print("TorghastTeams minimap button is now hidden.")
+		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_HIDDEN"])
 		self.db.profile.minimap.hide = true
 		icon:Hide("TorghastTeamsIcon")
 	end
@@ -186,7 +186,7 @@ function TorghastTeams:ToggleSimpleState(partyMemberCount)
 			end
 		end
 	else
-		print("<" .. L["ADDON_NAME_COLORED"] .. "> You must be in Torghast to toggle low-profile mode.")
+		print(L["ADDON_CHAT_PREFIX"] .. L["TOGGLE_MODE_WARNING"])
 	end
 end
 

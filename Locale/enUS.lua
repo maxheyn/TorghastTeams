@@ -6,6 +6,12 @@ L["CHANGELOG"] = "Changelog:\n- Added changelog (this!) on welcome screen.\n- Ad
 
 L["ADDON_NAME"] = "TorghastTeams"
 L["ADDON_NAME_COLORED"] = "|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r"
+L["ADDON_CHAT_PREFIX"] = "<|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r> "
+
+L["MINIMAP_LEFTCLICK"] = "- Left click to toggle the |cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r display."
+L["MINIMAP_CTRLLEFTCLICK"] = "- Ctrl+Left click toggle low-profile mode (Only while in Torghast)."
+L["MINIMAP_HIDDEN"] = "Minimap button is now hidden."
+L["MINIMAP_SHOWN"] = "Minimap button is now shown."
 
 L["DEFAULT_BODY_TAGLINE"] = "Party Anima Powers Display"
 L["DEFAULT_BODY_WELCOME"] = "Welcome to TorghastTeams!"
@@ -22,3 +28,5 @@ L["COMMAND_SHOW_DESC"] = "Shows the TorghastTeams Frame."
 L["COMMAND_HIDE_EXAMPLE"] = "/tgt hide"
 L["COMMAND_HIDE_NAME"] = "Hide Interface"
 L["COMMAND_HIDE_DESC"] = "Hides the TorghastTeams Frame."
+
+L["TOGGLE_MODE_WARNING"] = "You must be in Torghast to toggle low-profile mode."
