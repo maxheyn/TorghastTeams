@@ -114,7 +114,7 @@ function TGTMawBuffsContainerMixin:OnClick()
 end
 
 function TGTMawBuffsContainerMixin:MoveMawBuffsContainer()
-	if (self.isMovable == "false") then print ("[" .. L["ADDON_NAME_COLORED"] .. "] You can't move this container right now. Switch to Simple Mode to move it.")
+	if (self.isMovable == "false") then print (L["ADDON_CHAT_PREFIX"] .. L["MOVE_FRAME_WARNING"])
 	else self:StartMoving() end
 end
 

@@ -30,3 +30,4 @@ L["COMMAND_HIDE_NAME"] = "Hide Interface"
 L["COMMAND_HIDE_DESC"] = "Hides the TorghastTeams Frame."
 
 L["TOGGLE_MODE_WARNING"] = "You must be in Torghast to toggle low-profile mode."
+L["MOVE_FRAME_WARNING"] = "You can't move this container right now. Switch to Simple Mode to move it."

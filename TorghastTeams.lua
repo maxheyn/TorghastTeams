@@ -7,16 +7,18 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 	icon = "Interface\\ICONS\\INV_Torghast",
     OnClick = function(self, btn)
         if (btn == "LeftButton") then
-            if (IsControlKeyDown()) then
+			if (IsControlKeyDown()) then
 				TGT_GUI:ToggleSimpleState(GetNumGroupMembers())
 			else
-				if (TGT_GUI:IsAltFrameVisible()) then
-					TGT_GUI:ToggleSimpleState(GetNumGroupMembers())
+				if (TGT_GUI:IsAltFrameVisible() or TGT_GUI.TGT_Container:IsVisible()) then
+					TGT_GUI:HideSimpleState(GetNumGroupMembers())
+					TorghastTeams:HideInterface()
 				else
-					TGT_GUI:ToggleInterface()
+					TorghastTeams:ShowInterface()
 				end
             end
-        elseif (btn == "RightButton") then
+		elseif (btn == "RightButton") then
+			-- Nothing yet but here incase we decide to implement it
         end
     end,
     OnTooltipShow = function(self)
@@ -44,8 +46,7 @@ local options = {
 			type = "execute",
 			name = L["COMMAND_SHOW_NAME"],
 			desc = L["COMMAND_SHOW_DESC"],
-			--func = "ShowInterface"
-			func = function() print(TGT_GUI.TEST) end,
+			func = "ShowInterface"
 		}, hide = {
 			type = "execute",
 			name = L["COMMAND_HIDE_NAME"],
@@ -57,9 +58,37 @@ local options = {
 
 -- Minimap Icon Constructor
 local icon = LibStub("LibDBIcon-1.0")
-
--- Frame Setup for Anima Powers
 local FRAMES_HAVE_NOT_BEEN_CREATED = true
+
+-- Ace3 Intialization
+function TorghastTeams:OnInitialize()
+    -- Initial Variables
+    local COMMAND_PREFIX_COMPLETE = "torghastteams"
+    local COMMAND_PREFIX_SHORT = "tgt"
+
+    -- Registering Commands with prefixes
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {COMMAND_PREFIX_COMPLETE, COMMAND_PREFIX_SHORT})
+
+    -- Databroker things, still trying to really figure this out
+    self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
+        profile = {
+            minimap = {
+                hide = false,
+            }
+        }
+    })
+    icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
+end
+
+function TorghastTeams:OnEnable()
+	-- Registering for events
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("GROUP_ROSTER_UPDATE")
+	self:RegisterEvent("UNIT_AURA")
+	
+	-- Getting modules from other files
+	TGT_GUI = self:GetModule("TGT_GUI")
+end
 
 -- Toggles the minimap button on or off with /tgt minimap
 function TorghastTeams:MinimapButtonToggle(info)
@@ -74,40 +103,19 @@ function TorghastTeams:MinimapButtonToggle(info)
 	end
 end
 
------------------------------------------------------------------------------
--- Ace3 Intialization
-function TorghastTeams:OnInitialize()
-	-- Initial Variables
-	local COMMAND_PREFIX_COMPLETE = "torghastteams"
-	local COMMAND_PREFIX_SHORT = "tgt"
-
-	-- Registering Commands with prefixes
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {COMMAND_PREFIX_COMPLETE, COMMAND_PREFIX_SHORT})
-
-	-- Databroker things, still trying to really figure this out
-	self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
-		profile = {
-			minimap = {
-				hide = false,
-			}
-		}
-	})
-	icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
+-- Shows the UI with /tgt show
+function TorghastTeams:ShowInterface(info)
+	TGT_GUI.TGT_Container:Show()
 end
 
-function TorghastTeams:OnEnable()
-	-- Registering for events
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("GROUP_ROSTER_UPDATE")
-	self:RegisterEvent("UNIT_AURA")
-	
-	-- Getting modules from other files
-	TGT_GUI = self:GetModule("TGT_GUI")
+-- Hides the UI with /tgt hide
+function TorghastTeams:HideInterface(info)
+	TGT_GUI.TGT_Container:Hide()
 end
+
 
 -----------------------------------------------------------------------------
 -- Event Listeners and Scripts
-
 
 -- Mostly some setup whenever the player enters the world.
 -- Creates some frames initially and then does some positioning
