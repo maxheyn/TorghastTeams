@@ -23,7 +23,9 @@ Locale\zhTW.lua
 
 Frames\TGT_MawBuffs.xml
 Frames\TGT_TorghastLevelPicker.xml
+
 TorghastTeams.lua
+GUI.lua
 Frames\TGT_MawBuffs.lua
 Frames\TGT_TorghastLevelPicker.lua
 
