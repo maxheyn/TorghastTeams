@@ -9,7 +9,7 @@ L["ADDON_NAME_COLORED"] = "|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec
 L["ADDON_CHAT_PREFIX"] = "<|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r> "
 
 L["MINIMAP_LEFTCLICK"] = "- Left click to toggle the |cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r display."
-L["MINIMAP_CTRLLEFTCLICK"] = "- Ctrl+Left click toggle low-profile mode (Only while in Torghast)."
+L["MINIMAP_CTRLLEFTCLICK"] = "- Ctrl+Left click to cycle between display modes (Only while in Torghast)."
 L["MINIMAP_HIDDEN"] = "Minimap button is now hidden."
 L["MINIMAP_SHOWN"] = "Minimap button is now shown."
 

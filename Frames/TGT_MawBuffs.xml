@@ -104,7 +104,7 @@
 				self:MoveMawBuffsContainer()
 			</OnDragStart>
 			<OnDragStop>
-				self:StopMovingOrSizing()
+				self:StopMovingMawBuffsContainer()
 			</OnDragStop>
 		</Scripts>
 		<NormalFont style="GameFontHighlight"/>

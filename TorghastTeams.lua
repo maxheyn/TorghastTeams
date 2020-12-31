@@ -1,4 +1,4 @@
-local TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
+TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
 local TGT_GUI;
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTeams", {
@@ -74,7 +74,14 @@ function TorghastTeams:OnInitialize()
         profile = {
             minimap = {
                 hide = false,
-            }
+			},
+			framePos = {
+				["*"] = {
+					anchor = "TOPLEFT",
+					x = 0,
+					y = 0,
+				},
+			},
         }
     })
     icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
@@ -123,13 +130,13 @@ end
 function TorghastTeams:PLAYER_ENTERING_WORLD()
 	local partyMembers = GetNumGroupMembers()
 	if (FRAMES_HAVE_NOT_BEEN_CREATED) then
-		TGT_GUI:CreateAnimaPowerFrames("DEF")
+		--TGT_GUI:CreateAnimaPowerFrames("DEF")
 		TGT_GUI:CreateAnimaPowerFrames("ALT")
 		FRAMES_HAVE_NOT_BEEN_CREATED = false
 	end
 	if (IsInJailersTower()) then
 		TGT_GUI:PositionFramesByPartySize("DEF", partyMembers)
-		TGT_GUI:PositionFramesByPartySize("ALT", partyMembers)
+		--TGT_GUI:PositionFramesByPartySize("ALT", partyMembers)
 		TGT_GUI:SetInterfaceToPlayingState()
 		TGT_GUI:UpdateAnimaPowers("DEF", partyMembers)
 		TGT_GUI:UpdateAnimaPowers("ALT", partyMembers)

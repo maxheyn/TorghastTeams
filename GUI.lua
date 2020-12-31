@@ -1,10 +1,15 @@
 local TorghastTeams = LibStub("AceAddon-3.0"):GetAddon("TorghastTeams")
 local TGT_GUI = TorghastTeams:NewModule("TGT_GUI", "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
+local lwin = LibStub("LibWindow-1.1")
+
+local names = {
+	prefix = "TGT_Frame"
+}
 
 function TGT_GUI:OnEnable()
 	-- Initialing some important variables
-	self.TGT_Container = CreateFrame("Frame", "self.TGT_Container", UIParent, "TGTInterface")
+	self.TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTInterface")
 	self.TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
 	self.AnimaPowersList = {}
 	self.SIMPLE_STATE = false
@@ -99,27 +104,36 @@ end
 -- sets their positions based on number of party members in the group.
 -- args:
 -- frameType: string should be either "DEF" or "ALT"
-function TGT_GUI:CreateAnimaPowerFrames(frameType)
-	if (not (frameType == "DEF" or frameType == "ALT")) then print("CreateAnimaPowerFrames: Invalid frame type, must be 'DEF' or 'ALT'") return end
-
+function TGT_GUI:CreateAnimaPowerFrames()
 	for partyMemberIndex = 0, 4, 1 do
-		if (frameType == "DEF") then 
-			self.AnimaPowersList[frameType .. partyMemberIndex] = CreateFrame("Button", "TGT_" .. frameType .. partyMemberIndex, self.TGT_Container, "TGTMawBuffsContainer")
-		elseif (frameType == "ALT") then
-			self.AnimaPowersList[frameType .. partyMemberIndex] = CreateFrame("Button", "TGT_" .. frameType .. partyMemberIndex, UIParent, "TGTMawBuffsContainer")
-			self.AnimaPowersList[frameType .. partyMemberIndex]:SetMovable(true)
-			self.AnimaPowersList[frameType .. partyMemberIndex].isMovable = "true"
-			self.AnimaPowersList[frameType .. partyMemberIndex]:EnableMouse(true)
-		end
-		self.AnimaPowersList[frameType .. partyMemberIndex]:SetSize(220, 50)
+		self.AnimaPowersList["DEF" .. partyMemberIndex] = CreateFrame("Button", "TGT_DEF" .. partyMemberIndex, self.TGT_Container, "TGTMawBuffsContainer")
+		self.AnimaPowersList["ALT" .. partyMemberIndex] = CreateFrame("Button", "TGT_ALT" .. partyMemberIndex, UIParent, "TGTMawBuffsContainer")
+		self.AnimaPowersList["DEF" .. partyMemberIndex]:EnableMouse(true)
+		self.AnimaPowersList["ALT" .. partyMemberIndex]:EnableMouse(true)
+		self.AnimaPowersList["DEF" .. partyMemberIndex]:SetSize(220, 50)
+		self.AnimaPowersList["ALT" .. partyMemberIndex]:SetSize(220, 50)
 
 		-- This is probably really stupid but it's used to differentiate between containers later
 		-- in the TCG_MawBuffs.lua file in the MaxBuffMixin:RefreshTooltip() function
 		-- It was 'necessary' because otherwise the tooltips would overlap because there was no
 		-- other easy way to differentiate between frames
 		local magicNumber = 5554654
-		self.AnimaPowersList[frameType .. partyMemberIndex]:SetID(magicNumber + partyMemberIndex)
-		self.AnimaPowersList[frameType .. partyMemberIndex]:Update()
+		self.AnimaPowersList["DEF" .. partyMemberIndex]:SetID(magicNumber + partyMemberIndex)
+		self.AnimaPowersList["ALT" .. partyMemberIndex]:SetID(magicNumber + partyMemberIndex)
+		self.AnimaPowersList["DEF" .. partyMemberIndex]:Update()
+		self.AnimaPowersList["ALT" .. partyMemberIndex]:Update()
+	end
+
+	-- someone please tell me a better way to do this
+	lwin.RegisterConfig(self.AnimaPowersList["ALT0"], TorghastTeams.db.profile.framePos.alt0, names)
+	lwin.RegisterConfig(self.AnimaPowersList["ALT1"], TorghastTeams.db.profile.framePos.alt1, names)
+	lwin.RegisterConfig(self.AnimaPowersList["ALT2"], TorghastTeams.db.profile.framePos.alt2, names)
+	lwin.RegisterConfig(self.AnimaPowersList["ALT3"], TorghastTeams.db.profile.framePos.alt3, names)
+	lwin.RegisterConfig(self.AnimaPowersList["ALT4"], TorghastTeams.db.profile.framePos.alt4, names)
+
+	for partyMemberIndex = 0, 4, 1 do
+		lwin.RestorePosition(self.AnimaPowersList["ALT" .. partyMemberIndex])
+		lwin.MakeDraggable(self.AnimaPowersList["ALT" .. partyMemberIndex])
 	end
 end
 
@@ -147,6 +161,7 @@ function TGT_GUI:PositionFramesByPartySize(frameType, partyMemberCount)
 
 	for partyMemberIndex = 0, 4 , 1 do
 		self.AnimaPowersList[frameType .. partyMemberIndex]:ClearAllPoints()
+		--lwin.RestorePosition(self.AnimaPowersList[frameType .. partyMemberIndex])
 	end
 	
 	if (partyMemberCount == 0) then
@@ -200,7 +215,7 @@ function TGT_GUI:PositionFramesByPartySize(frameType, partyMemberCount)
 		self.AnimaPowersList[frameType .. "3"]:SetPoint("CENTER", self.AnimaPowersList[frameType .. "3"]:GetParent(), "CENTER", 160, 165)
 		self.AnimaPowersList[frameType .. "3"]:Show()
 
-		self.AnimaPowersList[frameType .. "PMC4"]:Hide()
+		self.AnimaPowersList[frameType .. "4"]:Hide()
 	elseif (partyMemberCount == 5) then
 		-- Looks like:
 		-- [1 2 3]
