@@ -42,12 +42,10 @@
 
 <p align="center">
   <img src="Images/Screenshots/TGT_5_Players.png" id="TGT_Party5" alt="5 Players Display" />
-
   Anima Powers Display when partied with 5 players
 </p>
 <p align="center">
   <img src="Images/Screenshots/TGT_2_Players.png" alt="2 Players Display">
-  
   Anima Powers Display when partied with 2 players
 </p>
 
