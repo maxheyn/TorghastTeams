@@ -1,131 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 	<Script file="TGT_TorghastLevelPicker.lua"/>
-	<Frame name="TGTTorghastPagingContainerTemplate" mixin="TorghastPagingContainerMixin" virtual="true">
-		<Size x="150" y="34"/>
-		<Layers>
-			<Layer level="BORDER">
-				<FontString parentKey="CurrentPage" justifyH="RIGHT" inherits="GameFontHighlight">
-					<Size x="100" y="15"/>
-					<Anchors>
-						<Anchor point="LEFT"/>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
-		<Frames>
-		</Frames>
-	</Frame>
-	<Button name="TGTTorghastLevelPickerRewardCircleTemplate" frameStrata="HIGH" motionScriptsWhileDisabled="true" mixin="TorghastLevelPickerRewardCircleMixin" virtual="true">
-		<Size x="32" y="33"/>
-		<Layers>
-			<Layer level="BORDER" textureSubLevel="2">
-				<Texture parentKey="RewardBorder" atlas="jailerstower-wayfinder-rewardcircle" useAtlasSize="true"/>
-				<Texture parentKey="QuestComplete" atlas="jailerstower-wayfinder-rewardcheckmark" useAtlasSize="true" hidden="true">
-					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.RewardBorder" x="0" y="3"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="Artwork" textureSubLevel="2">
-				<Texture parentKey="LockedIcon" atlas="jailerstower-wayfinder-rewardpadlock" useAtlasSize="true" hidden="true">
-					<Anchors>
-						<Anchor point="CENTER"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="BORDER">
-				<Texture parentKey="Icon">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.RewardBorder"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.RewardBorder"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="ARTWORK">
-				<MaskTexture parentKey="CircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.Icon"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon"/>
-					</Anchors>
-					<MaskedTextures>
-						<MaskedTexture childKey="Icon"/>
-					</MaskedTextures>
-				</MaskTexture>
-			</Layer>
-		</Layers>
-		<Scripts>
-			<OnEnter method="OnEnter"/>
-			<OnLeave method="OnLeave"/>
-		</Scripts>
-	</Button>
-	<Frame name="TGTTorghastLevelPickerRewardBannerTemplate" frameStrata="HIGH" virtual="true">
-		<Size x="146" y="69"/>
-		<Layers>
-			<Layer level="BACKGROUND">
-				<Texture parentKey="Banner" atlas="jailerstower-wayfinder-rewardbackground" useAtlasSize="true"/>
-				<Texture parentKey="BannerDisabled" atlas="jailerstower-wayfinder-rewardbackground-disable" hidden="true" useAtlasSize="true"/>
-			</Layer>
-			<Layer level="ARTWORK">
-				<Texture parentKey="EarnedCheck" hidden="true" atlas="jailerstower-wayfinder-rewardcheckmark" useAtlasSize="true">
-					<Anchors>
-						<Anchor point="BOTTOMRIGHT"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-		</Layers>
-		<Frames>
-			<Frame parentKey="Reward" hidden="true" inherits="TGTTorghastLevelPickerRewardCircleTemplate">
-				<Anchors>
-					<Anchor point="CENTER" relativeKey="$parent.Banner"/>
-				</Anchors>
-			</Frame>
-		</Frames>
-	</Frame>
-	<CheckButton name="TGTTorghastLevelPickerOptionButtonTemplate" motionScriptsWhileDisable="true" inherits="CustomGossipOptionButtonBaseTemplate" mixin="TorghastLevelPickerOptionButtonMixin" virtual="true">
-		<Size x="91" y="91"/>
-		<Layers>
-			<Layer level="Background">
-				<Texture parentKey="Background" atlas="jailerstower-wayfinder-tierbackground-skoldushall" useAtlasSize="true"/>
-			</Layer>
-			<Layer level="Border">
-				<Texture parentKey="Icon" atlas="islands-queue-difficultyselector-1">
-					<Size x="52" y="52"/>
-					<Anchors>
-						<Anchor point="CENTER" x="-15"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="OVERLAY">
-				<FontString parentKey="Title" justifyH="LEFT" inherits="GameFontHighlightLarge">
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.Icon" relativePoint="RIGHT" x="3" y="0"/>
-					</Anchors>
-				</FontString>
-				<Texture parentKey="SelectedBorder" atlas="jailerstower-wayfinder-tierbackground-selected" hidden="true" useAtlasSize="true">
-					<Anchors>
-						<Anchor point="CENTER" x="0" y="4"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-		</Layers>
-		<Frames>
-			<Frame parentKey="RewardBanner" inherits="TorghastLevelPickerRewardBannerTemplate">
-				<Anchors>
-					<Anchor point="BOTTOM" x="0" y="-35"/>
-				</Anchors>
-			</Frame>
-		</Frames>
-		<HighlightTexture parentKey="HighlightBorder" atlas="jailerstower-wayfinder-tierbackground-mouseover" useAtlasSize="true">
-			<Anchors>
-				<Anchor point="CENTER" x="0" y="4"/>
-			</Anchors>
-		</HighlightTexture>
-		<Scripts>
-			<OnClick method="OnClick"/>
-		</Scripts>
-	</CheckButton>
-	<Frame name="TGTTorghastLevelPickerFrame" hidden="true" inherits="CustomGossipFrameBaseGridTemplate" mixin="TorghastLevelPickerFrameMixin" virtual="true" enableMouse="true" movable="true">
+	<Frame name="TGTInterface" hidden="true" inherits="CustomGossipFrameBaseGridTemplate" mixin="TGTInterfaceMixin" virtual="true" enableMouse="true" movable="true">
 		<Size x="928" y="654"/>
 		<Anchors>
 			<Anchor point="CENTER"/>
@@ -150,27 +26,11 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Frame parentKey="Pager" inherits="TGTTorghastPagingContainerTemplate">
-				<Anchors>
-					<Anchor point="TOP" relativeKey="$parent.GridLayoutContainer" relativePoint="BOTTOM" x="-70" y="0"/>
-				</Anchors>
-			</Frame>
 			<Frame parentKey="BodyContainer" inherits="TGTBodyContainerFrame">
 				<Anchors>
 					<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-32"/>
 				</Anchors>
 			</Frame>
-			<Button parentKey="OpenPortalButton" inherits="UIPanelButtonTemplate" mixin="TorghastLevelPickerOpenPortalButtonMixin" motionScriptsWhileDisabled="true" frameLevel="510" text="TORGHAST_WAYFINDER_OPEN_PORTAL">
-				<Size x="185" y="25"/>
-				<Anchors>
-					<Anchor point="TOP" relativeKey="$parent.Pager" relativePoint="BOTTOM" x="30" y="-10"/>
-				</Anchors>
-				<Scripts>
-					<OnClick method="OnClick"/>
-					<OnEnter method="OnEnter"/>
-					<OnLeave method="OnLeave"/>
-				</Scripts>
-			</Button>
 			<Button parentKey="CloseButton" inherits="UIPanelCloseButton" frameLevel="510">
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-60" y="-60" />
@@ -206,13 +66,6 @@
 		<Size x="400" y="424"/>
 		<Layers>
 			<Layer level="BACKGROUND" textureSubLevel="-8">
-				<!-- <Texture name="$parentBg" parentKey="Bg">
-					<Anchors>
-						<Anchor point="TOPLEFT"  x="10" y="-10"/>
-						<Anchor point="BOTTOMRIGHT"  x="-10" y="10"/>
-					</Anchors>
-					<Color r="0" g="0" b="0" a="0.5"/>
-				</Texture> -->
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString parentKey="Welcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
@@ -229,60 +82,28 @@
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
-				<FontString parentKey="Commands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
-					<Size x="384" y="0"/>
+				<FontString parentKey="Prompt" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeKey="$parent.Information" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
 					</Anchors>
 					<Color r="0.513" g="0.73" b="0.8"/>
 				</FontString>
+				<FontString parentKey="Commands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Prompt" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Changelog" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Commands" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
 			</Layer>
-			<!-- <Layer level="BORDER" textureSubLevel="-5">
-				<Texture name="$parentTopLeftCorner" parentKey="TopLeftCorner" inherits="Dialog-BorderTopLeft">
-					<Anchors>
-						<Anchor point="TOPLEFT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentTopRightCorner" parentKey="TopRightCorner" inherits="Dialog-BorderTopRight">
-					<Anchors>
-						<Anchor point="TOPRIGHT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentBottomLeftCorner" parentKey="BottomLeftCorner" inherits="Dialog-BorderBottomLeft">
-					<Anchors>
-						<Anchor point="BOTTOMLEFT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentBottomRightCorner" parentKey="BottomRightCorner" inherits="Dialog-BorderBottomRight">
-					<Anchors>
-						<Anchor point="BOTTOMRIGHT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentTopBorder" parentKey="TopBorder" inherits="Dialog-BorderTop">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="TOPRIGHT"  x="0" y="-1"/>
-						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="TOPLEFT"  x="0" y="-1"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentBottomBorder" parentKey="BottomBorder" inherits="Dialog-BorderBottom">
-					<Anchors>
-						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="BOTTOMRIGHT"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="BOTTOMLEFT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentLeftBorder" parentKey="LeftBorder" inherits="Dialog-BorderLeft">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftCorner" relativePoint="BOTTOMLEFT" x="1" y="0"/>
-						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftCorner" relativePoint="TOPLEFT" x="1" y="0"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentRightBorder" parentKey="RightBorder" inherits="Dialog-BorderRight">
-					<Anchors>
-						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightCorner" relativePoint="BOTTOMRIGHT"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightCorner" relativePoint="TOPRIGHT"/>
-					</Anchors>
-				</Texture>
-			</Layer> -->
 		</Layers>
 	</Frame>
 </Ui>

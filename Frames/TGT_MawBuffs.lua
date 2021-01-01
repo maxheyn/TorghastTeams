@@ -1,7 +1,21 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 
 local MAW_BUFF_MAX_DISPLAY = 44;
-
+local classIcons = {}
+classIcons = {
+	["DEATHKNIGHT"] =   "Interface\\Icons\\ClassIcon_DeathKnight",
+	["DEMONHUNTER"] =   "Interface\\Icons\\ClassIcon_DemonHunter",
+	["DRUID"] =         "Interface\\Icons\\ClassIcon_Druid",
+	["HUNTER"] =        "Interface\\Icons\\ClassIcon_Hunter",
+	["MAGE"] =          "Interface\\Icons\\ClassIcon_Mage",
+	["MONK"] =          "Interface\\Icons\\ClassIcon_Monk",
+	["PALADIN"] =       "Interface\\Icons\\ClassIcon_Paladin",
+	["PRIEST"] =        "Interface\\Icons\\ClassIcon_Priest",
+	["ROGUE"] =         "Interface\\Icons\\ClassIcon_Rogue",
+	["SHAMAN"] =        "Interface\\Icons\\ClassIcon_Shaman" ,
+	["WARLOCK"] =       "Interface\\Icons\\ClassIcon_Warlock",
+	["WARRIOR"] =       "Interface\\Icons\\ClassIcon_Warrior",
+}
 TGTMawBuffsContainerMixin = {};
 
 function TGTMawBuffsContainerMixin:OnLoad()
@@ -18,6 +32,7 @@ function TGTMawBuffsContainerMixin:OnEvent(event, ...)
 end
 
 function TGTMawBuffsContainerMixin:Update()
+	--print(TorghastTeams.db.profile.frames.framePlayer.x)
 	local mawBuffs = {};
 	local uniqueMawBuffs = 0;
 	local totalCount = 0;
@@ -37,8 +52,11 @@ function TGTMawBuffsContainerMixin:Update()
 		end
 	end
 	
-	name, _ = UnitName("player")
-	self:SetText(name .. " (" .. totalCount .. ")")
+	local name, _ = UnitName("player")
+	local guid = UnitGUID("player")
+
+	local _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+	self:SetText("|T" .. classIcons[englishClass] .. ":0|t " .. name .. " (" .. totalCount .. ")")
 
 	self.List:Update(mawBuffs, uniqueMawBuffs);
 
@@ -71,11 +89,14 @@ function TGTMawBuffsContainerMixin:UpdatePartyMember(partyMember)
 		end
 	end
 
-	name, realm = UnitName("party" .. partyMember)
-	if (realm == nil) then
-		self:SetText(name .. " (" .. totalCount .. ")")
+	local name, realm = UnitName("party" .. partyMember)
+	local guid = UnitGUID("party" .. partyMember)
+
+	local _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+	if (realm == "") then
+		self:SetText("|T" .. classIcons[englishClass] .. ":0|t " .. name .. " (" .. totalCount .. ")")
 	else
-		self:SetText(name .. "-" .. realm .. " (" .. totalCount .. ")")
+		self:SetText("|T" .. classIcons[englishClass] .. ":0|t " .. name .. "-" .. realm .. " (" .. totalCount .. ")")
 	end
 
 	self.List:Update(mawBuffs, uniqueMawBuffs);
@@ -114,8 +135,12 @@ function TGTMawBuffsContainerMixin:OnClick()
 end
 
 function TGTMawBuffsContainerMixin:MoveMawBuffsContainer()
-	if (self.isMovable == "false") then print ("[" .. L["ADDON_NAME_COLORED"] .. "] You can't move this container right now. Switch to Simple Mode to move it.")
+	if (self.isMovable == "false") then print (L["ADDON_CHAT_PREFIX"] .. L["MOVE_FRAME_WARNING"])
 	else self:StartMoving() end
+end
+
+function TGTMawBuffsContainerMixin:StopMovingMawBuffsContainer()
+	self:StopMovingOrSizing()
 end
 
 function TGTMawBuffsContainerMixin:HighlightBuffAndShow(spellID, maxStacks)
