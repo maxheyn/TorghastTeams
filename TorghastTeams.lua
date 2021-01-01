@@ -10,11 +10,26 @@ local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTea
 			if (IsControlKeyDown()) then
 				TGT_GUI:ToggleSimpleState(GetNumGroupMembers())
 			else
-				if (TGT_GUI:IsAltFrameVisible() or TGT_GUI.TGT_Container:IsVisible()) then
-					TGT_GUI:HideSimpleState(GetNumGroupMembers())
-					TorghastTeams:HideInterface()
+				if (IsInJailersTower()) then
+					if (TGT_GUI:IsAltFrameVisible() and TorghastTeams.db.profile.simple == true) then
+						TGT_GUI:HideSimpleState(GetNumGroupMembers())
+						TorghastTeams:HideInterface()
+					elseif (not TGT_GUI:IsAltFrameVisible() and TorghastTeams.db.profile.simple == true) then
+						TGT_GUI:ShowSimpleState(GetNumGroupMembers())
+						TorghastTeams:HideInterface()
+					elseif(TGT_GUI.TGT_Container:IsVisible() and TorghastTeams.db.profile.simple == false) then
+						TGT_GUI:HideSimpleState(GetNumGroupMembers())
+						TorghastTeams:HideInterface()
+					elseif(not TGT_GUI.TGT_Container:IsVisible() and TorghastTeams.db.profile.simple == false) then
+						TGT_GUI:HideSimpleState(GetNumGroupMembers())
+						TorghastTeams:ShowInterface()
+					end
 				else
-					TorghastTeams:ShowInterface()
+					if (TGT_GUI.TGT_Container:IsVisible()) then
+						TorghastTeams:HideInterface()
+					else
+						TorghastTeams:ShowInterface()
+					end
 				end
             end
 		elseif (btn == "RightButton") then
@@ -75,6 +90,7 @@ function TorghastTeams:OnInitialize()
             minimap = {
                 hide = false,
 			},
+			simple = false,
 			framePos = {
 				["*"] = {
 					anchor = "TOPLEFT",

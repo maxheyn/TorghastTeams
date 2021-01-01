@@ -6,6 +6,9 @@
 ## DefaultState: enabled
 ## SavedVariables: TorghastTeamsDB
 ## X-Website: https://www.curseforge.com/wow/addons/torghastteams
+## X-Source: https://github.com/maxheyn/TorghastTeams
+## X-Curse-Project-ID: 65387
+## X-WoWI-ID: 24910
 
 embeds.xml
 

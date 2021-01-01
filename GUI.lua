@@ -12,7 +12,6 @@ function TGT_GUI:OnEnable()
 	self.TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTInterface")
 	self.TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
 	self.AnimaPowersList = {}
-	self.SIMPLE_STATE = false
 end
 
 -----------------------------------------------------------------------------
@@ -32,9 +31,11 @@ function TGT_GUI:SetInterfaceToDefaultState()
 	self.TGT_Container.Title:SetPoint("TOP", self.TGT_Container, "TOP", 170, -70)
 	self.TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
 	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"])
-	self.TGT_Container.BodyContainer.Welcome:SetText(L["CHANGELOG"] .. "\n\n" .. L["DEFAULT_BODY_WELCOME"])
+	self.TGT_Container.BodyContainer.Welcome:SetText(L["DEFAULT_BODY_WELCOME"])
+	self.TGT_Container.BodyContainer.Prompt:SetText(L["DEFAULT_BODY_PROMPT"])
 	self.TGT_Container.BodyContainer.Information:SetText(L["DEFAULT_BODY_INFORMATION"])
-	self.TGT_Container.BodyContainer.Commands:SetText(L["DEFAULT_BODY_COMMANDS"] .. "\n\n- " .. L["COMMAND_MINIMAP_EXAMPLE"] .. "\n\n- " .. L["COMMAND_SHOW_EXAMPLE"] .. "\n\n- " .. L["COMMAND_HIDE_EXAMPLE"])
+	self.TGT_Container.BodyContainer.Commands:SetText(L["DEFAULT_BODY_COMMANDS"])
+	self.TGT_Container.BodyContainer.Changelog:SetText(L["CHANGELOG"])
 	self.TGT_Container.BodyContainer:Show()
 
 	-- Hide all anima power frames
@@ -49,6 +50,7 @@ function TGT_GUI:SetInterfaceToPlayingState()
 	self.TGT_Container.Title:SetPoint("TOP", self.TGT_Container, "TOP", 0, -70)
 	self.TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
 	self.TGT_Container.Tagline:SetPoint("TOP", self.TGT_Container.Title, "BOTTOM", 0, -6)
+	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"])
 	self.TGT_Container.BodyContainer:Hide()
 
 	for partyMemberIndex = 0, 4, 1 do
@@ -62,7 +64,7 @@ function TGT_GUI:ShowSimpleState(partyMemberCount)
 		for partyMemberIndex = 0, partyMemberCount - 1, 1 do
 			self.AnimaPowersList["ALT" .. partyMemberIndex]:Show()
 		end
-		self.SIMPLE_STATE = false
+		--TorghastTeams.db.profile.simple = true
 	end
 end
 
@@ -72,19 +74,24 @@ function TGT_GUI:HideSimpleState(partyMemberCount)
 		for partyMemberIndex = 0, partyMemberCount - 1, 1 do
 			self.AnimaPowersList["ALT" .. partyMemberIndex]:Hide()
 		end
-		self.SIMPLE_STATE = true
+		--TorghastTeams.db.profile.simple = false
 	end
 end
 
 -- Turns simple state on and off
 function TGT_GUI:ToggleSimpleState(partyMemberCount)
 	if (IsInJailersTower()) then 
-		if (self.SIMPLE_STATE) then
+		if (TorghastTeams.db.profile.simple == false) then
 			self.TGT_Container:Hide()
 			self:ShowSimpleState(partyMemberCount)
-		elseif (not self.SIMPLE_STATE) then
+			TorghastTeams.db.profile.simple = true
+			print(L["ADDON_CHAT_PREFIX"] .. L["SWITCH_MODE_DEFAULT"])
+		elseif (TorghastTeams.db.profile.simple == true) then
 			self.TGT_Container:Show()
 			self:HideSimpleState(partyMemberCount)
+			TorghastTeams.db.profile.simple = false
+			print(L["ADDON_CHAT_PREFIX"] .. L["SWITCH_MODE_SIMPLE"])
+			
 		end
 	else
 		print(L["ADDON_CHAT_PREFIX"] .. L["TOGGLE_MODE_WARNING"])
