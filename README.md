@@ -62,7 +62,7 @@ Everything below is subject to change, but these are feature we are considering 
 - More user configuration options.
 
 <h2 id="feedback" align="center">
-<a href="https://github.com/maxheyn/TorghastTeams/issues">
+  <a href="https://github.com/maxheyn/TorghastTeams/issues">
   <img src="Images/SubmitFeedback.png" alt="commands header">
   </a>
 </h2>

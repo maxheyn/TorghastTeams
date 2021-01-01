@@ -1,6 +1,6 @@
 ## Interface: 91000
 ## Title: |cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r
-## Version: 1.3-beta.2
+## Version: 1.0.0
 ## Notes: Shows information about your groupmates' Torghast Anima Powers.
 ## Author: Max Herold (Zerukai), James Lin (Accuracy114)
 ## DefaultState: enabled
