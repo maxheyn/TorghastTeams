@@ -2,7 +2,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("TorghastTeams", "enUS", true)
 if not L then return end
 
 --------------------------------------------------------------------------------------------------------------------------------------------
-L["CHANGELOG"] = "Changelog:\n- Added class icons to frames.\n- Reworked how minimap button works.\n  - Left click now always toggles between showing and hiding the current selected display mode.\n  - Ctrl+Left click now cycles between display modes (i.e. simple, default) while in Torghast.\n- Simple mode frames now save their location when you move them.\n- Now remebers what mode you were in when you start another Torghast run."
+L["CHANGELOG"] = "Changelog:\n- Added class icons to frames.\n- Reworked how minimap button works.\n  - Left click now always toggles between showing and hiding the current selected display mode.\n  - Ctrl+Left click now cycles between display modes (i.e. simple, default) while in Torghast.\n- Simple mode frames now save their location when you move them.\n- Now remembers what mode you were in when you start another Torghast run."
 
 L["ADDON_NAME"] = "TorghastTeams"
 L["ADDON_NAME_COLORED"] = "|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r"
