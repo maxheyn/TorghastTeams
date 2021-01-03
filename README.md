@@ -46,7 +46,7 @@ Below are listed the features which TorghastTeams includes!
   <img src="Images/Screenshots.png" alt="screenshots header">
 </h2>
 
-<p align="center" id="partymemberpowers">
+<p align="center" id="partymemberspowers">
   <h3>Party Member Powers</h3>
 
   <img src="Images/Screenshots/Default3PartyMembers.png" alt="Default3PartyMembers">
@@ -54,7 +54,6 @@ Below are listed the features which TorghastTeams includes!
   *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
 </p>
 
-<div align="center">
 <p align="center" id="dynamicresizing">
   <h3>Dynamic Resizing</h3>
 
