@@ -17,12 +17,18 @@
   <img src="Images/Features.png" alt="features header">
 </h2>
 
-- [View your, and your teammate's Torghast anima powers in real time.](#TGT_Party5)
-- Mouse over teammate's anima powers to see what they do.
-- Dynamic anima power resizing to fit the container based on amount of unique anima powers.
-- Automatic hiding of frames on party size change, incase someone bails your group. 😢
-- Toggle UI with commands or minimap button left-click.
-- Swap between UI modes using minimap button.
+TorghastTeams is an AddOn that is designed to make it much friendlier to know what Anima Powers your party members pick up during your run in Torghast. It can be really useful to know what sorts of powers your friends have so you can better plan how you approach certain pulls or bosses. (Maybe your Rogue got a crazy [AoE](https://www.wowdb.com/spells/343245-backup-poison-injectors) [build](https://www.wowdb.com/spells/343237-boiling-poison-sores) so you can make those pulls a bit bigger!) However, the only way to know that, without this AddOn, is to memorize what powers they pick up from the chat window or by asking them. Instead, TorghastTeams provides a simple-to-understand interface that lets anyone see what powers their party members have, just like the default frames, plus some more! 
+
+Below are listed the features which TorghastTeams includes!
+
+- [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
+- [Class Icons](#classicons) to easily identify which powers belong to what class.
+- [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
+  - Automatic hiding of frames on party size change, incase someone bails your group. 😢
+- [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
+- [Simple/Unobtrusive Mode](#simplemode) for when you need to save more screen space.
+  - Drag and drop frames around your screen, location gets saved for your next runs.
+  - Toggle between default and simple mode with minimap button left-click.
 
 <h2 id="commands" align="center">  
   <img src="Images/Commands.png" alt="commands header">
@@ -40,16 +46,48 @@
   <img src="Images/Screenshots.png" alt="screenshots header">
 </h2>
 
-<p align="center">
-  <img src="Images/Screenshots/TGT_5_Players.png" id="TGT_Party5" alt="5 Players Display" />
-  Anima Powers Display when partied with 5 players
-</p>
-<p align="center">
-  <img src="Images/Screenshots/TGT_2_Players.png" alt="2 Players Display">
-  Anima Powers Display when partied with 2 players
+<p align="center" id="dynamicresizing">
+  <h3>Dynamic Resizing</h3>
+
+  <img src="Images/Screenshots/12.png" alt="12 Powers Scaling" width=200/><img src="Images/Screenshots/15.png" alt="15 Powers Scaling" width=200/><img src="Images/Screenshots/20.png" alt="20 Powers Scaling" width=200/>
+
+  *Anima Powers will scale in size based on the amount of unique powers, making it easy to see all of the powers available, while still saving screen real estate when partying up with multiple players.*<br><br>
 </p>
 
-<h2 id="planned" align="center">  
+
+<p align="center" id="classicons">
+  <h3>Class Icons</h3>
+
+  <img src="Images/Screenshots/ClassIcons.png" alt="Class Icons">
+
+  *View class icons on the Anima Powers Display, allowing you to quickly identify your party member's classes at a glance. Note: not shown in other screenshots as they are from a version previous to this being implemented.*
+</p>
+
+<p align="center" id="partymemberpowers">
+  <h3>Party Member Powers</h3>
+
+  <img src="Images/Screenshots/Default3PartyMembers.png" alt="Default3PartyMembers">
+
+  *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
+</p>
+
+<p align="center" id="hovertooltips">
+  <h3>Hover Tooltips</h3>
+
+  <img src="Images/Screenshots/HoverTooltip.png" alt="Hover Tooltip">
+
+  *You can hover over Anima powers and shift-click them to generate a link in chat, just like in the default frames. Share those cool powers you saw someone in your party get!*
+</p>
+
+<p align="center" id="simplemode">
+  <h3>Simple/Unobtrusive Mode</h3>
+
+  <img src="Images/Screenshots/Simple5Members.png" alt="Simple 5 Members">
+
+  *Easily move frames around and to the corner of your screen if you don't want to have the big TorghastTeams interface open all the time. Moved frame will remember their position per character, and the mode you choose will also be remembered! Toggle this by Ctrl-left clicking the minimap icon.*
+</p>
+
+<h2 align="center" id="planned">  
   <img src="Images/Planned.png" alt="planned header">
 </h2>
 Everything below is subject to change, but these are feature we are considering releasing in the future.
