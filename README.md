@@ -21,10 +21,10 @@ TorghastTeams is an AddOn that is designed to make it much friendlier to know wh
 
 Below are listed the features which TorghastTeams includes!
 
-- [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
-- [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
   - Automatic hiding of frames on party size change, incase someone bails your group. 😢
+- [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
+- [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
 - [Simple/Unobtrusive Mode](#simplemode) for when you need to save more screen space.
   - Drag and drop frames around your screen, location gets saved for your next runs.
@@ -46,10 +46,19 @@ Below are listed the features which TorghastTeams includes!
   <img src="Images/Screenshots.png" alt="screenshots header">
 </h2>
 
+<p align="center" id="partymemberpowers">
+  <h3>Party Member Powers</h3>
+
+  <img src="Images/Screenshots/Default3PartyMembers.png" alt="Default3PartyMembers">
+
+  *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
+</p>
+
+<div align="center">
 <p align="center" id="dynamicresizing">
   <h3>Dynamic Resizing</h3>
 
-  <img src="Images/Screenshots/12.png" alt="12 Powers Scaling" width=200/><img src="Images/Screenshots/15.png" alt="15 Powers Scaling" width=200/><img src="Images/Screenshots/20.png" alt="20 Powers Scaling" width=200/>
+  <img src="Images/Screenshots/12.png" alt="12 Powers Scaling" width=250/><img src="Images/Screenshots/15.png" alt="15 Powers Scaling" width=250/><img src="Images/Screenshots/20.png" alt="20 Powers Scaling" width=250/>
 
   *Anima Powers will scale in size based on the amount of unique powers, making it easy to see all of the powers available, while still saving screen real estate when partying up with multiple players.*<br><br>
 </p>
@@ -60,15 +69,7 @@ Below are listed the features which TorghastTeams includes!
 
   <img src="Images/Screenshots/ClassIcons.png" alt="Class Icons">
 
-  *View class icons on the Anima Powers Display, allowing you to quickly identify your party member's classes at a glance. Note: not shown in other screenshots as they are from a version previous to this being implemented.*
-</p>
-
-<p align="center" id="partymemberpowers">
-  <h3>Party Member Powers</h3>
-
-  <img src="Images/Screenshots/Default3PartyMembers.png" alt="Default3PartyMembers">
-
-  *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
+  *View class icons on the Anima Powers Display, allowing you to quickly identify your party member's classes at a glance. Note: Not shown in other screenshots as they were taken before we added class icons.*
 </p>
 
 <p align="center" id="hovertooltips">
@@ -86,6 +87,7 @@ Below are listed the features which TorghastTeams includes!
 
   *Easily move frames around and to the corner of your screen if you don't want to have the big TorghastTeams interface open all the time. Moved frame will remember their position per character, and the mode you choose will also be remembered! Toggle this by Ctrl-left clicking the minimap icon.*
 </p>
+</div>
 
 <h2 align="center" id="planned">  
   <img src="Images/Planned.png" alt="planned header">
