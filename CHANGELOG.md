@@ -1,4 +1,4 @@
-TorghastTeams v1.1.0 
+TorghastTeams v1.1.1 
 ====================
 
 Features:
@@ -7,4 +7,4 @@ Features:
 - The tagline now switches between 63 possible variations! Just for a bit of lighthearted fun.
 
 Bugfixes:
-- No bugfixes this version.
+- Horde players will no longer try to speak in Common.
