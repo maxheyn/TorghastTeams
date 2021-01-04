@@ -1,5 +1,5 @@
 TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
-local TGT_GUI;
+local TGT_GUI, TGT_Chat;
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTeams", {
 	type = "String",
@@ -108,9 +108,14 @@ function TorghastTeams:OnEnable()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("GROUP_ROSTER_UPDATE")
 	self:RegisterEvent("UNIT_AURA")
+	self:RegisterEvent("CHAT_MSG_PARTY")
+    self:RegisterEvent("CHAT_MSG_PARTY_LEADER")
+    self:RegisterEvent("CHAT_MSG_INSTANCE_CHAT")
+    self:RegisterEvent("CHAT_MSG_INSTANCE_CHAT_LEADER")
 	
 	-- Getting modules from other files
 	TGT_GUI = self:GetModule("TGT_GUI")
+	TGT_Chat = self:GetModule("TGT_Chat")
 end
 
 -- Toggles the minimap button on or off with /tgt minimap
@@ -182,5 +187,29 @@ function TorghastTeams:UNIT_AURA()
 		local partyMembers = GetNumGroupMembers()
 		TGT_GUI:UpdateAnimaPowers("DEF", partyMembers)
 		TGT_GUI:UpdateAnimaPowers("ALT", partyMembers)
+	end
+end
+
+function TorghastTeams:CHAT_MSG_PARTY(self, msg, sender)
+	if (IsInJailersTower()) then
+		TGT_Chat:BroadcastPhantasma(msg, sender, "PARTY")
+	end
+end
+
+function TorghastTeams:CHAT_MSG_PARTY_LEADER(self, msg, sender)
+	if (IsInJailersTower()) then
+		TGT_Chat:BroadcastPhantasma(msg, sender, "PARTY")
+	end
+end
+
+function TorghastTeams:CHAT_MSG_INSTANCE_CHAT(self, msg, sender)
+	if (IsInJailersTower()) then
+		TGT_Chat:BroadcastPhantasma(msg, sender, "INSTANCE_CHAT")
+	end
+end
+
+function TorghastTeams:CHAT_MSG_INSTANCE_CHAT_LEADER(self, msg, sender)
+	if (IsInJailersTower()) then
+		TGT_Chat:BroadcastPhantasma(msg, sender, "INSTANCE_CHAT")
 	end
 end
