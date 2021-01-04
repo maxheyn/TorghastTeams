@@ -11,6 +11,6 @@ function TGT_Chat:BroadcastPhantasma(msg, sender, channel, target)
 
     if (cmd == "!p" or cmd == "!phantasma") then
         broadcast = "<" .. L["ADDON_NAME"] .. "> ".. name .. " " .. L["PHANTASMA_BROADCAST_HAS"] .. " " .. C_CurrencyInfo.GetCurrencyInfo(1728)["quantity"] .. " " .. C_CurrencyInfo.GetCurrencyLink(1728, 0)
-        ChatThrottlePlusLib:SendChatMessage("NORMAL", L["ADDON_NAME"], broadcast, channel, "Common", target)
+        ChatThrottleLib:SendChatMessage("NORMAL", L["ADDON_NAME"], broadcast, channel, nil, target)
     end
 end
