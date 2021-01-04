@@ -23,6 +23,8 @@ Below are listed the features which TorghastTeams includes!
 
 - [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
   - Automatic hiding of frames on party size change, incase someone bails your group. 😢
+- [Phantasma Count](#phantasmacount) for anyone who also has the AddOn installed!
+  - Only people who also have this AddOn will send their Phantasma count.
 - [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
 - [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
@@ -50,6 +52,14 @@ Below are listed the features which TorghastTeams includes!
   <h3>Party Member Powers</h3>
 
   <img src="Images/Screenshots/Default3PartyMembers.png" alt="Default3PartyMembers">
+
+  *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
+</p>
+
+<p align="center" id="phantasmacount">
+  <h3>Party Member Powers</h3>
+
+  <img src="Images/Screenshots/PhantasmaCount.png" alt="Phantasma Count">
 
   *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
 </p>
