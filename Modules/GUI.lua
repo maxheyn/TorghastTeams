@@ -12,6 +12,7 @@ function TGT_GUI:OnEnable()
 	self.TGT_Container = CreateFrame("Frame", "TGT_Container", UIParent, "TGTInterface")
 	self.TGT_Container:SetPoint("CENTER", UIParent, "CENTER")
 	self.AnimaPowersList = {}
+	self.RandomTagline = math.random(#L["DEFAULT_BODY_TAGLINE"])
 end
 
 -----------------------------------------------------------------------------
@@ -30,7 +31,7 @@ end
 function TGT_GUI:SetInterfaceToDefaultState()
 	self.TGT_Container.Title:SetPoint("TOP", self.TGT_Container, "TOP", 170, -70)
 	self.TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
-	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"])
+	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"][self.RandomTagline])
 	self.TGT_Container.BodyContainer.Welcome:SetText(L["DEFAULT_BODY_WELCOME"])
 	self.TGT_Container.BodyContainer.Prompt:SetText(L["DEFAULT_BODY_PROMPT"])
 	self.TGT_Container.BodyContainer.Information:SetText(L["DEFAULT_BODY_INFORMATION"])
@@ -50,7 +51,7 @@ function TGT_GUI:SetInterfaceToPlayingState()
 	self.TGT_Container.Title:SetPoint("TOP", self.TGT_Container, "TOP", 0, -70)
 	self.TGT_Container.Title:SetText(L["ADDON_NAME_COLORED"] .. " " .. GetAddOnMetadata("TorghastTeams", "VERSION"))
 	self.TGT_Container.Tagline:SetPoint("TOP", self.TGT_Container.Title, "BOTTOM", 0, -6)
-	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"])
+	self.TGT_Container.Tagline:SetText(L["DEFAULT_BODY_TAGLINE"][self.RandomTagline])
 	self.TGT_Container.BodyContainer:Hide()
 
 	for partyMemberIndex = 0, 4, 1 do
