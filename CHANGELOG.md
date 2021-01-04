@@ -7,4 +7,5 @@ Features:
 - The tagline now switches between 63 possible variations! Just for a bit of lighthearted fun.
 
 Bugfixes:
+
 - Horde players will no longer try to speak in Common.

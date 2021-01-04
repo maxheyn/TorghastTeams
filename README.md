@@ -7,9 +7,12 @@
 
 <div align="center">
 
+[![](http://cf.way2muchnoise.eu/full_429730_downloads.svg)](https://www.curseforge.com/wow/addons/torghastteams) [![](https://img.shields.io/github/v/tag/maxheyn/TorghastTeams?color=41aee7&label=latest%20release&logo=Github)](https://github.com/maxheyn/TorghastTeams/releases/latest) [![](https://img.shields.io/github/last-commit/maxheyn/TorghastTeams?color=41aee7&label=latest%20commit&logo=Github)](https://github.com/maxheyn/TorghastTeams/commits/main) [![](https://img.shields.io/github/issues/maxheyn/TorghastTeams?color=41aee7&logo=Github)](https://github.com/maxheyn/TorghastTeams/issues)
+
 [Releases][release]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Features](#features)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Commands](#commands)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Screenshots](#screenshots)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Planned](#planned)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Issues][issues]
 
-**[TorghastTeams](https://www.curseforge.com/wow/addons/torghastteams)** is the best tool to use when you're running Torghast, Tower of the Damned, with friends, guildmates, or randoms. See what [anima powers](https://www.wowhead.com/guides/torghast-anima-power-upgrades) they pick up and what their builds look like in a simple-to-understand display.
+
+**[TorghastTeams](https://www.curseforge.com/wow/addons/torghastteams)** is the best tool to use when you're running Torghast, Tower of the Damned, with friends, guildmates, or randoms. See what [anima powers](https://www.wowhead.com/guides/torghast-anima-power-upgrades) they pick up and what their builds look like in a simple-to-understand display. 
 
 </div>
 
@@ -17,20 +20,22 @@
   <img src="Images/Features.png" alt="features header">
 </h2>
 
-TorghastTeams is an AddOn that is designed to make it much friendlier to know what Anima Powers your party members pick up during your run in Torghast. It can be really useful to know what sorts of powers your friends have so you can better plan how you approach certain pulls or bosses. (Maybe your Rogue got a crazy [AoE](https://www.wowdb.com/spells/343245-backup-poison-injectors) [build](https://www.wowdb.com/spells/343237-boiling-poison-sores) so you can make those pulls a bit bigger!) However, the only way to know that, without this AddOn, is to memorize what powers they pick up from the chat window or by asking them. Instead, TorghastTeams provides a simple-to-understand interface that lets anyone see what powers their party members have, just like the default frames, plus some more! 
+TorghastTeams is an AddOn that is designed to make it easier to know what anima powers your party members pick up during your runs in Torghast. It can be very useful to know which anima powers your friends have so you can better plan how you approach certain pulls or bosses. (Maybe your Rogue got a crazy [AoE](https://www.wowdb.com/spells/343245-backup-poison-injectors) [build](https://www.wowdb.com/spells/343237-boiling-poison-sores) so you can make those pulls a bit bigger!) However, the only way to know that, without this AddOn, is to memorize what powers they pick up from the chat window or by asking them. Instead, TorghastTeams provides a simple-to-understand interface that lets anyone see what powers their party members have, just like the default frames, plus some more! 
 
-Below are listed the features which TorghastTeams includes!
+TorghastTeams includes...
 
 - [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
   - Automatic hiding of frames on party size change, incase someone bails your group. 😢
 - [Phantasma Count](#phantasmacount) chat command for all teammates*!
-  - *Only people who also have this AddOn will send their Phantasma count.
+  - *Only people who also have this AddOn will send their Phantasma count./
 - [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
 - [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
 - [Simple/Unobtrusive Mode](#simplemode) for when you need to save more screen space.
   - Drag and drop frames around your screen, location gets saved for your next runs.
   - Toggle between default and simple mode with minimap button left-click.
+
+You can download it on the [CurseForge](https://www.curseforge.com/wow/addons/torghastteams) client or website, or from the [WoWInterface](https://www.wowinterface.com/downloads/info25845-TorghastTeams.html) website.
 
 <h2 id="commands" align="center">  
   <img src="Images/Commands.png" alt="commands header">
@@ -120,7 +125,7 @@ Everything below is subject to change, but these are feature we are considering 
 
 Have a suggestion for some options, or want to report a bug? Open an [issue][issues]!
 
-[CurseForge](https://www.curseforge.com/wow/addons/torghastteams)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Back to Top](#topBanner)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Authors](https://github.com/maxheyn/TorghastTeams/graphs/contributors)
+[CurseForge](https://www.curseforge.com/wow/addons/torghastteams)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[WoWInterface](https://www.wowinterface.com/downloads/info25845-TorghastTeams.html)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Back to Top](#topBanner)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Authors](https://github.com/maxheyn/TorghastTeams/graphs/contributors)
 
 </div>
 
