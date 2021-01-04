@@ -1,0 +1,15 @@
+package-as: TorghastTeams
+
+enable-nolib-creation: no
+
+ignore:
+    - assets
+    - .gitignore
+    - .github
+    - .git
+    - README.md
+    - Images
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown

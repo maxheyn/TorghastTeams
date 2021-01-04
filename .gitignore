@@ -42,6 +42,3 @@ luac.out
 .vscode
 
 Templates
-
-.*
-!/.gitignore
