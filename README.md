@@ -23,8 +23,8 @@ Below are listed the features which TorghastTeams includes!
 
 - [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
   - Automatic hiding of frames on party size change, incase someone bails your group. 😢
-- [Phantasma Count](#phantasmacount) for anyone who also has the AddOn installed!
-  - Only people who also have this AddOn will send their Phantasma count.
+- [Phantasma Count](#phantasmacount) chat command for all teammates*!
+  - *Only people who also have this AddOn will send their Phantasma count.
 - [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
 - [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
@@ -57,11 +57,11 @@ Below are listed the features which TorghastTeams includes!
 </p>
 
 <p align="center" id="phantasmacount">
-  <h3>Party Member Powers</h3>
+  <h3>Phantasma Count</h3>
 
   <img src="Images/Screenshots/PhantasmaCount.png" alt="Phantasma Count">
 
-  *Click the minimap button or use the 'show' command to open up this display in Torghast! Automatically shows frames for however many party members are in your current Torghast run. Dynamically removes frames if someone has to leave your party.*
+  *Type* `!p` *or* `!phantasma` *in party or instance chat while in Torghast, and anyone who has TorghastTeams on v1.1.0 or later will broadcast their current amount of Phantasma in the corresponding chat channel.* 
 </p>
 
 <p align="center" id="dynamicresizing">
@@ -94,7 +94,7 @@ Below are listed the features which TorghastTeams includes!
 
   <img src="Images/Screenshots/Simple5Members.png" alt="Simple 5 Members">
 
-  *Easily move frames around and to the corner of your screen if you don't want to have the big TorghastTeams interface open all the time. Moved frame will remember their position per character, and the mode you choose will also be remembered! Toggle this by Ctrl-left clicking the minimap icon.*
+  *Easily move frames around and to the corner of your screen if you don't want to have the big TorghastTeams interface open all the time. Moved frames will remember their position per character, and the mode you choose will also be remembered! Toggle this by Ctrl-left clicking the minimap icon.*
 </p>
 </div>
 
