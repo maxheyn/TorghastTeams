@@ -21,7 +21,7 @@ ignore:
   - .gitignore
   - .github
   - .git
-  - README.md
+  - *.md
   - Images
 
 manual-changelog:
