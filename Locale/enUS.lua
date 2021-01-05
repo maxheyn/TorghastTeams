@@ -2,7 +2,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("TorghastTeams", "enUS", true)
 if not L then return end
 
 --------------------------------------------------------------------------------------------------------------------------------------------
-L["CHANGELOG"] = "Changelog:\n- Type '!p' or '!phantasma' to see how much phantasma everyone in your party has. (Only works if they also have the addon installed).\n- The tagline can now be 1 out of 63 variations!"
+L["CHANGELOG"] = "View the full Changelog on GitHub or CurseForge."
 
 L["ADDON_NAME"] = "TorghastTeams"
 L["ADDON_NAME_COLORED"] = "|cffd67666T|cffd98071o|cffe2998cr|cffecb6abg|cfff3cec6h|cfff0e5e1a|cffe7e7e6s|cffdfecf6t|r|cffd1f2feT|cffbbebfee|cffa1e1ffa|cff67c3f3m|cff78cffcs|r"

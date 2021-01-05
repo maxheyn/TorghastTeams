@@ -1,10 +1,6 @@
-TorghastTeams v1.1.2
+TorghastTeams v1.1.3
 ====================
-
-Features:
-
-- Added broker button support for users of data brokers like TitanPanel, FuBar, Bazooka, etc.
 
 Bugfixes:
 
-- No bugfixes this patch.
+- Fixed bug where downloads would get stuck at 33%.

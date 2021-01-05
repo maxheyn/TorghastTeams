@@ -14,14 +14,15 @@ externals:
   Libs/AceLocale-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceLocale-3.0
   Libs/LibDBIcon-1.0: https://repos.wowace.com/wow/libdbicon-1-0/trunk
   Libs/ChatThrottleLib: https://repos.curseforge.com/wow/chatthrottlelib/trunk
-  Libs/Libwindow-1.1: https://repos.wowace.com/wow/libwindow-1-1/trunk
+  Libs/LibWindow-1.1: https://repos.wowace.com/wow/libwindow-1-1/trunk
   
 ignore:
   - assets
   - .gitignore
   - .github
   - .git
-  - *.md
+  - README.md
+  - CHANGELOG.md
   - Images
 
 manual-changelog:
