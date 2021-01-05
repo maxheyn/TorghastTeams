@@ -1,8 +1,10 @@
 TorghastTeams = LibStub("AceAddon-3.0"):NewAddon("TorghastTeams", "AceConsole-3.0", "AceEvent-3.0")
 local TGT_GUI, TGT_Chat;
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
-local TorghastTeamsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("TorghastTeams", {
-	type = "String",
+local TorghastTeamsLDB = LibStub:GetLibrary("LibDataBroker-1.1", true)
+
+local minimapBtn = TorghastTeamsLDB:NewDataObject("TorghastTeams", {
+	type = "data source",
 	text = "TorghastTeams",
 	icon = "Interface\\ICONS\\INV_Torghast",
     OnClick = function(self, btn)
@@ -100,7 +102,7 @@ function TorghastTeams:OnInitialize()
 			},
         }
     })
-    icon:Register("TorghastTeamsIcon", TorghastTeamsLDB, self.db.profile.minimap)
+	icon:Register("TorghastTeamsIcon", minimapBtn, self.db.profile.minimap)
 end
 
 function TorghastTeams:OnEnable()
