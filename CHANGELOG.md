@@ -1,11 +1,10 @@
-TorghastTeams v1.1.1 
+TorghastTeams v1.1.2
 ====================
 
 Features:
 
-- Type '!p' or '!phantasma' in party or instance chat to see how much phantasma everyone in your party has. (Only works if they also have the addon installed).
-- The tagline now switches between 63 possible variations! Just for a bit of lighthearted fun.
+- Added broker button support for users of data brokers like TitanPanel, FuBar, Bazooka, etc.
 
 Bugfixes:
 
-- Horde players will no longer try to speak in Common.
+- No bugfixes this patch.
