@@ -168,6 +168,7 @@ local SIZE_BREAKPOINT_3 = 20
 local SIZE_BREAKPOINT_4 = 30
 local SIZE_BREAKPOINT_5 = 36
 local SIZE_BREAKPOINT_6 = 42
+local SIZE_BREAKPOINT_7 = 48
 
 function TGTMawBuffsListMixin:OnLoad()
 	self.container = self:GetParent();
@@ -327,17 +328,17 @@ function TGTMawBuffMixin:ResizeMawBuffs(uniqueBuffCount)
 		BUFF_LIST_PADDING_HEIGHT = 36
 		BUFF_LIST_VERTICAL_SPACING = 5
 		BUFF_LIST_TOP_ANCHOR = -14
-	else
+	elseif (uniqueBuffCount > SIZE_BREAKPOINT_6 and uniqueBuffCount <= SIZE_BREAKPOINT_7) then
 		self:SetSize(26, 26)
 		self.Icon:SetSize(24, 24)
-		self.CircleMask:SetSize(20, 20)
+		self.CircleMask:SetSize(18, 18)
 		self.Border:SetSize(24, 24)
 		self.HighlightBorder:SetSize(21, 21)
 		self.CountRing:SetPoint("CENTER")
 		self.CountRing:SetAlpha(0.5)
 		BUFF_HEIGHT = 26
-		BUFF_LIST_NUM_COLUMNS = 7
-		BUFF_LIST_PADDING_WIDTH = 1
+		BUFF_LIST_NUM_COLUMNS = 8
+		BUFF_LIST_PADDING_WIDTH = -3
 		BUFF_LIST_PADDING_HEIGHT = 36
 		BUFF_LIST_VERTICAL_SPACING = 5
 		BUFF_LIST_TOP_ANCHOR = -14

@@ -1,6 +1,6 @@
-TorghastTeams v1.1.3
+TorghastTeams v1.1.4
 ====================
 
 Bugfixes:
 
-- Fixed bug where downloads would get stuck at 33%.
+- Resizing now works past up to 48 rather than 42, incase your Twisting Corridors run get a bit too crazy.
