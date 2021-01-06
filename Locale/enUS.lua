@@ -80,7 +80,14 @@ L["DEFAULT_BODY_TAGLINE"] = {
     "You can jump onto the pedestal in the middle of the Torghast lobby.",
     "insert funny tagline text here",
     "Not safe for human consumption.",
-    "No tagline this time, sorry. Try again later."
+    "No tagline this time, sorry. Try again later.",
+    "Who are you people!?",
+    "These taglines are getting pretty annoying.",
+    "Come on man, don't you have any better taglines than this?",
+    "LFM Twisting Corridors Layer 8 Raid",
+    "World First Tarragrue Kill",
+    "togas, tower of dang",
+    "Who is George Lucas?"
 }
 
 L["DEFAULT_BODY_INFORMATION"] = "This AddOn lets you see all of the Anima Powers that you and your party pick up, so you don't have to memorize their builds from the chat window.\n\nYou can see every party member's build at the same time, letting you play around their Anima Powers and just see what kind of cool and fun powers they've chosen."
