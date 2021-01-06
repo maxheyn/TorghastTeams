@@ -1,6 +1,6 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 
-local MAW_BUFF_MAX_DISPLAY = 44;
+local MAW_BUFF_MAX_DISPLAY = 48;
 local classIcons = {}
 classIcons = {
 	["DEATHKNIGHT"] =   "Interface\\Icons\\ClassIcon_DeathKnight",
