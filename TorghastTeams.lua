@@ -164,12 +164,9 @@ function TorghastTeams:PLAYER_ENTERING_WORLD()
 		TGT_GUI:UpdateAnimaPowers("DEF", partyMembers)
 		TGT_GUI:UpdateAnimaPowers("ALT", partyMembers)
 	else
-		-- check if player is in group and not in a raid
-		if (partyMembers <= 5) then 
-			TGT_GUI:UpdateAnimaPowers("DEF", partyMembers)
-			TGT_GUI:UpdateAnimaPowers("ALT", partyMembers)
-			TGT_GUI:SetInterfaceToDefaultState()
-		end
+		-- TGT_GUI:UpdateAnimaPowers("DEF", partyMembers)
+		-- TGT_GUI:UpdateAnimaPowers("ALT", partyMembers)
+		TGT_GUI:SetInterfaceToDefaultState()
 	end
 end
 
