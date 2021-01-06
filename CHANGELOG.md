@@ -1,6 +1,3 @@
-TorghastTeams v1.1.4
-====================
-
 Bugfixes:
 
-- Resizing now works past up to 48 rather than 42, incase your Twisting Corridors run get a bit too crazy.
+- Fixed issue where if the player had simple mode toggled as their preferred mode after leaving Torghast and then they went into a raid group/instance, Anima Power frames would appear with no way to get rid of them. (Haha, edge cases oops.)
