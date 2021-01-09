@@ -67,8 +67,6 @@ end
 
 -- Creates our main frame with tabs and everything
 function TGT_GUI_NEW:SetupFrames()
-    self.playerFrame = CreateFrame("Button", "AP_Party1", UIParent, "TGTMawBuffsList")
-
     self.frame = AceGUI:Create("Frame")
     self.frame:SetTitle(L["ADDON_NAME_COLORED"] .. " v" .. GetAddOnMetadata("TorghastTeams", "VERSION"))
     self.frame:EnableResize(true)
@@ -94,10 +92,12 @@ local function SelectGroup(container, event, group)
     end
 end
 
+
+
 -- The Welcome Tab
 -- Displays basic information about the addon
 function TGT_GUI_NEW:TabWelcome(container)
-    self.playerFrame:Hide()
+    --self.playerFrame:Hide()
 
     local desc = AceGUI:Create("Label")
     desc:SetText("This is Tab 1")
@@ -110,9 +110,44 @@ function TGT_GUI_NEW:TabWelcome(container)
     container:AddChild(button)
 end
 
+do
+    local widgetType = "AnimaPowersFrame"
+    local version = 1
+
+    local function OnAcquire(self)
+        self.frame:SetAllPoints()
+		self.frame:Show()
+    end
+    
+	local function OnRelease(self)
+		self.frame:ClearAllPoints()
+		self.frame:Hide()
+	end
+
+    local function constructor()
+        local frame = CreateFrame("Button", nil, "TGTMawBuffsContainer")
+        local self = {}
+        self.type = widgetType
+        self.OnRelease = OnRelease
+        self.OnAcquire = OnAcquire
+        -- self.SetText = SetText
+        -- self.SetWidth = SetWidth
+        self.frame = frame
+        frame.obj = self
+        frame:SetSize(220, 50)
+        AceGUI:RegisterAsWidget(self)
+        return self
+    end
+    AceGUI:RegisterWidgetType(widgetType, constructor, version)
+    -- self.playerFrame = CreateFrame("Frame",  "tgt_apframe", content, "TGTMawBuffsList")
+    -- self.playerFrame:SetSize(220, 50)
+    
+end
+
 -- The Anima Powers Tab
 -- Displays information relating your party member's Anima Powers
 function TGT_GUI_NEW:TabAnimaPowers(container)
+    local apf = AceGUI:Create("AnimaPowersFrame")
     -- local tabs = AceGUI:Create("TabGroup")
     -- tabs:SetTitle("Select a party member.")
     -- tabs:SetLayout("List")
@@ -139,31 +174,31 @@ function TGT_GUI_NEW:TabAnimaPowers(container)
 
     ---------------------------------
 
-    local smallTabs = 0
-    self.playerFrame:Show()
-    if (container.frame.height == 56) then smallTabs = 36 else smallTabs = 56 end
+    -- local smallTabs = 0
+    -- self.playerFrame:Show()
+    -- if (container.frame.height == 56) then smallTabs = 36 else smallTabs = 56 end
 
-    self.playerFrame:SetSize((container.frame:GetParent().width - 2), (container.frame:GetParent().height - smallTabs))
-    --playerFrame:SetPoint("CENTER") --, container, "CENTER", 0, 75)
-    self.playerFrame:SetParent(container.frame)
-    self.playerFrame:SetPoint("TOPLEFT", container.frame, 0, -smallTabs)
+    -- self.playerFrame:SetSize((container.frame:GetParent().width - 2), (container.frame:GetParent().height - smallTabs))
+    -- --playerFrame:SetPoint("CENTER") --, container, "CENTER", 0, 75)
+    -- self.playerFrame:SetParent(container.frame)
+    -- self.playerFrame:SetPoint("TOPLEFT", container.frame, 0, -smallTabs)
 
-    self.playerFrame:Update(TGT_MawBuffs:GetPlayerAnimaPowers())
+    -- self.playerFrame:Update(TGT_MawBuffs:GetPlayerAnimaPowers())
 end
 
 
 
 function TGT_GUI_NEW:TabStatistics(container)
-    self.playerFrame:Hide()
+    --self.playerFrame:Hide()
     
 end
 
 function TGT_GUI_NEW:TabHelp(container)
-    self.playerFrame:Hide()
+    --self.playerFrame:Hide()
 end
 
 function TGT_GUI_NEW:TabSettings(container)
-    self.playerFrame:Hide()
+    --self.playerFrame:Hide()
 end
 
 function TGT_GUI_NEW:TabChangelog(container)
