@@ -213,7 +213,6 @@ end
 
 function TGTMawBuffsListMixin:Update(mawBuffs, uniqueBuffCount)
 	self.buffPool:ReleaseAll();
-	--print(uniqueBuffCount)
 
 	local lastRowFirstFrame;
 	local lastBuffFrame;
@@ -388,12 +387,12 @@ function TGTMawBuffMixin:RefreshTooltip()
 
 	-- See: TorghastTeams:CreateAnimaPowerFrames()
 	-- for explanation of the number.
-	-- local magicNumber = 5554654
-	-- if containerID == magicNumber then
+	local magicNumber = 5554654
+	if containerID == magicNumber then
 		GameTooltip:SetUnitAura("player", self.slot, "MAW");
-	-- else
-	-- 	GameTooltip:SetUnitAura("party" .. math.fmod(containerID, magicNumber), self.slot, "MAW");
-	-- end
+	else
+		GameTooltip:SetUnitAura("party" .. math.fmod(containerID, magicNumber), self.slot, "MAW");
+	end
 	GameTooltip:Show();
 	self.HighlightBorder:Show();
 end

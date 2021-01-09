@@ -1,5 +1,6 @@
 local TorghastTeams = LibStub("AceAddon-3.0"):GetAddon("TorghastTeams")
 local TGT_GUI_NEW = TorghastTeams:NewModule("TGT_GUI_NEW", "AceConsole-3.0", "AceEvent-3.0")
+local TGT_MawBuffs
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local AceGUI = LibStub("AceGUI-3.0")
 local lwin = LibStub("LibWindow-1.1")
@@ -23,23 +24,51 @@ local tabInfo = {
         text="Tips/Help",
     },
     {
-        value="tabSettings",
-        text="Settings",
-    },
-    {
         value="tabChangelog",
         text="Changelog",
     },
+    {
+        value="tabSettings",
+        text="Settings",
+    },
+}
+
+local playerTabInfo = {
+    {   
+        value="p1",
+        text="Player 1",
+    },
+    {
+        value="p2",
+        text="Player 2",
+    },
+    {
+        value="p3",
+        text="Player 3",
+    },
+    {
+        value="p4",
+        text="Player 4",
+    },
+    {
+        value="p5",
+        text="Player 5",
+    },
+
 }
 
 -- Called when this module is enabled
 -- Usually on load unless manually disabled elsewhere
 function TGT_GUI_NEW:OnEnable()
-    self:SetupFrame()
+    TGT_MawBuffs = TorghastTeams:GetModule("TGT_MawBuffs")
+
+    self:SetupFrames()
 end
 
 -- Creates our main frame with tabs and everything
-function TGT_GUI_NEW:SetupFrame()
+function TGT_GUI_NEW:SetupFrames()
+    self.playerFrame = CreateFrame("Button", "AP_Party1", UIParent, "TGTMawBuffsList")
+
     self.frame = AceGUI:Create("Frame")
     self.frame:SetTitle(L["ADDON_NAME_COLORED"] .. " v" .. GetAddOnMetadata("TorghastTeams", "VERSION"))
     self.frame:EnableResize(true)
@@ -48,8 +77,28 @@ function TGT_GUI_NEW:SetupFrame()
     self:CreateTabs()
 end
 
+local function SelectGroup(container, event, group)
+    container:ReleaseChildren()
+    if (group == "tabWelcome") then
+        TGT_GUI_NEW:TabWelcome(container)
+    elseif (group == "tabAnimaPowers") then
+        TGT_GUI_NEW:TabAnimaPowers(container)
+    elseif (group == "tabStatistics") then
+        TGT_GUI_NEW:TabStatistics(container)
+    elseif (group == "tabHelp") then
+        TGT_GUI_NEW:TabHelp(container)
+    elseif (group == "tabChangelog") then
+        TGT_GUI_NEW:TabChangelog(container)
+    elseif (group == "tabSettings") then
+        TGT_GUI_NEW:TabSettings(container)
+    end
+end
 
-local function TabWelcome(container)
+-- The Welcome Tab
+-- Displays basic information about the addon
+function TGT_GUI_NEW:TabWelcome(container)
+    self.playerFrame:Hide()
+
     local desc = AceGUI:Create("Label")
     desc:SetText("This is Tab 1")
     desc:SetFullWidth(true)
@@ -61,65 +110,73 @@ local function TabWelcome(container)
     container:AddChild(button)
 end
 
-local function TabAnimaPowers(container)
-    local desc = AceGUI:Create("Label")
-    desc:SetText("This is Tab 2")
-    desc:SetFullWidth(true)
-    container:AddChild(desc)
+-- The Anima Powers Tab
+-- Displays information relating your party member's Anima Powers
+function TGT_GUI_NEW:TabAnimaPowers(container)
+    -- local tabs = AceGUI:Create("TabGroup")
+    -- tabs:SetTitle("Select a party member.")
+    -- tabs:SetLayout("List")
+    -- tabs:SetTabs(playerTabInfo)
+    -- tabs:SetCallback("OnGroupSelected", SelectGroup)
+    -- tabs:SelectTab("tabWelcome")
+    -- container.frame:AddChild(tabs)
     
-    local button = AceGUI:Create("Button")
-    button:SetText("Tab 2 Button")
-    button:SetWidth(200)
-    container:AddChild(button)
+    -----------------------------------
+
+    -- local mawBuffs, uniqueBuffCount = TGT_MawBuffs:GetPlayerAnimaPowers()
+    -- local buff1 = AceGUI:Create("Icon")
+    -- local buff2 = AceGUI:Create("Icon")
+    -- local buff3 = AceGUI:Create("Icon")
+    -- buff1:SetImage(mawBuffs[1].icon)
+    -- buff2:SetImage(mawBuffs[1].icon)
+    -- buff3:SetImage(mawBuffs[1].icon)
+    -- buff1:SetImageSize(45, 45)
+    -- buff2:SetImageSize(45, 45)
+    -- buff3:SetImageSize(45, 45)
+    -- container:AddChild(buff1)
+    -- container:AddChild(buff2)
+    -- container:AddChild(buff3)
+
+    ---------------------------------
+
+    local smallTabs = 0
+    self.playerFrame:Show()
+    if (container.frame.height == 56) then smallTabs = 36 else smallTabs = 56 end
+
+    self.playerFrame:SetSize((container.frame:GetParent().width - 2), (container.frame:GetParent().height - smallTabs))
+    --playerFrame:SetPoint("CENTER") --, container, "CENTER", 0, 75)
+    self.playerFrame:SetParent(container.frame)
+    self.playerFrame:SetPoint("TOPLEFT", container.frame, 0, -smallTabs)
+
+    self.playerFrame:Update(TGT_MawBuffs:GetPlayerAnimaPowers())
 end
 
-local function TabStatistics(container)
+
+
+function TGT_GUI_NEW:TabStatistics(container)
+    self.playerFrame:Hide()
     
 end
 
-local function TabHelp(container)
-    
+function TGT_GUI_NEW:TabHelp(container)
+    self.playerFrame:Hide()
 end
 
-local function TabSettings(container)
-    
+function TGT_GUI_NEW:TabSettings(container)
+    self.playerFrame:Hide()
 end
 
-local function TabChangelog(container)
-    -- local scrollContainer = AceGUI:Create("SimpleGroup")
-    -- scrollContainer:SetFullWidth(true)
-    -- scrollContainer:SetFullHeight(true)
-    -- scrollContainer:SetLayout("Fill")
-    -- container:AddChild(scrollContainer)
-    
+function TGT_GUI_NEW:TabChangelog(container)
     local scrollFrame = AceGUI:Create("ScrollFrame")
     scrollFrame:SetFullWidth(true)
     scrollFrame:SetFullHeight(true)
     scrollFrame:SetLayout("Flow")
     container:AddChild(scrollFrame)
-    -- scrollContainer:AddChild(scrollFrame)
 
     local changelog = AceGUI:Create("Label")
     changelog:SetText("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\n\nAt vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
     changelog:SetRelativeWidth(1)
     scrollFrame:AddChild(changelog)
-end
-
-local function SelectGroup(container, event, group)
-    container:ReleaseChildren()
-    if (group == "tabWelcome") then
-        TabWelcome(container)
-    elseif (group == "tabAnimaPowers") then
-        TabAnimaPowers(container)
-    elseif (group == "tabStatistics") then
-        TabStatistics(container)
-    elseif (group == "tabHelp") then
-        TabHelp(container)
-    elseif (group == "tabSettings") then
-        TabSettings(container)
-    elseif (group == "tabChangelog") then
-        TabChangelog(container)
-    end
 end
 
 function TGT_GUI_NEW:CreateTabs()
@@ -130,4 +187,3 @@ function TGT_GUI_NEW:CreateTabs()
     tabs:SelectTab("tabWelcome")
     self.frame:AddChild(tabs)
 end
-

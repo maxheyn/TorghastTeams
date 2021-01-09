@@ -33,6 +33,7 @@ Modules\Options.lua
 Modules\GUI.lua
 Modules\GUI_NEW.lua
 Modules\Chat.lua
+Modules\MawBuffs.lua
 Frames\TGT_MawBuffs.lua
 Frames\TGT_TorghastLevelPicker.lua
 
