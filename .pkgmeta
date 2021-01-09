@@ -24,6 +24,7 @@ ignore:
   - README.md
   - CHANGELOG.md
   - Images
+  - LICENSE
 
 manual-changelog:
   filename: CHANGELOG.md
