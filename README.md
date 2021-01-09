@@ -27,7 +27,7 @@ TorghastTeams includes...
 - [Anima Powers Display](#partymemberspowers) for all teammates in your party, updated in real time.
   - Automatic hiding of frames on party size change, incase someone bails your group. 😢
 - [Phantasma Count](#phantasmacount) chat command for all teammates*!
-  - *Only people who also have this AddOn will send their Phantasma count./
+  - *Only people who also have this AddOn will send their Phantasma count.
 - [Dynamic Anima Power Resizing](#dynamicresizing) to fit the container based on amount of unique anima powers.
 - [Class Icons](#classicons) to easily identify which powers belong to what class.
 - [Mouseover Tooltips](#hovertooltips) for all party members' anima powers.
