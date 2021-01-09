@@ -35,7 +35,7 @@ local minimapBtn = TorghastTeamsLDB:NewDataObject("TorghastTeams", {
 				end
             end
 		elseif (btn == "RightButton") then
-			-- Nothing yet but here incase we decide to implement it
+			InterfaceOptionsFrame_OpenToCategory("TorghastTeams")
         end
     end,
     OnTooltipShow = function(self)
@@ -45,6 +45,7 @@ local minimapBtn = TorghastTeamsLDB:NewDataObject("TorghastTeams", {
         self:AddLine(L["ADDON_NAME_COLORED"])
         self:AddLine(L["MINIMAP_LEFTCLICK"], 1, 1, 1)
 		self:AddLine(L["MINIMAP_CTRLLEFTCLICK"], 1, 1, 1)
+		self:AddLine(L["MINIMAP_RIGHTCLICK"], 1, 1, 1)
     end
 })
 
@@ -54,12 +55,13 @@ local options = {
     handler = TorghastTeams,
     type = "group",
     args = {
-        minimap = {
-            type = "execute",
-            name = L["COMMAND_MINIMAP_NAME"],
-            desc = L["COMMAND_MINIMAP_DESC"],
-            func = "MinimapButtonToggle",
-		}, show = {
+        -- minimap = {
+        --     type = "execute",
+        --     name = L["COMMAND_MINIMAP_NAME"],
+        --     desc = L["COMMAND_MINIMAP_DESC"],
+        --     func = "MinimapButtonToggle",
+		-- }, 
+		show = {
 			type = "execute",
 			name = L["COMMAND_SHOW_NAME"],
 			desc = L["COMMAND_SHOW_DESC"],
@@ -73,18 +75,18 @@ local options = {
 	}
 }
 
--- Minimap Icon Constructor
-local icon = LibStub("LibDBIcon-1.0")
 local FRAMES_HAVE_NOT_BEEN_CREATED = true
 
 -- Ace3 Intialization
 function TorghastTeams:OnInitialize()
     -- Initial Variables
     local COMMAND_PREFIX_COMPLETE = "torghastteams"
-    local COMMAND_PREFIX_SHORT = "tgt"
+	local COMMAND_PREFIX_SHORT = "tgt"
+	
+	self.icon = LibStub("LibDBIcon-1.0")
 
     -- Registering Commands with prefixes
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {COMMAND_PREFIX_COMPLETE, COMMAND_PREFIX_SHORT})
+    --LibStub("AceConfig-3.0"):RegisterOptionsTable("TorghastTeams", options, {COMMAND_PREFIX_COMPLETE, COMMAND_PREFIX_SHORT})
 
     -- Databroker things, still trying to really figure this out
     self.db = LibStub("AceDB-3.0"):New("TorghastTeamsDB", {
@@ -93,6 +95,7 @@ function TorghastTeams:OnInitialize()
                 hide = false,
 			},
 			simple = false,
+			legacy = true,
 			framePos = {
 				["*"] = {
 					anchor = "TOPLEFT",
@@ -102,7 +105,7 @@ function TorghastTeams:OnInitialize()
 			},
         }
     })
-	icon:Register("TorghastTeamsIcon", minimapBtn, self.db.profile.minimap)
+	self.icon:Register("TorghastTeamsIcon", minimapBtn, self.db.profile.minimap)
 end
 
 function TorghastTeams:OnEnable()
@@ -121,17 +124,17 @@ function TorghastTeams:OnEnable()
 end
 
 -- Toggles the minimap button on or off with /tgt minimap
-function TorghastTeams:MinimapButtonToggle(info)
-	if self.db.profile.minimap.hide then
-		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_SHOWN"])
-		self.db.profile.minimap.hide = false
-		icon:Show("TorghastTeamsIcon")
-	else
-		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_HIDDEN"])
-		self.db.profile.minimap.hide = true
-		icon:Hide("TorghastTeamsIcon")
-	end
-end
+-- function TorghastTeams:MinimapButtonToggle(info)
+-- 	if self.db.profile.minimap.hide then
+-- 		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_SHOWN"])
+-- 		self.db.profile.minimap.hide = false
+-- 		self.icon:Show("TorghastTeamsIcon")
+-- 	else
+-- 		print(L["ADDON_CHAT_PREFIX"] .. L["MINIMAP_HIDDEN"])
+-- 		self.db.profile.minimap.hide = true
+-- 		self.icon:Hide("TorghastTeamsIcon")
+-- 	end
+-- end
 
 -- Shows the UI with /tgt show
 function TorghastTeams:ShowInterface(info)

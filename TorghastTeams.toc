@@ -29,7 +29,9 @@ Frames\TGT_MawBuffs.xml
 Frames\TGT_TorghastLevelPicker.xml
 
 TorghastTeams.lua
+Modules\Options.lua
 Modules\GUI.lua
+Modules\GUI_NEW.lua
 Modules\Chat.lua
 Frames\TGT_MawBuffs.lua
 Frames\TGT_TorghastLevelPicker.lua

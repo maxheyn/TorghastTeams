@@ -1,0 +1,109 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="TGT_TorghastLevelPicker.lua"/>
+	<Frame name="TGTInterface" hidden="true" inherits="CustomGossipFrameBaseGridTemplate" mixin="TGTInterfaceMixin" virtual="true" enableMouse="true" movable="true">
+		<Size x="928" y="654"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background" atlas="jailerstower-wayfinder-background" useAtlasSize="true"/>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Title" inherits="Fancy32Font" text="TorghastTeams">
+					<Color r="0.513" g="0.73" b="0.8"/>
+					<Anchors>
+						<Anchor point="TOP" relativePoint="TOP" x="170" y="-70"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Tagline" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Anchors>
+						<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-6"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="BodyContainer" inherits="TGTBodyContainerFrame">
+				<Anchors>
+					<Anchor point="TOP" relativeKey="$parent.Title" relativePoint="BOTTOM" x="0" y="-32"/>
+				</Anchors>
+			</Frame>
+			<Button parentKey="CloseButton" inherits="UIPanelCloseButton" frameLevel="510">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-60" y="-60" />
+				</Anchors>
+				<Layers>
+					<Layer level="BORDER">
+						<Texture parentKey="CloseButtonBorder" atlas="jailerstower-wayfinder-exitborder" useAtlasSize="true">
+							<Anchors>
+								<Anchor point="CENTER" x="-1" y="-1"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						PlaySound(SOUNDKIT.UI_TORGHAST_WAYFINDER_CLOSE_UI);
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnHide method="OnHide"/>
+			<OnShow method="OnShow"/>
+			<OnEvent method="OnEvent"/>
+			<OnHide method="OnHide"/>
+			<OnLoad>self:RegisterForDrag("LeftButton");</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+	</Frame>
+	<Frame name="TGTBodyContainerFrame" virtual="true">
+		<Size x="400" y="424"/>
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="-8">
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Welcome" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT" x="16" y="-16"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Information" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Welcome" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Prompt" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="350" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Information" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Commands" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Prompt" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+				<FontString parentKey="Changelog" justifyV="BOTTOM" justifyH="LEFT" inherits="GameFontHighlightMedium">
+					<Size x="384" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Commands" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+					</Anchors>
+					<Color r="0.513" g="0.73" b="0.8"/>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+</Ui>
