@@ -87,10 +87,15 @@ L["DEFAULT_BODY_TAGLINE"] = {
     "LFM Twisting Corridors Layer 8 Raid",
     "World First Tarragrue Kill",
     "togas, tower of dang",
-    "Who is George Lucas?"
+    "Who is George Lucas?",
+    "Anima Power is stored in the cells.",
+    "There are a total of 144 floors in all Twisting Corridors.",
+    "Sylvanas, you're acting like a total buzzkill right about now.",
+    "Death Knights have some of the coolest Anima Powers.",
+    "",
 }
 
-L["DEFAULT_BODY_INFORMATION"] = "This AddOn lets you see all of the Anima Powers that you and your party pick up, so you don't have to memorize their builds from the chat window.\n\nYou can see every party member's build at the same time, letting you play around their Anima Powers and just see what kind of cool and fun powers they've chosen."
+L["DEFAULT_BODY_INFORMATION"] = "TorghastTeams lets you see all of the Anima Powers that you and your party pick up, so you don't have to memorize their builds from the chat window.\n\nYou can see every party member's build at the same time, letting you play around their Anima Powers and just see what kind of cool and fun powers they've chosen."
 L["DEFAULT_BODY_PROMPT"] = "Get started by queuing up for Torghast by yourself or with a party, then click the minimap button or type '/tgt show' to bring up the Anima Powers screen!"
 L["DEFAULT_BODY_COMMANDS"] = "Type /tgt or /torghastteams to see all available commands."
 
@@ -99,10 +104,10 @@ L["COMMAND_MINIMAP_NAME"] = "Minimap Button Toggle"
 L["COMMAND_MINIMAP_DESC"] = "Toggles the display of the minimap button."
 L["COMMAND_SHOW_EXAMPLE"] = "/tgt show"
 L["COMMAND_SHOW_NAME"] = "Show Interface"
-L["COMMAND_SHOW_DESC"] = "Shows the TorghastTeams Frame."
+L["COMMAND_SHOW_DESC"] = "Shows the TorghastTeams Interface."
 L["COMMAND_HIDE_EXAMPLE"] = "/tgt hide"
 L["COMMAND_HIDE_NAME"] = "Hide Interface"
-L["COMMAND_HIDE_DESC"] = "Hides the TorghastTeams Frame."
+L["COMMAND_HIDE_DESC"] = "Hides the TorghastTeams Interface."
 
 L["TOGGLE_MODE_WARNING"] = "You must be in Torghast to cycle between display modes mode."
 L["MOVE_FRAME_WARNING"] = "You can't move this container right now. Switch to Simple Mode (Ctrl+Left click minimap button) to move it."
