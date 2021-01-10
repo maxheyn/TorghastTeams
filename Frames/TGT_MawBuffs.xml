@@ -56,6 +56,7 @@
 		</Scripts>
 	</Button>
 	<Frame name="TGTMawBuffsList" mixin="TGTMawBuffsListMixin" virtual="true" enableMouse="true" movable="true">
+		<Size x="210" y="159"/>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="TopBG" atlas="jailerstower-animapowerlist-topbg" useAtlasSize="true">
