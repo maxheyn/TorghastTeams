@@ -1,6 +1,5 @@
 local TorghastTeams = LibStub("AceAddon-3.0"):GetAddon("TorghastTeams")
 local TGT_GUI_NEW = TorghastTeams:NewModule("TGT_GUI_NEW", "AceConsole-3.0", "AceEvent-3.0")
-local TGT_MawBuffs
 local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local AceGUI = LibStub("AceGUI-3.0")
 local lwin = LibStub("LibWindow-1.1")
@@ -60,8 +59,6 @@ local playerTabInfo = {
 -- Called when this module is enabled
 -- Usually on load unless manually disabled elsewhere
 function TGT_GUI_NEW:OnEnable()
-    TGT_MawBuffs = TorghastTeams:GetModule("TGT_MawBuffs")
-
     self:SetupFrames()
 end
 
@@ -92,8 +89,6 @@ local function SelectGroup(container, event, group)
     end
 end
 
-
-
 -- The Welcome Tab
 -- Displays basic information about the addon
 function TGT_GUI_NEW:TabWelcome(container)
@@ -110,80 +105,37 @@ function TGT_GUI_NEW:TabWelcome(container)
     container:AddChild(button)
 end
 
-do
-    local widgetType = "AnimaPowersFrame"
-    local version = 1
-
-    local function OnAcquire(self)
-        self.frame:SetAllPoints()
-		self.frame:Show()
-    end
-    
-	local function OnRelease(self)
-		self.frame:ClearAllPoints()
-		self.frame:Hide()
-	end
-
-    local function constructor()
-        local frame = CreateFrame("Button", nil, "TGTMawBuffsContainer")
-        local self = {}
-        self.type = widgetType
-        self.OnRelease = OnRelease
-        self.OnAcquire = OnAcquire
-        -- self.SetText = SetText
-        -- self.SetWidth = SetWidth
-        self.frame = frame
-        frame.obj = self
-        frame:SetSize(220, 50)
-        AceGUI:RegisterAsWidget(self)
-        return self
-    end
-    AceGUI:RegisterWidgetType(widgetType, constructor, version)
-    -- self.playerFrame = CreateFrame("Frame",  "tgt_apframe", content, "TGTMawBuffsList")
-    -- self.playerFrame:SetSize(220, 50)
-    
-end
-
 -- The Anima Powers Tab
 -- Displays information relating your party member's Anima Powers
 function TGT_GUI_NEW:TabAnimaPowers(container)
-    local apf = AceGUI:Create("AnimaPowersFrame")
-    -- local tabs = AceGUI:Create("TabGroup")
-    -- tabs:SetTitle("Select a party member.")
-    -- tabs:SetLayout("List")
-    -- tabs:SetTabs(playerTabInfo)
-    -- tabs:SetCallback("OnGroupSelected", SelectGroup)
-    -- tabs:SelectTab("tabWelcome")
-    -- container.frame:AddChild(tabs)
+    -- for testing purposes
+    local slotnum = 1
+    local mawBuffs = {}
+    local totalCount = 0
+    local uniqueMawBuffs = 0
+    local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", slotnum, "MAW");
+    if icon then
+        if count == 0 then
+            count = 1;
+        end
+        
+        totalCount = totalCount + count;
+        table.insert(mawBuffs, {icon = icon, count = count, slot = slotnum, spellID = spellID});
+
+        if (count >= 1) then
+            uniqueMawBuffs = uniqueMawBuffs + 1;
+        end
+    end
+    local apf = AceGUI:Create("MawBuff")
+    apf:SetBuffInfo(mawBuffs[1])
+    container:AddChild(apf)
+    local apf1 = AceGUI:Create("MawBuff")
+    apf1:SetBuffInfo(mawBuffs[1])
+    container:AddChild(apf1)
+    local apf2 = AceGUI:Create("MawBuff")
+    apf2:SetBuffInfo(mawBuffs[1])
+    container:AddChild(apf2)
     
-    -----------------------------------
-
-    -- local mawBuffs, uniqueBuffCount = TGT_MawBuffs:GetPlayerAnimaPowers()
-    -- local buff1 = AceGUI:Create("Icon")
-    -- local buff2 = AceGUI:Create("Icon")
-    -- local buff3 = AceGUI:Create("Icon")
-    -- buff1:SetImage(mawBuffs[1].icon)
-    -- buff2:SetImage(mawBuffs[1].icon)
-    -- buff3:SetImage(mawBuffs[1].icon)
-    -- buff1:SetImageSize(45, 45)
-    -- buff2:SetImageSize(45, 45)
-    -- buff3:SetImageSize(45, 45)
-    -- container:AddChild(buff1)
-    -- container:AddChild(buff2)
-    -- container:AddChild(buff3)
-
-    ---------------------------------
-
-    -- local smallTabs = 0
-    -- self.playerFrame:Show()
-    -- if (container.frame.height == 56) then smallTabs = 36 else smallTabs = 56 end
-
-    -- self.playerFrame:SetSize((container.frame:GetParent().width - 2), (container.frame:GetParent().height - smallTabs))
-    -- --playerFrame:SetPoint("CENTER") --, container, "CENTER", 0, 75)
-    -- self.playerFrame:SetParent(container.frame)
-    -- self.playerFrame:SetPoint("TOPLEFT", container.frame, 0, -smallTabs)
-
-    -- self.playerFrame:Update(TGT_MawBuffs:GetPlayerAnimaPowers())
 end
 
 

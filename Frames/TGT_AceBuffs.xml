@@ -3,38 +3,38 @@
 	<Script file="TGT_MawBuffs.lua"/>
 
 	<Button name="TGTMawBuffTemplate" mixin="TGTMawBuffMixin" virtual="true" motionScriptsWhileDisabled="true">
-		<!-- <Size x="45" y="45"/> -->
+		<Size x="45" y="45"/>
 		<Layers>
-			<!-- <Layer level="ARTWORK"> -->
-				<!-- <Texture parentKey="Icon">
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon">
 					<Size x="35" y="35"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
-				</Texture> -->
-				<!-- <MaskTexture parentKey="CircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
+				</Texture>
+				<MaskTexture parentKey="CircleMask" file="Interface\CharacterFrame\TempPortraitAlphaMask" hWrapMode="CLAMPTOBLACKADDITIVE" vWrapMode="CLAMPTOBLACKADDITIVE">
 					<Size x="32" y="32"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
-					</Anchors> -->
+					</Anchors>
 					<MaskedTextures>
 						<MaskedTexture childKey="Icon"/>
 					</MaskedTextures>
-				<!-- </MaskTexture> -->
-			<!-- </Layer> -->
+				</MaskTexture>
+			</Layer>
 			<Layer level="ARTWORK" textureSubLevel="2"> <!-- maybe change this -->
-				<!-- <Texture parentKey="Border">
+				<Texture parentKey="Border">
 					<Size x="40" y="40"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
-				</Texture> -->
-				<!-- <Texture parentKey="HighlightBorder" hidden="true" atlas="jailerstower-animapowerlist-highlight">
+				</Texture>
+				<Texture parentKey="HighlightBorder" hidden="true" atlas="jailerstower-animapowerlist-highlight">
 					<Size x="36" y="36"/>
 					<Anchors>
 						<Anchor point="CENTER"/>
 					</Anchors>
-				</Texture> -->
+				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
 				<Texture parentKey="CountRing" atlas="jailerstower-animapowerlist-rank" useAtlasSize="true" alpha="0.5">
@@ -49,11 +49,11 @@
 				</FontString>
 			</Layer>
 		</Layers>
-		<!-- <Scripts>
+		<Scripts>
 			<OnEnter method="OnEnter"/>
 			<OnLeave method="OnLeave"/>
 			<OnClick method="OnClick"/>
-		</Scripts> -->
+		</Scripts>
 	</Button>
 	<Frame name="TGTMawBuffsList" mixin="TGTMawBuffsListMixin" virtual="true" enableMouse="true" movable="true">
 		<Layers>
