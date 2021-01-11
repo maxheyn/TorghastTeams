@@ -50,11 +50,16 @@ local methods = {
 		self:SetDisabled(false)
     end,
 
-    ["SetBuffInfo"] = function(self, buffInfo)
+    ["OnRelease"] = function(self)
+        self.frame:Hide()
+    end,
+
+    ["SetBuffInfo"] = function(self, buffInfo, target)
         self.Icon:SetTexture(buffInfo.icon)
         self.count = buffInfo.count
         self.slot = buffInfo.slot
         self.spellID = buffInfo.spellID
+        self.target = target
 
         local rarityAtlas = C_Spell.GetMawPowerBorderAtlasBySpellID(self.spellID);
         local showCount = buffInfo.count > 1;

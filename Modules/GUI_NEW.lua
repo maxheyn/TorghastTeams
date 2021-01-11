@@ -4,6 +4,21 @@ local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local AceGUI = LibStub("AceGUI-3.0")
 local lwin = LibStub("LibWindow-1.1")
 
+local classIcons = {
+	["DEATHKNIGHT"] =   "Interface\\Icons\\ClassIcon_DeathKnight",
+	["DEMONHUNTER"] =   "Interface\\Icons\\ClassIcon_DemonHunter",
+	["DRUID"] =         "Interface\\Icons\\ClassIcon_Druid",
+	["HUNTER"] =        "Interface\\Icons\\ClassIcon_Hunter",
+	["MAGE"] =          "Interface\\Icons\\ClassIcon_Mage",
+	["MONK"] =          "Interface\\Icons\\ClassIcon_Monk",
+	["PALADIN"] =       "Interface\\Icons\\ClassIcon_Paladin",
+	["PRIEST"] =        "Interface\\Icons\\ClassIcon_Priest",
+	["ROGUE"] =         "Interface\\Icons\\ClassIcon_Rogue",
+	["SHAMAN"] =        "Interface\\Icons\\ClassIcon_Shaman" ,
+	["WARLOCK"] =       "Interface\\Icons\\ClassIcon_Warlock",
+	["WARRIOR"] =       "Interface\\Icons\\ClassIcon_Warrior",
+}
+
 -- Table containing information for the various tabs
 local tabInfo = {
     {   
@@ -32,39 +47,20 @@ local tabInfo = {
     },
 }
 
-local playerTabInfo = {
-    {   
-        value="p1",
-        text="Player 1",
-    },
-    {
-        value="p2",
-        text="Player 2",
-    },
-    {
-        value="p3",
-        text="Player 3",
-    },
-    {
-        value="p4",
-        text="Player 4",
-    },
-    {
-        value="p5",
-        text="Player 5",
-    },
-
-}
+local playerTabInfo = {}
+local tabsCreated = false
 
 -- Called when this module is enabled
 -- Usually on load unless manually disabled elsewhere
 function TGT_GUI_NEW:OnEnable()
+    self:RegisterEvent("UNIT_AURA")
+
     self:SetupFrames()
 end
 
 -- Creates our main frame with tabs and everything
 function TGT_GUI_NEW:SetupFrames()
-    self.frame = AceGUI:Create("Frame")
+    self.frame = AceGUI:Create("Window")
     self.frame:SetTitle(L["ADDON_NAME_COLORED"] .. " v" .. GetAddOnMetadata("TorghastTeams", "VERSION"))
     self.frame:EnableResize(true)
     self.frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
@@ -89,6 +85,21 @@ local function SelectGroup(container, event, group)
     end
 end
 
+local function SelectPlayer(container, event, group)
+    container:ReleaseChildren()
+    if (group == "p0") then
+        TGT_GUI_NEW:TabPlayer(container)
+    elseif (group == "p1") then
+        TGT_GUI_NEW:TabParty1(container)
+    elseif (group == "p2") then
+        TGT_GUI_NEW:TabParty2(container)
+    elseif (group == "p3") then
+        TGT_GUI_NEW:TabParty3(container)
+    elseif (group == "p4") then
+        TGT_GUI_NEW:TabParty4(container)
+    end
+end
+
 -- The Welcome Tab
 -- Displays basic information about the addon
 function TGT_GUI_NEW:TabWelcome(container)
@@ -105,37 +116,79 @@ function TGT_GUI_NEW:TabWelcome(container)
     container:AddChild(button)
 end
 
--- The Anima Powers Tab
--- Displays information relating your party member's Anima Powers
-function TGT_GUI_NEW:TabAnimaPowers(container)
-    -- for testing purposes
-    local slotnum = 1
+local function GetMawBuffs(target)
+    local MAW_BUFF_MAX_DISPLAY = 256
     local mawBuffs = {}
-    local totalCount = 0
-    local uniqueMawBuffs = 0
-    local _, icon, count, _, _, _, _, _, _, spellID = UnitAura("player", slotnum, "MAW");
-    if icon then
-        if count == 0 then
-            count = 1;
-        end
-        
-        totalCount = totalCount + count;
-        table.insert(mawBuffs, {icon = icon, count = count, slot = slotnum, spellID = spellID});
 
-        if (count >= 1) then
-            uniqueMawBuffs = uniqueMawBuffs + 1;
+    for i=1, MAW_BUFF_MAX_DISPLAY do
+        local _, icon, count, _, _, _, _, _, _, spellID = UnitAura(target, i, "MAW");
+        if (icon) then
+            if (count == 0) then
+                count = 1
+            end
+
+            table.insert(mawBuffs, {icon = icon, count = count, slot = i, spellID = spellID})
         end
     end
-    local apf = AceGUI:Create("MawBuff")
-    apf:SetBuffInfo(mawBuffs[1])
-    container:AddChild(apf)
-    local apf1 = AceGUI:Create("MawBuff")
-    apf1:SetBuffInfo(mawBuffs[1])
-    container:AddChild(apf1)
-    local apf2 = AceGUI:Create("MawBuff")
-    apf2:SetBuffInfo(mawBuffs[1])
-    container:AddChild(apf2)
-    
+
+    return mawBuffs
+end
+
+local function GetMawBuffCount(target)
+    local mawBuffs = GetMawBuffs(target)
+    return #mawBuffs
+end
+
+function TGT_GUI_NEW:TabPlayer(container)
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    scrollFrame:SetLayout("Flow")
+    container:AddChild(scrollFrame)
+
+    local mawBuffs = GetMawBuffs("player")
+    for i=1, #mawBuffs do
+        local animaPowerFrame = AceGUI:Create("MawBuff")
+        animaPowerFrame:SetBuffInfo(mawBuffs[i])
+        scrollFrame:AddChild(animaPowerFrame)
+    end
+end
+
+-- The Anima Powers Tab
+-- Holds the tabs for each Party Member's Anima Powers
+function TGT_GUI_NEW:TabAnimaPowers(container)
+    container:ReleaseChildren()
+
+    local guid, englishClass, name, realm, text
+    for i = 0, GetNumGroupMembers() - 1 do
+        if (i == 0) then
+            guid = UnitGUID("player")
+            _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+            text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name .. " (" .. GetMawBuffCount("player") .. ")"
+
+            table.insert(playerTabInfo, {value = "p" .. i, text = text})
+        else
+            guid = UnitGUID("party" .. i)
+            _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+            if (realm == "") then
+                text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name --.. " (" .. totalCount .. ")")
+            else
+                text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name .. "-" .. realm --.. " (" .. totalCount .. ")")
+            end
+
+            table.insert(playerTabInfo, {value = "p" .. i, text = text})
+        end
+    end
+
+    local tabs = AceGUI:Create("TabGroup")
+    tabs:SetLayout("Flow")
+    tabs:SetTabs(playerTabInfo)
+    tabs:SetCallback("OnGroupSelected", SelectPlayer)
+    tabs:SelectTab("p0")
+
+    container:SetLayout("Fill")
+    container:AddChild(tabs)
+    playerTabInfo = {}
 end
 
 
@@ -166,11 +219,100 @@ function TGT_GUI_NEW:TabChangelog(container)
     scrollFrame:AddChild(changelog)
 end
 
+function TGT_GUI_NEW:TabParty1(container)
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    scrollFrame:SetLayout("Flow")
+    container:AddChild(scrollFrame)
+
+    local mawBuffs = GetMawBuffs("party1")
+    for i=1, #mawBuffs do
+        local animaPowerFrame = AceGUI:Create("MawBuff")
+        animaPowerFrame:SetBuffInfo(mawBuffs[i])
+        scrollFrame:AddChild(animaPowerFrame)
+    end
+end
+
+function TGT_GUI_NEW:TabParty2(container)
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    scrollFrame:SetLayout("Flow")
+    container:AddChild(scrollFrame)
+
+    local mawBuffs = GetMawBuffs("party2")
+    for i=1, #mawBuffs do
+        local animaPowerFrame = AceGUI:Create("MawBuff")
+        animaPowerFrame:SetBuffInfo(mawBuffs[i])
+        scrollFrame:AddChild(animaPowerFrame)
+    end
+end
+
+function TGT_GUI_NEW:TabParty3(container)
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    scrollFrame:SetLayout("Flow")
+    container:AddChild(scrollFrame)
+
+    local mawBuffs = GetMawBuffs("party3")
+    for i=1, #mawBuffs do
+        local animaPowerFrame = AceGUI:Create("MawBuff")
+        animaPowerFrame:SetBuffInfo(mawBuffs[i])
+        scrollFrame:AddChild(animaPowerFrame)
+    end
+end
+
+function TGT_GUI_NEW:TabParty4(container)
+    local scrollFrame = AceGUI:Create("ScrollFrame")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    scrollFrame:SetLayout("Flow")
+    container:AddChild(scrollFrame)
+
+    local mawBuffs = GetMawBuffs("party4")
+    for i=1, #mawBuffs do
+        local animaPowerFrame = AceGUI:Create("MawBuff")
+        animaPowerFrame:SetBuffInfo(mawBuffs[i])
+        scrollFrame:AddChild(animaPowerFrame)
+    end
+end
+
 function TGT_GUI_NEW:CreateTabs()
-    local tabs = AceGUI:Create("TabGroup")
-    tabs:SetLayout("Flow")
-    tabs:SetTabs(tabInfo)
-    tabs:SetCallback("OnGroupSelected", SelectGroup)
-    tabs:SelectTab("tabWelcome")
-    self.frame:AddChild(tabs)
+    local tabGroup = AceGUI:Create("TabGroup")
+    tabGroup:SetTitle("ASLDKJA")
+    tabGroup:SetLayout("Flow")
+    tabGroup:SetTabs(tabInfo)
+    tabGroup:SetCallback("OnGroupSelected", SelectGroup)
+    tabGroup:SelectTab("tabWelcome")
+    self.frame:AddChild(tabGroup)
+
+end
+
+function TGT_GUI_NEW:UNIT_AURA()
+    print('aaa')
+    local guid, englishClass, name, realm, text
+    for i = 0, GetNumGroupMembers() - 1 do
+        if (i == 0) then
+            print('ccc')
+            GetMawBuffs("player")
+            guid = UnitGUID("player")
+            _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+            text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name .. " (" .. GetMawBuffCount("player") .. ")"
+
+            --self.frame.tabs[2].tabs[i].text = text
+        else
+            GetMawBuffs("party" .. i)
+            guid = UnitGUID("party" .. i)
+            _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
+            if (realm == "") then
+                text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name --.. " (" .. totalCount .. ")")
+            else
+                text = "|T" .. classIcons[englishClass] .. ":0|t  " .. name .. "-" .. realm --.. " (" .. totalCount .. ")")
+            end
+
+            --self.frame.tabs[2].tabs[i].text = text
+        end
+    end
 end
