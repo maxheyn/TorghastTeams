@@ -4,6 +4,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("TorghastTeams")
 local AceGUI = LibStub("AceGUI-3.0")
 local lwin = LibStub("LibWindow-1.1")
 
+local playerTabInfo, animaPower1, animaPower2, animaPower3, animaPower4, animaPower5 = {}
 local classIcons = {
 	["DEATHKNIGHT"] =   "Interface\\Icons\\ClassIcon_DeathKnight",
 	["DEMONHUNTER"] =   "Interface\\Icons\\ClassIcon_DemonHunter",
@@ -46,9 +47,6 @@ local tabInfo = {
         text="Settings",
     },
 }
-
-local playerTabInfo = {}
-local tabsCreated = false
 
 -- Called when this module is enabled
 -- Usually on load unless manually disabled elsewhere
@@ -281,7 +279,6 @@ end
 
 function TGT_GUI_NEW:CreateTabs()
     local tabGroup = AceGUI:Create("TabGroup")
-    tabGroup:SetTitle("ASLDKJA")
     tabGroup:SetLayout("Flow")
     tabGroup:SetTabs(tabInfo)
     tabGroup:SetCallback("OnGroupSelected", SelectGroup)
@@ -291,11 +288,9 @@ function TGT_GUI_NEW:CreateTabs()
 end
 
 function TGT_GUI_NEW:UNIT_AURA()
-    print('aaa')
     local guid, englishClass, name, realm, text
     for i = 0, GetNumGroupMembers() - 1 do
         if (i == 0) then
-            print('ccc')
             GetMawBuffs("player")
             guid = UnitGUID("player")
             _, englishClass, _, _, _, name, realm = GetPlayerInfoByGUID(guid)
